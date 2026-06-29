@@ -1,0 +1,38 @@
+# Discogs MCP Server — Cloudflare Workers configuration
+#
+# Before first deploy:
+#   1. npm run setup:kv   (creates the two KV namespaces; paste the IDs below)
+#   2. wrangler secret put DISCOGS_CONSUMER_KEY
+#      wrangler secret put DISCOGS_CONSUMER_SECRET
+#   3. Optionally: wrangler secret put COOKIE_ENCRYPTION_KEY (openssl rand -hex 32)
+
+name = "discogs-mcp"
+main = "src/index.ts"
+compatibility_date = "2026-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+# OAuth token storage for @cloudflare/workers-oauth-provider (binding name is required to be OAUTH_KV)
+[[kv_namespaces]]
+binding = "OAUTH_KV"
+id = "20aa8c98cad44b7392e873b81c47f2fa"
+
+# Discogs API response cache + transient OAuth 1.0a request-token state
+[[kv_namespaces]]
+binding = "CACHE_KV"
+id = "18e46dea677041a0a3a2fc2e6fb9c4eb"
+
+# Durable Object backing the MCP agent sessions (required by the Agents SDK)
+[[durable_objects.bindings]]
+name = "MCP_OBJECT"
+class_name = "DiscogsMcpAgent"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["DiscogsMcpAgent"]
+
+# Optional allowlist: comma-separated Discogs usernames and/or numeric user IDs
+# allowed to authenticate. If unset, anyone with a Discogs account can log in.
+# Set it WITHOUT committing it (keeps your username private) via:
+#   echo "your_username" | wrangler secret put ALLOWED_DISCOGS_USERS
+# Or, if you don't mind it being public, add a [vars] block with
+#   ALLOWED_DISCOGS_USERS = "your_username"

@@ -1,0 +1,6 @@
+# Copy to .dev.vars and fill in. Get credentials at https://www.discogs.com/settings/developers
+# Set the app's callback URL to http://localhost:8787/callback for local dev.
+DISCOGS_CONSUMER_KEY=your_consumer_key
+DISCOGS_CONSUMER_SECRET=your_consumer_secret
+# Optional: restrict who may log in (comma-separated Discogs usernames and/or numeric IDs)
+ALLOWED_DISCOGS_USERS=

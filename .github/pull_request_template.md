@@ -1,0 +1,9 @@
+**What & why**
+Brief description of the change and the motivation.
+
+**Checklist**
+- [ ] `npm test` passes
+- [ ] `npm run lint` passes (`tsc --noEmit`)
+- [ ] Kept the server read-only (no collection/marketplace writes)
+- [ ] For pressing-reputation data: added a test in `test/pressing-reputation.test.ts` and a
+      one-line rationale for each new label/engineer
