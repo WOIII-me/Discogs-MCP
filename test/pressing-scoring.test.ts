@@ -108,6 +108,30 @@ describe("scorePressing — sonic axis", () => {
     expect(s.overallScore).toBeGreaterThan(0);
     expect(s.factors.marketValue.confidence).toBe(0);
   });
+
+  it("reports evidenceCoverage in 0..1 and a verdict, plus structured reputationDetail", () => {
+    const s = scorePressing(mfslPressing, "sonic", { baselineRating: 4.6 });
+    expect(s.evidenceCoverage).toBeGreaterThan(0);
+    expect(s.evidenceCoverage).toBeLessThanOrEqual(1);
+    expect(typeof s.verdict).toBe("string");
+    expect(s.verdict.length).toBeGreaterThan(0);
+    expect(s.reputationDetail.label?.name).toMatch(/Mobile Fidelity/);
+  });
+
+  it("a thin-evidence pressing gets the low-confidence verdict", () => {
+    const plain = makeRelease({
+      extraartists: [],
+      identifiers: [],
+      labels: [{ id: 999, name: "Generic", catno: "X" }],
+      community: { rating: { average: 5, count: 2 }, have: 0, want: 0 },
+      lowest_price: undefined,
+      num_for_sale: 0,
+      formats: [{ name: "CD", qty: "1", descriptions: ["Album"] }],
+    });
+    const s = scorePressing(plain, "sonic", { baselineRating: 4.6 });
+    expect(s.evidenceCoverage).toBeLessThan(0.35);
+    expect(s.verdict).toBe("thin data - low confidence");
+  });
 });
 
 describe("scorePressing — axes differ", () => {

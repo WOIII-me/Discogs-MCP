@@ -76,12 +76,23 @@ export interface ReputationSignal {
   weight: number; // contribution toward the pedigree score
 }
 
+/** Structured breakdown of the reputation evidence, for dossiers/UI. */
+export interface ReputationDetail {
+  label?: { id?: number; name: string; weight: number };
+  engineers: string[];
+  stampers: string[];
+  studio?: string;
+  formatCues: string[];
+}
+
 export interface ReputationResult {
   /** 0–100 pedigree score from labels/engineers/credits/stampers. */
   score: number;
   /** 0–1: how much explicit evidence we actually found (drives factor confidence). */
   confidence: number;
   signals: string[]; // provenance, e.g. "Mobile Fidelity (label)", "Mastered by Kevin Gray"
+  /** Structured form of the same evidence in `signals`, for clients that want fields. */
+  detail: ReputationDetail;
 }
 
 function uniq(items: string[]): string[] {
@@ -104,6 +115,7 @@ export function versionLooksAudiophile(label: string, format: string): boolean {
  */
 export function scoreReputation(release: DiscogsRelease): ReputationResult {
   const signals: string[] = [];
+  const detail: ReputationDetail = { engineers: [], stampers: [], formatCues: [] };
   let score = 0;
   let evidencePoints = 0; // raw evidence found, mapped to confidence below
 
@@ -116,6 +128,7 @@ export function scoreReputation(release: DiscogsRelease): ReputationResult {
     if (hit && hit.weight > labelWeight) {
       labelWeight = hit.weight;
       signals.push(`${hit.name} (reissue label)`);
+      detail.label = { id: lbl.id, name: hit.name, weight: hit.weight };
     }
   }
   if (labelWeight > 0) {
@@ -134,6 +147,7 @@ export function scoreReputation(release: DiscogsRelease): ReputationResult {
       .map((c) => RENOWNED_ENGINEERS.find((e) => e.pattern.test(c.name))?.name)
       .filter((n): n is string => Boolean(n))
   );
+  detail.engineers = engineerNames;
   for (const name of engineerNames) {
     score += 20;
     signals.push(`Mastered/cut by ${name}`);
@@ -147,6 +161,7 @@ export function scoreReputation(release: DiscogsRelease): ReputationResult {
   if (studio) {
     score += 10;
     signals.push(`${studio.name} (${studio.entity_type_name ?? "studio"})`);
+    detail.studio = studio.name;
     evidencePoints += 1;
   }
 
@@ -159,6 +174,7 @@ export function scoreReputation(release: DiscogsRelease): ReputationResult {
     if (s.pattern.test(runouts)) {
       score += 8;
       signals.push(s.label);
+      detail.stampers.push(s.label);
       evidencePoints += 1;
     }
   }
@@ -166,6 +182,7 @@ export function scoreReputation(release: DiscogsRelease): ReputationResult {
   if (/-\s*1[A-D]\b/.test(runouts)) {
     score += 6;
     signals.push("Early stamper (matrix …-1x)");
+    detail.stampers.push("Early stamper (matrix …-1x)");
     evidencePoints += 1;
   }
 
@@ -185,6 +202,7 @@ export function scoreReputation(release: DiscogsRelease): ReputationResult {
     if (c.pattern.test(fmt)) {
       score += c.pts;
       signals.push(c.label);
+      detail.formatCues.push(c.label);
       evidencePoints += 1;
     }
   }
@@ -202,6 +220,7 @@ export function scoreReputation(release: DiscogsRelease): ReputationResult {
     score: Math.min(Math.round(score), 100),
     confidence: Math.min(evidencePoints / 4, 1), // saturates once we have solid evidence
     signals: uniq(signals),
+    detail,
   };
 }
 
