@@ -2,6 +2,7 @@ import type { DiscogsRelease, DiscogsMasterVersion } from "../clients/types.js";
 import {
   scoreReputation,
   masteringCredits,
+  nonConsumerPressing,
   type ReputationDetail,
   type ReputationResult,
 } from "./pressing-reputation.js";
@@ -196,19 +197,31 @@ export function scorePressing(
     weightTotal += effective;
   }
 
-  const overallScore = weightTotal > 0 ? Math.round((weightedSum / weightTotal) * 10) / 10 : 0;
+  const rawScore = weightTotal > 0 ? weightedSum / weightTotal : 0;
   // Coverage uses the configured-weight sum as denominator (NOT 1 — collector
   // weights sum to 0.9, so hardcoding 1 would understate coverage).
   const evidenceCoverage = coverageDenom > 0 ? Math.round((weightTotal / coverageDenom) * 100) / 100 : 0;
+
+  // A test pressing / promo / acetate carries a reputable label's pedigree but
+  // isn't a buyable, representative copy — penalise it so it can't top a "best
+  // pressing to buy" ranking, and flag it explicitly.
+  const isNonConsumer = nonConsumerPressing(formatString(release));
+  const overallScore = Math.round(rawScore * (isNonConsumer ? 0.5 : 1) * 10) / 10;
+  const signals = isNonConsumer
+    ? [...rep.signals, "Test pressing / promo — not a standard retail copy"]
+    : rep.signals;
+  const verdict = isNonConsumer
+    ? "test pressing / promo — not a retail copy"
+    : deriveVerdict(axis, overallScore, evidenceCoverage, rep);
 
   return {
     releaseId: release.id,
     axis,
     overallScore,
     evidenceCoverage,
-    verdict: deriveVerdict(axis, overallScore, evidenceCoverage, rep),
+    verdict,
     factors,
-    signals: rep.signals,
+    signals,
     masteringCredits: masteringCredits(release),
     reputationDetail: rep.detail,
   };

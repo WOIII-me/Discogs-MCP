@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   masteringCredits,
+  nonConsumerPressing,
   scoreReputation,
   versionLooksAudiophile,
 } from "../src/utils/pressing-reputation.js";
@@ -101,5 +102,20 @@ describe("versionLooksAudiophile", () => {
     expect(versionLooksAudiophile("Analogue Productions", "12\", 45 RPM")).toBe(true);
     expect(versionLooksAudiophile("Columbia", "SACD, Hybrid")).toBe(true);
     expect(versionLooksAudiophile("Columbia", "Vinyl, LP, Album")).toBe(false);
+  });
+
+  it("does NOT flag test pressings/promos even on a reputable label", () => {
+    expect(versionLooksAudiophile("Classic Records", "LP, Album, Reissue, Test Pressing")).toBe(false);
+    expect(versionLooksAudiophile("Analogue Productions", "LP, 45 RPM, White Label, Promo")).toBe(false);
+  });
+});
+
+describe("nonConsumerPressing", () => {
+  it("detects test pressings, promos, acetates, white labels", () => {
+    expect(nonConsumerPressing("LP, Album, Test Pressing")).toBe(true);
+    expect(nonConsumerPressing("LP, Promo")).toBe(true);
+    expect(nonConsumerPressing("Acetate")).toBe(true);
+    expect(nonConsumerPressing("LP, White Label")).toBe(true);
+    expect(nonConsumerPressing("Vinyl, LP, Album, Reissue")).toBe(false);
   });
 });
