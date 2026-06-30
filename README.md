@@ -77,6 +77,22 @@ npm run dev:token        # serves http://localhost:8787/mcp, no browser login
 
 Then point a client at `http://localhost:8787/mcp` (e.g. `claude mcp add --transport http discogs-local http://localhost:8787/mcp`) and ask away. This path is for **local development only** — it has no OAuth gate. Production (`src/index.ts`) always uses OAuth.
 
+## REST API (for non-LLM clients)
+
+Alongside the MCP interface, the Worker exposes a small read-only **REST API** over the same
+engine — intended for a browser extension or other non-LLM clients. It authenticates with a
+Discogs **personal access token** (`Authorization: Bearer <token>`), enforces the same
+`ALLOWED_DISCOGS_USERS` allowlist, and returns JSON with CORS enabled.
+
+- `GET /api/health` — unauthenticated connectivity check
+- `GET /api/analyze?release=<id>&axis=` — compact verdict for one release: this pressing's
+  dossier, the album's best pressing, taste-fit, owned/wanted
+- `GET /api/analyze?title=<album>&artist=<artist>&axis=` — same, by album
+- `GET /api/best-pressing?master=<id>|release=<id>&axis=` — full ranking
+- `GET /api/compare?releases=<id,id[,id]>&axis=` — side-by-side comparison
+- `GET /api/versions?master=<id>` — list pressings
+- `GET /api/taste-fit?release=<id>` — affinity of a release to your collection
+
 ## Tools
 
 | Tool | What it does |

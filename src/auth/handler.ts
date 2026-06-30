@@ -6,6 +6,8 @@ import {
   getIdentity,
   getRequestToken,
 } from "./discogs-oauth.js";
+import { isAllowedUser } from "./allowlist.js";
+import { handleApi } from "../api/handler.js";
 
 const OAUTH_STATE_TTL = 600; // seconds; Discogs request tokens are short-lived anyway
 
@@ -21,13 +23,6 @@ function html(body: string, status = 200): Response {
 </head><body>${body}</body></html>`,
     { status, headers: { "Content-Type": "text/html; charset=utf-8" } }
   );
-}
-
-function isAllowedUser(env: Env, username: string, userId: number): boolean {
-  const raw = env.ALLOWED_DISCOGS_USERS?.trim();
-  if (!raw) return true;
-  const allowed = raw.split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
-  return allowed.includes(username.toLowerCase()) || allowed.includes(String(userId));
 }
 
 /**
@@ -61,6 +56,12 @@ export const DiscogsAuthHandler: ExportedHandler<Env> = {
 
 async function handle(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+
+    // REST API head for the browser extension (PAT-authed). OAuthProvider only
+    // claims /mcp + /sse, so /api/* reaches this default handler.
+    if (url.pathname.startsWith("/api/")) {
+      return handleApi(request, env);
+    }
 
     if (url.pathname === "/authorize") {
       let oauthReqInfo: AuthRequest;

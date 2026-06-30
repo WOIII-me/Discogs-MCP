@@ -1,4 +1,5 @@
 import { DiscogsMcpAgent } from "./agent.js";
+import { handleApi } from "./api/handler.js";
 import type { Env } from "./types/env.js";
 
 // Durable Object binding for `wrangler dev src/dev-server.ts`.
@@ -34,6 +35,9 @@ export default {
     }
     if (url.pathname === "/mcp" || url.pathname.startsWith("/mcp/")) {
       return mcpHandler.fetch(request, env, ctx);
+    }
+    if (url.pathname.startsWith("/api/")) {
+      return handleApi(request, env);
     }
     return new Response("Not found", { status: 404 });
   },
