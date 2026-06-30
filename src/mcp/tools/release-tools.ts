@@ -2,9 +2,11 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import type { GetContext } from "./context.js";
 import { jsonResult, safeTool } from "./context.js";
+import { masteringCredits, scoreReputation } from "../../utils/pressing-reputation.js";
 import type { DiscogsRelease } from "../../clients/types.js";
 
 export function slimRelease(r: DiscogsRelease) {
+  const rep = scoreReputation(r);
   return {
     id: r.id,
     title: r.title,
@@ -27,6 +29,19 @@ export function slimRelease(r: DiscogsRelease) {
           want: r.community.want,
         }
       : null,
+    lowestPrice: r.lowest_price ?? null,
+    numForSale: r.num_for_sale ?? 0,
+    // Structured pressing evidence — what audiophiles actually use to ID a pressing.
+    matrixRunout: (r.identifiers ?? [])
+      .filter((i) => /matrix|runout/i.test(i.type))
+      .map((i) => ({ type: i.type, value: i.value, description: i.description })),
+    masteringCredits: masteringCredits(r),
+    pressingCompanies: (r.companies ?? []).map((c) => ({
+      name: c.name,
+      entityTypeName: c.entity_type_name,
+    })),
+    // Pedigree assessment for this specific pressing (label/engineer/stamper signals).
+    pedigree: { score: rep.score, confidence: rep.confidence, signals: rep.signals, detail: rep.detail },
     coverImage: r.images?.[0]?.uri,
   };
 }
@@ -36,8 +51,11 @@ export function registerReleaseTools(server: McpServer, getContext: GetContext):
     "get_release",
     {
       description:
-        "Get full details of a specific Discogs release (one concrete pressing/edition), " +
-        "including community ratings, have/want counts, formats, labels, and notes.",
+        "Get full details of a specific Discogs release (one concrete pressing/edition): " +
+        "community ratings, have/want, formats, labels, notes, used price, AND the structured " +
+        "pressing evidence — matrix/runout stampers, mastering credits, pressing companies, and a " +
+        "pedigree assessment (reputable label/engineer/stamper signals). Use this to inspect a " +
+        "specific pressing without dropping to the raw Discogs API.",
       inputSchema: {
         releaseId: z.number().int().describe("Discogs release ID"),
       },
