@@ -40,7 +40,12 @@ dossier — use it rather than trusting the number:
    feel free to override the provisional verdict with your own judgement.
 3. Call out audiophile editions (Mobile Fidelity, Analogue Productions, half-speed, 45 RPM, etc.).
 4. Give one clear recommendation, and pass along the response's 'dataCaveats'.
-5. If I own one (inYourCollection), say so.`)
+5. If I own one (inYourCollection), say so.
+
+Each top pressing already includes 'matrixRunout' and 'masteringCredits' — don't re-fetch them
+with get_release. Pressings flagged as test pressings/promos are scored down and labelled in
+'verdict'; treat them as non-retail. Use get_release only to inspect a SPECIFIC pressing not in
+the returned set.`)
   );
 
   server.registerPrompt(

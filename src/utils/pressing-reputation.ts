@@ -99,9 +99,24 @@ function uniq(items: string[]): string[] {
   return [...new Set(items)];
 }
 
+const NON_CONSUMER = /test\s*pressing|white\s*label|acetate|\bpromo\b|promotional|sampler|jukebox|not\s*for\s*sale/i;
+
+/**
+ * Whether a release/version is NOT a standard retail copy — a test pressing,
+ * promo, acetate, white label, etc. These carry a reputable label's pedigree
+ * but aren't buyable, representative pressings, so they shouldn't top a
+ * "best pressing to buy" ranking.
+ */
+export function nonConsumerPressing(formatOrBlob: string): boolean {
+  return NON_CONSUMER.test(formatOrBlob);
+}
+
 /** Detect audiophile-label / renowned-engineer signals from a master version row. */
 export function versionLooksAudiophile(label: string, format: string): boolean {
   const blob = `${label} ${format}`;
+  // A test pressing / promo on a reputable label is still not a retail copy —
+  // don't let it claim a reserved audiophile candidate slot.
+  if (nonConsumerPressing(blob)) return false;
   if (AUDIOPHILE_LABEL_NAMES.some((l) => l.pattern.test(blob))) return true;
   // Format-level cues that almost always mean an audiophile reissue
   return /\bsacd\b|45\s*rpm|uhqr|180\s*g|half[- ]?speed/i.test(blob);

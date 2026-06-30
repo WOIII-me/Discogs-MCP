@@ -118,6 +118,21 @@ describe("scorePressing — sonic axis", () => {
     expect(s.reputationDetail.label?.name).toMatch(/Mobile Fidelity/);
   });
 
+  it("penalises and flags a test pressing vs. the same release as a retail copy", () => {
+    const retail = scorePressing(mfslPressing, "sonic", { baselineRating: 4.6 });
+    const testPress = scorePressing(
+      makeRelease({
+        ...mfslPressing,
+        formats: [{ name: "Vinyl", qty: "2", descriptions: ["LP", "45 RPM", "Test Pressing"] }],
+      }),
+      "sonic",
+      { baselineRating: 4.6 }
+    );
+    expect(testPress.overallScore).toBeLessThan(retail.overallScore);
+    expect(testPress.verdict).toMatch(/test pressing/i);
+    expect(testPress.signals.join(" ")).toMatch(/not a standard retail copy/i);
+  });
+
   it("a thin-evidence pressing gets the low-confidence verdict", () => {
     const plain = makeRelease({
       extraartists: [],
