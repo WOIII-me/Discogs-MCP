@@ -2,7 +2,7 @@ import type { CachedDiscogsClient } from "../clients/cached-discogs.js";
 import { RateLimitError } from "../clients/discogs.js";
 import type { DiscogsMasterVersion, DiscogsRelease } from "../clients/types.js";
 import { fetchFullCollection } from "../utils/collection.js";
-import { buildDossier } from "../utils/pressing-dossier.js";
+import { buildDossier, type PressingDossier } from "../utils/pressing-dossier.js";
 import { versionLooksAudiophile } from "../utils/pressing-reputation.js";
 import {
   normalizeAxis,
@@ -22,6 +22,56 @@ export interface CoreContext {
 }
 
 export type CoreResult<T> = { ok: true; data: T } | { ok: false; error: string };
+
+/** A scored pressing dossier as returned in tool/API responses. */
+export type DossierEntry = PressingDossier & { inYourCollection: boolean; rank?: number };
+
+export interface FindBestPressingResult {
+  album: {
+    title: string;
+    artists?: string[];
+    originalYear: number;
+    masterId: number;
+    totalVersionsSurveyed: number;
+    candidatesScored: number;
+    candidatesAttempted: number;
+    versionsListTruncated: boolean;
+  };
+  axis: Axis;
+  partial: boolean;
+  note?: string;
+  albumBaselineRating: number;
+  dataCaveats: string[];
+  topPressings: DossierEntry[];
+}
+
+export interface ComparePressingsResult {
+  axis: Axis;
+  partial?: boolean;
+  note?: string;
+  albumBaselineRating: number;
+  dataCaveats: string[];
+  topPick: string;
+  pressings: DossierEntry[];
+}
+
+export interface GetReleaseVersionsResult {
+  masterId: number;
+  totalVersions: number;
+  matchingVersions: number;
+  truncated: boolean;
+  versions: {
+    releaseId: number;
+    title: string;
+    label: string;
+    catno: string;
+    country: string;
+    released: string;
+    format: string;
+    inCollection: number;
+    inWantlist: number;
+  }[];
+}
 
 const MAX_VERSION_PAGES = 3; // 3 × 100 = 300 versions
 const DETAIL_BUDGET = 16; // max /releases/{id} fetches per find_best_pressing call
@@ -110,11 +160,12 @@ async function fetchAllVersions(
   return { versions, truncated };
 }
 
-/** Resolve a master ID from either a release ID or an artist+title search. */
+/** Resolve a master ID from a master ID, a release ID, or an artist+title search. */
 async function resolveMasterId(
   ctx: CoreContext,
-  params: { releaseId?: number; albumTitle?: string; artistName?: string }
+  params: { masterId?: number; releaseId?: number; albumTitle?: string; artistName?: string }
 ): Promise<{ masterId: number } | { error: string }> {
+  if (params.masterId) return { masterId: params.masterId };
   if (params.releaseId) {
     const release = await ctx.client.getRelease(params.releaseId);
     if (!release.master_id) {
@@ -177,7 +228,7 @@ export interface GetReleaseVersionsParams {
 export async function getReleaseVersions(
   ctx: CoreContext,
   params: GetReleaseVersionsParams
-): Promise<CoreResult<unknown>> {
+): Promise<CoreResult<GetReleaseVersionsResult>> {
   const { versions, truncated } = await fetchAllVersions(ctx, params.masterId);
 
   let filtered = versions;
@@ -214,6 +265,7 @@ export async function getReleaseVersions(
 }
 
 export interface FindBestPressingParams {
+  masterId?: number;
   releaseId?: number;
   albumTitle?: string;
   artistName?: string;
@@ -225,7 +277,7 @@ export interface FindBestPressingParams {
 export async function findBestPressing(
   ctx: CoreContext,
   params: FindBestPressingParams
-): Promise<CoreResult<unknown>> {
+): Promise<CoreResult<FindBestPressingResult>> {
   const resolved = await resolveMasterId(ctx, params);
   if ("error" in resolved) return { ok: false, error: resolved.error };
   const { masterId } = resolved;
@@ -296,7 +348,7 @@ export interface ComparePressingsParams {
 export async function comparePressings(
   ctx: CoreContext,
   params: ComparePressingsParams
-): Promise<CoreResult<unknown>> {
+): Promise<CoreResult<ComparePressingsResult>> {
   const axis: Axis = normalizeAxis(params.axis);
 
   const [{ releases, rateLimited }, collection] = await Promise.all([

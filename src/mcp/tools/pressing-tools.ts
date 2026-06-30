@@ -15,7 +15,7 @@ const AXIS_DESCRIPTION =
   "'value' (best sound per dollar).";
 
 /** Map a core result to an MCP tool result. */
-function toToolResult(r: CoreResult<unknown>) {
+function toToolResult<T>(r: CoreResult<T>) {
   return r.ok ? jsonResult(r.data) : errorResult(r.error);
 }
 
