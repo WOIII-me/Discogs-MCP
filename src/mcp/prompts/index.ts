@@ -32,11 +32,15 @@ export function registerPrompts(server: McpServer): void {
     async ({ album }) =>
       userMessage(`You are a vinyl/audio expert. Find the best-SOUNDING pressing of "${album}".
 
-Use ONLY the find_best_pressing tool with axis: "sonic". Then:
-1. For each top pressing, explain WHY it scores well — read the 'signals', 'masteringCredits', and 'factors' fields (mastering engineer, label, stamper marks, format).
-2. Call out audiophile editions (Mobile Fidelity, Analogue Productions, half-speed, 45 RPM, etc.).
-3. Give one clear recommendation, and note any caveats (e.g. the data is reputation-based, not measured sound).
-4. If I own one (inYourCollection), say so.`)
+Use ONLY the find_best_pressing tool with axis: "sonic". Each pressing comes back as an evidence
+dossier — use it rather than trusting the number:
+1. Explain WHY each top pressing scores well from 'whyItScores', 'signals', 'reputationDetail',
+   'masteringCredits', 'matrixRunout', and 'factors' (engineer, label, stamper marks, format).
+2. Read 'verdict' and 'evidenceCoverage' (0–1): if coverage is low, say the call is tentative and
+   feel free to override the provisional verdict with your own judgement.
+3. Call out audiophile editions (Mobile Fidelity, Analogue Productions, half-speed, 45 RPM, etc.).
+4. Give one clear recommendation, and pass along the response's 'dataCaveats'.
+5. If I own one (inYourCollection), say so.`)
   );
 
   server.registerPrompt(

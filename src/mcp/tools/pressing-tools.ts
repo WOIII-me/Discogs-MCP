@@ -9,6 +9,7 @@ import {
   type Axis,
 } from "../../utils/pressing-scoring.js";
 import { versionLooksAudiophile } from "../../utils/pressing-reputation.js";
+import { buildDossier } from "../../utils/pressing-dossier.js";
 import { fetchFullCollection } from "../../utils/collection.js";
 import { RateLimitError } from "../../clients/discogs.js";
 import type { DiscogsMasterVersion, DiscogsRelease } from "../../clients/types.js";
@@ -130,26 +131,24 @@ async function resolveMasterId(
   return { error: "Provide either releaseId, or albumTitle (ideally with artistName)." };
 }
 
-function pressingSummary(release: DiscogsRelease) {
-  return {
-    releaseId: release.id,
-    title: release.title,
-    country: release.country,
-    year: release.year,
-    released: release.released,
-    label: release.labels?.[0]?.name ?? "Unknown",
-    catno: release.labels?.[0]?.catno ?? "",
-    format:
-      release.formats?.map((f) => [f.name, ...(f.descriptions ?? [])].join(" ")).join(", ") ??
-      "Unknown",
-    rating: release.community?.rating?.average ?? 0,
-    ratingCount: release.community?.rating?.count ?? 0,
-    have: release.community?.have ?? 0,
-    want: release.community?.want ?? 0,
-    lowestPrice: release.lowest_price ?? null,
-    numForSale: release.num_for_sale ?? 0,
-    notesExcerpt: release.notes?.slice(0, 300) ?? "",
-  };
+/** Response-level caveats so a model/user reads the scores with the right priors. */
+function buildCaveats(opts: { rateLimited?: boolean; truncated?: boolean; versionListing?: boolean }): string[] {
+  const caveats = [
+    "Scoring is reputation- and community-data-based, not measured audio quality.",
+    "Ratings are user-submitted and can be thin for obscure pressings.",
+  ];
+  if (opts.versionListing) {
+    caveats.push(
+      "Discogs version listings carry no ratings, so only the bounded candidate set is fully scored."
+    );
+  }
+  if (opts.truncated) {
+    caveats.push("The version list was truncated; not every pressing was surveyed.");
+  }
+  if (opts.rateLimited) {
+    caveats.push("Discogs rate-limited some lookups, so results are partial — rerun in ~60s for the full set.");
+  }
+  return caveats;
 }
 
 /** Mean community rating across scored pressings, for the rating-delta factor. */
@@ -294,13 +293,10 @@ export function registerPressingTools(server: McpServer, getContext: GetContext)
         partial: rateLimited || scored.length < attempted,
         ...(rateLimited ? { note: RATE_LIMIT_NOTE } : {}),
         albumBaselineRating: Math.round(baseline * 100) / 100,
+        dataCaveats: buildCaveats({ rateLimited, truncated, versionListing: true }),
         topPressings: scored.slice(0, topN).map((p, i) => ({
           rank: i + 1,
-          ...pressingSummary(p.release),
-          overallScore: p.score.overallScore,
-          factors: p.score.factors,
-          signals: p.score.signals,
-          masteringCredits: p.score.masteringCredits,
+          ...buildDossier(p.release, p.score, baseline),
           inYourCollection: ownedIds.has(p.release.id),
         })),
       });
@@ -348,13 +344,10 @@ export function registerPressingTools(server: McpServer, getContext: GetContext)
         axis,
         ...(rateLimited ? { partial: true, note: RATE_LIMIT_NOTE } : {}),
         albumBaselineRating: Math.round(baseline * 100) / 100,
-        verdict: `Highest scoring (${axis}): release ${compared[0].release.id} (${compared[0].release.title}, ${compared[0].release.country ?? "?"} ${compared[0].release.year || "?"})`,
+        dataCaveats: buildCaveats({ rateLimited }),
+        topPick: `Highest scoring (${axis}): release ${compared[0].release.id} (${compared[0].release.title}, ${compared[0].release.country ?? "?"} ${compared[0].release.year || "?"})`,
         pressings: compared.map((p) => ({
-          ...pressingSummary(p.release),
-          overallScore: p.score.overallScore,
-          factors: p.score.factors,
-          signals: p.score.signals,
-          masteringCredits: p.score.masteringCredits,
+          ...buildDossier(p.release, p.score, baseline),
           inYourCollection: ownedIds.has(p.release.id),
         })),
       });

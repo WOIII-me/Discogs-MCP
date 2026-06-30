@@ -28,6 +28,31 @@ describe("scoreReputation", () => {
     expect(r.score).toBeGreaterThan(20);
   });
 
+  it("exposes structured detail alongside the signal strings", () => {
+    const mofi = scoreReputation(mfslPressing);
+    expect(mofi.detail.label?.name).toMatch(/Mobile Fidelity/);
+    expect(mofi.detail.formatCues.length).toBeGreaterThan(0);
+
+    const rvg = scoreReputation(rvgPressing);
+    expect(rvg.detail.engineers.join(" ")).toMatch(/Van Gelder/);
+    expect(rvg.detail.stampers.length).toBeGreaterThan(0);
+  });
+
+  it("returns empty detail when there is no structured evidence", () => {
+    const plain = makeRelease({
+      labels: [{ id: 999, name: "Nondescript", catno: "X" }],
+      extraartists: [],
+      identifiers: [],
+      formats: [{ name: "CD", qty: "1", descriptions: ["Album"] }],
+      notes: "",
+    });
+    const r = scoreReputation(plain);
+    expect(r.detail.label).toBeUndefined();
+    expect(r.detail.engineers).toEqual([]);
+    expect(r.detail.stampers).toEqual([]);
+    expect(r.detail.formatCues).toEqual([]);
+  });
+
   it("returns zero confidence when no structured evidence exists", () => {
     const plain = makeRelease({
       labels: [{ id: 999, name: "Nondescript", catno: "X" }],

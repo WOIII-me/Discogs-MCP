@@ -1,5 +1,10 @@
 import type { DiscogsRelease, DiscogsMasterVersion } from "../clients/types.js";
-import { scoreReputation, masteringCredits } from "./pressing-reputation.js";
+import {
+  scoreReputation,
+  masteringCredits,
+  type ReputationDetail,
+  type ReputationResult,
+} from "./pressing-reputation.js";
 
 /**
  * Pressing quality is judged along an explicit AXIS, because "best" is
@@ -33,9 +38,34 @@ export interface PressingScore {
   releaseId: number;
   axis: Axis;
   overallScore: number; // 0–100, evidence-weighted
+  /** 0–1: Σ(weightᵢ·confidenceᵢ)/Σ(weightᵢ) for the axis — how well-supported the score is. */
+  evidenceCoverage: number;
+  /** Provisional, deterministic label, e.g. "strong sonic pick", "thin data - low confidence". */
+  verdict: string;
   factors: Record<string, Factor & { weight: number }>;
   signals: string[]; // human-readable provenance for the sonic/pedigree signals
   masteringCredits: string[];
+  reputationDetail: ReputationDetail;
+}
+
+/** Deterministic, concise verdict from score + coverage + reputation. */
+function deriveVerdict(
+  axis: Axis,
+  overallScore: number,
+  coverage: number,
+  rep: ReputationResult
+): string {
+  if (coverage < 0.35) return "thin data - low confidence";
+  const high = overallScore >= 70;
+  const isReissue = Boolean(rep.detail.label) || rep.detail.formatCues.length > 0;
+  if (axis === "sonic") {
+    if (high && rep.score >= 60 && rep.confidence > 0) return "strong sonic pick";
+    if (high && isReissue) return "audiophile reissue";
+  }
+  if (axis === "collector" && high) return "strong collector pick";
+  if (axis === "value" && high) return "strong value pick";
+  if (high && isReissue) return "audiophile reissue";
+  return overallScore >= 50 ? "solid pick" : "weak evidence";
 }
 
 // Base weights per axis. Effective weight is wᵢ · confidenceᵢ, so factors with
@@ -154,25 +184,33 @@ export function scorePressing(
   const weights = AXIS_WEIGHTS[axis];
   const factors: Record<string, Factor & { weight: number }> = {};
   let weightedSum = 0;
-  let weightTotal = 0;
+  let weightTotal = 0; // Σ(weightᵢ·confidenceᵢ)
+  let coverageDenom = 0; // Σ(weightᵢ) over the axis's configured factors
   for (const [name, weight] of Object.entries(weights)) {
     const f = all[name];
     if (!f) continue;
     factors[name] = { ...f, weight };
+    coverageDenom += weight;
     const effective = weight * f.confidence;
     weightedSum += effective * f.score;
     weightTotal += effective;
   }
 
   const overallScore = weightTotal > 0 ? Math.round((weightedSum / weightTotal) * 10) / 10 : 0;
+  // Coverage uses the configured-weight sum as denominator (NOT 1 — collector
+  // weights sum to 0.9, so hardcoding 1 would understate coverage).
+  const evidenceCoverage = coverageDenom > 0 ? Math.round((weightTotal / coverageDenom) * 100) / 100 : 0;
 
   return {
     releaseId: release.id,
     axis,
     overallScore,
+    evidenceCoverage,
+    verdict: deriveVerdict(axis, overallScore, evidenceCoverage, rep),
     factors,
     signals: rep.signals,
     masteringCredits: masteringCredits(release),
+    reputationDetail: rep.detail,
   };
 }
 
