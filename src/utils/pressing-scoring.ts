@@ -152,6 +152,8 @@ export function scoreRatingDelta(average: number, count: number, baseline: numbe
 export interface ScoreContext {
   /** Mean community rating across the compared pressings, for the delta factor. */
   baselineRating?: number;
+  /** The album's track count (from the master), to detect partial/single releases. */
+  albumTrackCount?: number;
 }
 
 export function scorePressing(
@@ -202,17 +204,40 @@ export function scorePressing(
   // weights sum to 0.9, so hardcoding 1 would understate coverage).
   const evidenceCoverage = coverageDenom > 0 ? Math.round((weightTotal / coverageDenom) * 100) / 100 : 0;
 
-  // A test pressing / promo / acetate carries a reputable label's pedigree but
-  // isn't a buyable, representative copy — penalise it so it can't top a "best
-  // pressing to buy" ranking, and flag it explicitly.
+  // Demote releases that aren't a normal, complete copy of the album:
+  //  - non-consumer copies (test pressing / promo / acetate / white label)
+  //  - partial releases (a single / alt-take / bonus disc with far fewer tracks
+  //    than the album) that ride under the same master but aren't the album.
+  // Both carry a reputable label's pedigree yet shouldn't top a "best pressing
+  // to buy the album" ranking, so we halve the score and flag them explicitly.
   const isNonConsumer = nonConsumerPressing(formatString(release));
-  const overallScore = Math.round(rawScore * (isNonConsumer ? 0.5 : 1) * 10) / 10;
-  const signals = isNonConsumer
-    ? [...rep.signals, "Test pressing / promo — not a standard retail copy"]
-    : rep.signals;
+  const albumTracks = ctx.albumTrackCount ?? 0;
+  const releaseTracks = release.tracklist?.length ?? 0;
+  // Non-album items ride under the same master: single/alt-take/bonus discs.
+  // Flag when the release has fewer tracks than the album AND is marked as an
+  // alt-take/single/EP (in the title or a track), or is a bare 1-track single.
+  // Requiring "incomplete" avoids false-flagging deluxe editions that add bonus
+  // alt-takes on top of the full album.
+  const incomplete = albumTracks >= 4 && releaseTracks > 0 && releaseTracks < albumTracks;
+  const altTakeMarker =
+    /alt(ernate)?[\s.]*take|\(single\)|\bEP\b|excerpt|sampler/i.test(release.title ?? "") ||
+    (release.tracklist ?? []).some((t) => /alt(ernate)?[\s.]*take/i.test(t.title ?? ""));
+  const isPartial =
+    !isNonConsumer && ((incomplete && altTakeMarker) || (albumTracks >= 5 && releaseTracks === 1));
+
+  const penaltyLabel = isNonConsumer
+    ? "Test pressing / promo — not a standard retail copy"
+    : isPartial
+      ? "Partial release (single / alt-take / bonus) — not the full album"
+      : "";
+  const penalized = isNonConsumer || isPartial;
+  const overallScore = Math.round(rawScore * (penalized ? 0.5 : 1) * 10) / 10;
+  const signals = penalized ? [...rep.signals, penaltyLabel] : rep.signals;
   const verdict = isNonConsumer
     ? "test pressing / promo — not a retail copy"
-    : deriveVerdict(axis, overallScore, evidenceCoverage, rep);
+    : isPartial
+      ? "partial release — not the full album"
+      : deriveVerdict(axis, overallScore, evidenceCoverage, rep);
 
   return {
     releaseId: release.id,

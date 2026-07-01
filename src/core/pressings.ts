@@ -306,8 +306,12 @@ export async function findBestPressing(
     };
   }
   const baseline = baselineRating(releases);
+  const albumTrackCount = master.tracklist?.length ?? 0;
   const scored = releases
-    .map((release) => ({ release, score: scorePressing(release, axis, { baselineRating: baseline }) }))
+    .map((release) => ({
+      release,
+      score: scorePressing(release, axis, { baselineRating: baseline, albumTrackCount }),
+    }))
     .sort((a, b) => b.score.overallScore - a.score.overallScore);
 
   const ownedIds = new Set(collection.items.map((i) => i.id));

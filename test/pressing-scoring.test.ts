@@ -133,6 +133,74 @@ describe("scorePressing — sonic axis", () => {
     expect(testPress.signals.join(" ")).toMatch(/not a standard retail copy/i);
   });
 
+  it("demotes and flags a partial release (single/alt-take) vs the full album", () => {
+    const album = makeRelease({
+      tracklist: [
+        { position: "A1", title: "So What", duration: "9:22" },
+        { position: "A2", title: "Freddie Freeloader", duration: "9:46" },
+        { position: "A3", title: "Blue In Green", duration: "5:37" },
+        { position: "B1", title: "All Blues", duration: "11:33" },
+        { position: "B2", title: "Flamenco Sketches", duration: "9:26" },
+      ],
+    });
+    const single = makeRelease({
+      ...mfslPressing,
+      tracklist: [{ position: "A", title: "Flamenco Sketches (Alt Take)", duration: "9:32" }],
+    });
+    const ctx = { baselineRating: 4.6, albumTrackCount: 5 };
+    const full = scorePressing(album, "sonic", ctx);
+    const partial = scorePressing(single, "sonic", ctx);
+    expect(partial.overallScore).toBeLessThan(full.overallScore);
+    expect(partial.verdict).toMatch(/partial release/i);
+    expect(partial.signals.join(" ")).toMatch(/not the full album/i);
+  });
+
+  it("flags an incomplete alt-take edition (real case: 4/5 tracks, 'Alt Take' in title)", () => {
+    const altTakeEdition = makeRelease({
+      ...mfslPressing,
+      title: "Flamenco Sketches (Alt Take) 45 RPM (Kind Of Blue)",
+      tracklist: [
+        { position: "A1", title: "So What", duration: "9:22" },
+        { position: "A2", title: "Freddie Freeloader", duration: "9:46" },
+        { position: "B1", title: "Blue In Green", duration: "5:37" },
+        { position: "B2", title: "Flamenco Sketches (alt take) 45 RPM", duration: "9:26" },
+      ],
+    });
+    const s = scorePressing(altTakeEdition, "sonic", { baselineRating: 4.6, albumTrackCount: 5 });
+    expect(s.verdict).toMatch(/partial release/i);
+  });
+
+  it("does NOT flag a deluxe edition that has the full album plus a bonus alt-take", () => {
+    const deluxe = makeRelease({
+      ...mfslPressing,
+      title: "Kind Of Blue (Deluxe)",
+      tracklist: [
+        { position: "1", title: "So What", duration: "9:22" },
+        { position: "2", title: "Freddie Freeloader", duration: "9:46" },
+        { position: "3", title: "Blue In Green", duration: "5:37" },
+        { position: "4", title: "All Blues", duration: "11:33" },
+        { position: "5", title: "Flamenco Sketches", duration: "9:26" },
+        { position: "6", title: "Flamenco Sketches (Alt Take)", duration: "9:32" },
+      ],
+    });
+    const s = scorePressing(deluxe, "sonic", { baselineRating: 4.6, albumTrackCount: 5 });
+    expect(s.verdict).not.toMatch(/partial/i);
+  });
+
+  it("does not flag a full pressing as partial", () => {
+    const fullAlbum = makeRelease({
+      tracklist: [
+        { position: "A1", title: "So What", duration: "9:22" },
+        { position: "A2", title: "Freddie Freeloader", duration: "9:46" },
+        { position: "A3", title: "Blue In Green", duration: "5:37" },
+        { position: "B1", title: "All Blues", duration: "11:33" },
+        { position: "B2", title: "Flamenco Sketches", duration: "9:26" },
+      ],
+    });
+    const full = scorePressing(fullAlbum, "sonic", { baselineRating: 4.6, albumTrackCount: 5 });
+    expect(full.verdict).not.toMatch(/partial/i);
+  });
+
   it("a thin-evidence pressing gets the low-confidence verdict", () => {
     const plain = makeRelease({
       extraartists: [],
