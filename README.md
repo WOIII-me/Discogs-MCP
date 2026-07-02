@@ -142,6 +142,15 @@ Discogs **personal access token** (`Authorization: Bearer <token>`), enforces th
 - **Rate limits**: Discogs allows 60 req/min authenticated. The client retries 429s with exponential backoff and soft-throttles when the remaining budget is low. `find_best_pressing` fetches details for a bounded candidate set (~16, the versions endpoint carries no ratings).
 - Collections are fetched at 100 items/page up to 3,000 items; beyond that results are truncated and flagged (`truncated: true`).
 
+## Roadmap
+
+Two things are planned next, in order — both additive, neither changes existing tool output:
+
+1. **Chrome extension (MVP)** — an overlay on Discogs.com release/master/marketplace pages showing the pressing verdict, the album's best pressing, taste-fit, and owned/wanted at a glance. It consumes the REST API that's already live; read-only, personal-token auth.
+2. **External sonic consensus (opt-in)** — an enrichment pipeline that summarizes audiophile-community consensus (with source attribution) into an `externalSonic` scoring factor. Off by default; derived verdicts + source links only, never republished content.
+
+Ideas and feedback → [Discussions](https://github.com/WOIII-me/Discogs-MCP/discussions). Know a reissue label, engineer, or stamper mark the scorer should recognize? [Contributions welcome](https://github.com/WOIII-me/Discogs-MCP/discussions/6) — no code required.
+
 ## Development
 
 ```sh
