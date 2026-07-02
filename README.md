@@ -12,6 +12,21 @@ A remote [Model Context Protocol](https://modelcontextprotocol.io) server for Di
 
 Auth is browser-based Discogs OAuth: connect an MCP client to the server URL and you'll be redirected to Discogs to log in. Read-only — the server never modifies your collection.
 
+## Use the hosted server
+
+A public instance runs at **`https://discogs-mcp.woiii.workers.dev`** — open to any Discogs user, no invite needed. Connecting is a one-time browser login per client:
+
+- **Claude Code**: `claude mcp add --transport http --scope user discogs https://discogs-mcp.woiii.workers.dev/mcp`
+- **Claude Desktop / claude.ai**: add a custom connector with URL `https://discogs-mcp.woiii.workers.dev/mcp` (requires a plan that allows custom connectors).
+- **OpenAI Codex**: add to `~/.codex/config.toml`, then run `codex mcp login discogs`:
+  ```toml
+  [mcp_servers.discogs]
+  url = "https://discogs-mcp.woiii.workers.dev/mcp"
+  ```
+- Legacy SSE clients can use `/sse` instead of `/mcp`.
+
+The hosted instance is best-effort: Discogs allows 60 requests/min per authenticated user (your own budget — other users don't eat into it), and heavy tools like `find_best_pressing` are bounded to stay inside it. For anything serious, self-host — it's one `wrangler deploy`.
+
 ## Quick start (self-hosting)
 
 Prerequisites: Node 18+, a Cloudflare account, and a [Discogs developer app](https://www.discogs.com/settings/developers).
@@ -46,9 +61,9 @@ Then update your Discogs app's callback URL to `https://<your-worker>.workers.de
 > `echo "your_username" | wrangler secret put ALLOWED_DISCOGS_USERS`. Leave it unset to allow any
 > Discogs user.
 
-### Connect a client
+### Connect a client (self-hosted)
 
-The deployed server speaks OAuth, so connecting is a one-time browser login per client:
+Same as the hosted instance, with your own Worker URL:
 
 - **Claude Code**: `claude mcp add --transport http --scope user discogs https://<your-worker>.workers.dev/mcp`
 - **Claude Desktop / claude.ai**: add a custom connector with URL `https://<your-worker>.workers.dev/mcp` (requires a plan that allows custom connectors).
@@ -64,7 +79,7 @@ The deployed server speaks OAuth, so connecting is a one-time browser login per 
 
 The server's prompts surface as **slash commands** in clients that support them (`/find-best-pressing`, `/best-value-pressing`, `/rank-my-wantlist`, …), each scoped to the right tools.
 
-To restrict who can log in, set `ALLOWED_DISCOGS_USERS` in `wrangler.toml` (comma-separated Discogs usernames and/or numeric user IDs) — recommended, since a deployed Worker is publicly reachable.
+Access control is optional: leave `ALLOWED_DISCOGS_USERS` unset to allow any Discogs user (how the hosted instance runs), or set it to a comma-separated list of Discogs usernames and/or numeric user IDs to keep a private deployment to yourself.
 
 ## Local testing with a personal token (no OAuth app)
 
@@ -82,7 +97,7 @@ Then point a client at `http://localhost:8787/mcp` (e.g. `claude mcp add --trans
 Alongside the MCP interface, the Worker exposes a small read-only **REST API** over the same
 engine — intended for a browser extension or other non-LLM clients. It authenticates with a
 Discogs **personal access token** (`Authorization: Bearer <token>`), enforces the same
-`ALLOWED_DISCOGS_USERS` allowlist, and returns JSON with CORS enabled.
+`ALLOWED_DISCOGS_USERS` allowlist when one is set, and returns JSON with CORS enabled.
 
 - `GET /api/health` — unauthenticated connectivity check
 - `GET /api/analyze?release=<id>&axis=` — compact verdict for one release: this pressing's
