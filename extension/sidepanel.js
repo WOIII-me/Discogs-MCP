@@ -308,17 +308,16 @@
 
   function renderListingIntro({ unresolved = false } = {}) {
     const detail = unresolved
-      ? 'Couldn\'t find this listing\'s release link on the page — open the release page itself and the dossier loads automatically.'
+      ? "Couldn't find this listing's release link — the page may still be loading. Try again in a moment, or open the release page itself (dossier loads automatically there)."
       : "Analysis is button-triggered here so browsing listings doesn't burn your Discogs rate budget.";
     $body.innerHTML = `
       <div class="m3-card filled">
         <div class="m3-overline">Marketplace listing</div>
         <div class="m3-title" style="margin-top:6px">Pressing check</div>
         <div class="m3-sub">${detail}</div>
-        ${unresolved ? "" : `
         <div class="m3-actions">
-          <button class="m3-btn filled" data-action="analyze-listing">Analyze this pressing</button>
-        </div>`}
+          <button class="m3-btn ${unresolved ? "tonal" : "filled"}" data-action="analyze-listing">${unresolved ? "Try again" : "Analyze this pressing"}</button>
+        </div>
       </div>`;
   }
 
