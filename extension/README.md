@@ -24,7 +24,7 @@ Requires **Chrome 114+** (the side panel API).
 
 | Page | Panel behavior |
 |---|---|
-| `discogs.com/release/…` | Auto-analyzes: verdict, score, evidence coverage, best pressing of the album, taste fit, owned/wanted, dossier (matrix, engineer, plant, signals, caveats) |
+| `discogs.com/release/…` and `discogs.com/sell/release/…` | Auto-analyzes: verdict, score, evidence coverage, best pressing of the album, taste fit, owned/wanted, dossier (matrix, engineer, plant, signals, caveats) |
 | `discogs.com/master/…` | Top-3 best pressings of the album on the chosen axis |
 | `discogs.com/sell/item/…` | Button-triggered analysis of the listed pressing (so browsing doesn't burn your rate budget) |
 | anything else | Empty state; collection/wantlist pages note the v0.2 plans |
