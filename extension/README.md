@@ -6,6 +6,12 @@ album's best pressing on a sonic / collector / value axis, taste-fit against you
 collection, owned/wanted badges, and an evidence dossier — powered by the
 [Discogs MCP](../README.md) Worker's REST API. Read-only.
 
+<p>
+  <img src="screenshots/release-light.png" width="290" alt="Release dossier, light mode" />
+  <img src="screenshots/release-dark.png" width="290" alt="Release dossier, dark mode" />
+  <img src="screenshots/master-light.png" width="290" alt="Master view: best pressings ranked" />
+</p>
+
 ## Install (load unpacked)
 
 Requires **Chrome 114+** (the side panel API).
