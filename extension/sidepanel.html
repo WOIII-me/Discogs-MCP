@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Discogs Copilot</title>
+<link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+<div class="m3-appbar">
+  <div class="m3-logo">◎</div>
+  <div class="m3-appbar-text">
+    <div class="t">Discogs Copilot</div>
+    <div class="s" id="appbar-sub">pressing intelligence</div>
+  </div>
+  <button class="m3-iconbtn" id="btn-settings" title="Settings">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+  </button>
+</div>
+
+<div class="m3-seg" id="axis-seg" hidden>
+  <button data-axis="sonic" class="selected">sonic</button>
+  <button data-axis="collector">collector</button>
+  <button data-axis="value">value</button>
+</div>
+
+<div class="m3-body" id="body"></div>
+
+<div class="m3-footnote">Reputation-based, not measured sound · read-only · v0.1.0</div>
+
+<script src="fixtures/fixtures.js"></script>
+<script src="sidepanel.js"></script>
+</body>
+</html>

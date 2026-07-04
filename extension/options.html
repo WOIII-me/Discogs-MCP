@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Discogs Copilot — Settings</title>
+<link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+<div class="m3-appbar">
+  <div class="m3-logo">◎</div>
+  <div class="m3-appbar-text">
+    <div class="t">Discogs Copilot — Settings</div>
+    <div class="s">read-only · your token stays on this device</div>
+  </div>
+</div>
+
+<div class="opt-wrap">
+  <div class="opt-field">
+    <label for="baseUrl">Server URL</label>
+    <input id="baseUrl" type="url" spellcheck="false"
+           placeholder="https://discogs-mcp.woiii.workers.dev" />
+    <div class="hint">The Discogs MCP Worker that does the analysis. Leave as-is unless you self-host.</div>
+  </div>
+
+  <div class="opt-field">
+    <label for="token">Discogs personal access token</label>
+    <input id="token" type="password" spellcheck="false" autocomplete="off"
+           placeholder="paste your token" />
+    <div class="hint">
+      Generate one at
+      <a href="https://www.discogs.com/settings/developers" target="_blank" rel="noreferrer">discogs.com/settings/developers</a>
+      ("Generate new token"). It grants read access to your own collection, wantlist and
+      release data, and is stored in plain text in this browser profile's extension storage.
+    </div>
+  </div>
+
+  <div class="m3-actions">
+    <button class="m3-btn filled" id="save">Save</button>
+    <button class="m3-btn tonal" id="test">Test connection</button>
+  </div>
+  <div class="opt-status" id="status"></div>
+</div>
+
+<script src="options.js"></script>
+</body>
+</html>
