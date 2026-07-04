@@ -7,9 +7,10 @@ import { registerPrompts } from "./mcp/prompts/index.js";
 import { registerResources } from "./mcp/resources/discogs.js";
 import type { ToolContext } from "./mcp/tools/context.js";
 import type { DiscogsProps, Env } from "./types/env.js";
+import { VERSION } from "./version.js";
 
 export class DiscogsMcpAgent extends McpAgent<Env, unknown, DiscogsProps> {
-  server = new McpServer({ name: "discogs", version: "1.0.0" });
+  server = new McpServer({ name: "discogs", version: VERSION });
 
   async init(): Promise<void> {
     // Local-dev shortcut: when a personal access token is present in the

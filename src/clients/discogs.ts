@@ -1,8 +1,9 @@
 import { createOAuthClient, getAuthHeader } from "../auth/signing.js";
+import { VERSION } from "../version.js";
 import type * as T from "./types.js";
 
 const BASE_URL = "https://api.discogs.com";
-export const USER_AGENT = "WOIII-Discogs-MCP/1.0.0 +https://github.com/WOIII-me/discogs-mcp";
+export const USER_AGENT = `WOIII-Discogs-MCP/${VERSION} +https://github.com/WOIII-me/Discogs-MCP`;
 
 const MAX_RETRIES = 3;
 
