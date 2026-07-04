@@ -15,7 +15,10 @@
   "background": { "service_worker": "background.js" },
   "content_scripts": [
     {
-      "matches": ["https://www.discogs.com/sell/item/*"],
+      "matches": [
+        "https://www.discogs.com/sell/item/*",
+        "https://www.discogs.com/shop/item/*"
+      ],
       "js": ["content.js"],
       "run_at": "document_idle"
     }

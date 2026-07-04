@@ -86,7 +86,7 @@
     if (m) return { kind: "release", id: Number(m[1]) };
     m = u.pathname.match(/\/master\/(\d+)/);
     if (m) return { kind: "master", id: Number(m[1]) };
-    m = u.pathname.match(/\/sell\/item\/(\d+)/);
+    m = u.pathname.match(/\/(?:sell|shop)\/item\/(\d+)/);
     if (m) return { kind: "listing", listingId: Number(m[1]) };
     if (/\/collection|\/wantlist|\/wants/.test(u.pathname + u.search)) {
       return { kind: "empty", reason: "v02" };
@@ -340,7 +340,9 @@
 
     if (key === state.lastKey) return; // already rendered (courtesy debounce backstop)
 
-    renderLoading(r.kind);
+    // Only show the loading skeleton if the answer isn't near-instant (cached
+    // analyses resolve in ms — flashing a skeleton on every tab switch is jarring).
+    const loadingTimer = setTimeout(() => renderLoading(r.kind), 250);
     const params =
       r.kind === "master"
         ? { masterId: r.id, axis: state.axis }
@@ -352,6 +354,7 @@
     } catch (e) {
       res = { error: e.message || "Internal messaging error." };
     }
+    clearTimeout(loadingTimer);
     if (seq !== state.seq) return; // a newer navigation superseded this request
 
     if (!res) { renderError("No response from the extension service worker."); return; }
