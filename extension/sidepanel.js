@@ -247,7 +247,7 @@
         ${chipsHtml([
           chip(verdictChipClass(best), esc(best.verdict)),
           chip("primary", `score ${fmtScore(best.overallScore)}`),
-          chip("", `+${fmtScore(best.overallScore - d.overallScore)} vs this copy`),
+          chip("", `${best.overallScore >= d.overallScore ? "+" : "−"}${fmtScore(Math.abs(best.overallScore - d.overallScore))} vs this copy`),
           best.inYourCollection ? chip("success", "✓ you own it") : "",
         ])}
         <div class="m3-kv" style="margin-top:10px"><div class="k">Market</div><div class="v">${esc(marketLine(best))}</div></div>
