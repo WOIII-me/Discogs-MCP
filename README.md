@@ -117,12 +117,6 @@ owned/wanted badges, and an evidence dossier (matrix runouts, mastering credits,
 data caveats). It consumes the REST API above — read-only, personal-token auth, no build
 step, plain JS.
 
-<p>
-  <img src="extension/screenshots/release-light.png" width="290" alt="Release dossier, light mode" />
-  <img src="extension/screenshots/release-dark.png" width="290" alt="Release dossier, dark mode" />
-  <img src="extension/screenshots/master-light.png" width="290" alt="Master view: best pressings ranked" />
-</p>
-
 Install (load unpacked, Chrome 114+) and usage: **[extension/README.md](extension/README.md)**.
 Extension releases are tagged `ext-v*`.
 
