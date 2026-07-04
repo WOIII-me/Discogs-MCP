@@ -108,6 +108,24 @@ Discogs **personal access token** (`Authorization: Bearer <token>`), enforces th
 - `GET /api/versions?master=<id>` — list pressings
 - `GET /api/taste-fit?release=<id>` — affinity of a release to your collection
 
+## Browser extension (MVP)
+
+**Discogs Copilot** — a Chrome side panel that shows pressing intelligence for whatever
+Discogs page you're on: verdict + score for the pressing you're viewing, the album's best
+pressing on a sonic / collector / value axis, taste-fit against your collection,
+owned/wanted badges, and an evidence dossier (matrix runouts, mastering credits, plants,
+data caveats). It consumes the REST API above — read-only, personal-token auth, no build
+step, plain JS.
+
+<p>
+  <img src="extension/screenshots/release-light.png" width="290" alt="Release dossier, light mode" />
+  <img src="extension/screenshots/release-dark.png" width="290" alt="Release dossier, dark mode" />
+  <img src="extension/screenshots/master-light.png" width="290" alt="Master view: best pressings ranked" />
+</p>
+
+Install (load unpacked, Chrome 114+) and usage: **[extension/README.md](extension/README.md)**.
+Extension releases are tagged `ext-v*`.
+
 ## Tools
 
 | Tool | What it does |
@@ -146,7 +164,7 @@ Discogs **personal access token** (`Authorization: Bearer <token>`), enforces th
 
 Two things are planned next, in order — both additive, neither changes existing tool output:
 
-1. **Chrome extension (MVP)** — an overlay on Discogs.com release/master/marketplace pages showing the pressing verdict, the album's best pressing, taste-fit, and owned/wanted at a glance. It consumes the REST API that's already live; read-only, personal-token auth.
+1. ~~**Chrome extension (MVP)**~~ — shipped as a **side panel** (`ext-v0.1.0`, see [Browser extension](#browser-extension-mvp)). Next for the extension (v0.2): ranked wantlist / marketplace / collection views.
 2. **External sonic consensus (opt-in)** — an enrichment pipeline that summarizes audiophile-community consensus (with source attribution) into an `externalSonic` scoring factor. Off by default; derived verdicts + source links only, never republished content.
 
 Ideas and feedback → [Discussions](https://github.com/WOIII-me/Discogs-MCP/discussions). Know a reissue label, engineer, or stamper mark the scorer should recognize? [Contributions welcome](https://github.com/WOIII-me/Discogs-MCP/discussions/6) — no code required.

@@ -58,13 +58,15 @@
   function requestAnalyze(params) {
     if (DEMO !== null) {
       const fx = window.COPILOT_FIXTURES;
+      // &fast=1 skips the simulated latency (for automated screenshots)
+      const delay = new URLSearchParams(location.search).has("fast") ? 0 : 600;
       return new Promise((resolve) =>
         setTimeout(() => {
           if (DEMO === "setup") return resolve({ needsSetup: true });
           if (DEMO === "ratelimited") return resolve({ rateLimited: true, retryAfter: 42 });
           const data = params.masterId ? fx.master : fx.release;
           resolve({ data: { ...data, axis: params.axis } });
-        }, 600)
+        }, delay)
       );
     }
     return chrome.runtime.sendMessage({ type: "analyze", ...params });
