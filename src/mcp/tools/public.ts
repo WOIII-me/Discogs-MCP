@@ -2,6 +2,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { GetContext } from "./context.js";
 import { jsonResult } from "./context.js";
 import { KNOWN_MOODS } from "../../utils/mood-mapping.js";
+import { VERSION } from "../../version.js";
 
 export function registerPublicTools(server: McpServer, getContext: GetContext): void {
   server.registerTool(
@@ -33,7 +34,7 @@ export function registerPublicTools(server: McpServer, getContext: GetContext): 
       jsonResult({
         name: "discogs",
         project: "WOIII.me · Discogs MCP",
-        version: "1.0.0",
+        version: VERSION,
         capabilities: [
           "pressing comparison & scoring",
           "collection search with mood mapping",
