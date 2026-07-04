@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Discogs Copilot",
+  "version": "0.1.0",
+  "description": "Pressing intelligence side panel for Discogs: verdict + score for the pressing you're viewing, the album's best pressing, taste fit and an evidence dossier.",
+  "minimum_chrome_version": "114",
+  "permissions": ["storage", "sidePanel"],
+  "host_permissions": [
+    "https://discogs-mcp.woiii.workers.dev/*",
+    "https://www.discogs.com/*"
+  ],
+  "optional_host_permissions": ["https://*/*"],
+  "side_panel": { "default_path": "sidepanel.html" },
+  "action": { "default_title": "Discogs Copilot" },
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["https://www.discogs.com/sell/item/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_ui": { "page": "options.html", "open_in_tab": true },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
