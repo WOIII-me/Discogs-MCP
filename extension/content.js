@@ -1,4 +1,5 @@
-// Discogs Copilot — content script, loaded ONLY on /sell/item/* pages.
+// Discogs Copilot — content script, loaded ONLY on marketplace listing pages
+// (/shop/item/* and legacy /sell/item/*).
 // Single job: resolve which release a marketplace listing is for, by finding
 // the listing's link back to its release page. This is the extension's one
 // DOM dependency on Discogs markup.
