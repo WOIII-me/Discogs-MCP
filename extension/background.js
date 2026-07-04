@@ -104,14 +104,25 @@ async function handleAnalyze({ releaseId, masterId, axis }) {
 }
 
 // ---------------------------------------------------------------------------
-// Listing resolution: ask the content script on a /sell/item/* tab which
-// release the listing is for.
+// Listing resolution: inject a one-shot resolver into the marketplace-listing
+// tab on demand (no persistent content script — this works on tabs that were
+// already open before an extension update, and the extension's one DOM
+// dependency on Discogs markup stays in this single function).
 async function handleResolveListing({ tabId }) {
   try {
-    const res = await chrome.tabs.sendMessage(tabId, { type: "resolveListing" });
-    if (res && res.releaseId) return { releaseId: res.releaseId };
+    const [res] = await chrome.scripting.executeScript({
+      target: { tabId },
+      func: () => {
+        for (const a of document.querySelectorAll('a[href*="/release/"]')) {
+          const m = (a.getAttribute("href") || "").match(/\/release\/(\d+)/);
+          if (m) return Number(m[1]);
+        }
+        return null;
+      },
+    });
+    if (res?.result) return { releaseId: res.result };
   } catch {
-    // no content script on that tab (navigated away, or page not loaded yet)
+    // tab gone, or not scriptable
   }
   return { unresolved: true };
 }
