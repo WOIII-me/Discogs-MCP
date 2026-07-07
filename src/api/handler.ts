@@ -1,8 +1,8 @@
-import type { Env } from "../types/env.js";
+import type { DiscogsProps, Env } from "../types/env.js";
 import { getIdentityWithToken } from "../auth/discogs-oauth.js";
 import { isAllowedUser } from "../auth/allowlist.js";
 import { CachedDiscogsClient } from "../clients/cached-discogs.js";
-import { RateLimitError } from "../clients/discogs.js";
+import { RateLimitError, type DiscogsAuth } from "../clients/discogs.js";
 import {
   comparePressings,
   findBestPressing,
@@ -15,13 +15,22 @@ import { tasteFit } from "../core/taste.js";
 
 /**
  * REST API head — a second consumer of the same Worker engine, for the browser
- * extension. Read-only, JSON, authenticated by a Discogs personal access token
- * (`Authorization: Bearer <token>`). Mounted at /api/* by the default handler.
+ * extension. Read-only, JSON, authenticated by `Authorization: Bearer <token>`
+ * where the token is either a Worker-issued OAuth access token (extension
+ * sign-in flow; Discogs credentials live encrypted in the grant) or a Discogs
+ * personal access token (self-hosters, curl). Mounted at /api/* by the
+ * default handler.
  */
 
 interface CachedIdentity {
   username: string;
   userId: number;
+}
+
+interface ApiAuth {
+  username: string;
+  userId: number;
+  discogsAuth: DiscogsAuth;
 }
 
 function corsHeaders(request: Request): Record<string, string> {
@@ -57,6 +66,42 @@ async function resolveIdentity(env: Env, token: string): Promise<CachedIdentity>
   return value;
 }
 
+/**
+ * Resolve the bearer to a Discogs identity + credentials. Worker-issued OAuth
+ * tokens (shape `userId:grantId:secret`) are unwrapped locally — the Discogs
+ * token+secret arrive decrypted from the grant, zero Discogs calls. Anything
+ * else is treated as a Discogs PAT exactly as before. Returns null on an
+ * invalid/expired token.
+ */
+async function authenticate(env: Env, token: string): Promise<ApiAuth | null> {
+  // Worker tokens always have exactly three colon-separated parts; Discogs
+  // PATs never contain colons. Don't fall through: an expired Worker token
+  // retried as a PAT would burn a Discogs call per request just to 401.
+  if (token.split(":").length === 3) {
+    const summary = env.OAUTH_PROVIDER ? await env.OAUTH_PROVIDER.unwrapToken<DiscogsProps>(token) : null;
+    if (!summary?.grant.props?.accessToken) return null;
+    const props = summary.grant.props;
+    return {
+      username: props.username,
+      userId: props.userId,
+      discogsAuth: {
+        kind: "oauth",
+        consumerKey: env.DISCOGS_CONSUMER_KEY,
+        consumerSecret: env.DISCOGS_CONSUMER_SECRET,
+        accessToken: props.accessToken,
+        accessTokenSecret: props.accessTokenSecret,
+      },
+    };
+  }
+
+  try {
+    const identity = await resolveIdentity(env, token);
+    return { ...identity, discogsAuth: { kind: "token", token } };
+  } catch {
+    return null;
+  }
+}
+
 export async function handleApi(request: Request, env: Env): Promise<Response> {
   const url = new URL(request.url);
 
@@ -69,25 +114,29 @@ export async function handleApi(request: Request, env: Env): Promise<Response> {
     return json(request, { ok: true, service: "discogs-mcp", api: "v1" });
   }
 
-  const auth = request.headers.get("Authorization") ?? "";
-  const token = auth.startsWith("Bearer ") ? auth.slice(7).trim() : "";
+  const authHeader = request.headers.get("Authorization") ?? "";
+  const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : "";
   if (!token) {
-    return json(request, { error: "Missing 'Authorization: Bearer <discogs_personal_token>'." }, 401);
+    return json(request, { error: "Missing 'Authorization: Bearer <token>'." }, 401);
   }
 
-  let identity: CachedIdentity;
-  try {
-    identity = await resolveIdentity(env, token);
-  } catch {
-    return json(request, { error: "Invalid Discogs token." }, 401);
+  const auth = await authenticate(env, token);
+  if (!auth) {
+    return json(request, { error: "Invalid or expired token." }, 401);
   }
-  if (!isAllowedUser(env, identity.username, identity.userId)) {
-    return json(request, { error: `Discogs user '${identity.username}' is not on this server's allowlist.` }, 403);
+  if (!isAllowedUser(env, auth.username, auth.userId)) {
+    return json(request, { error: `Discogs user '${auth.username}' is not on this server's allowlist.` }, 403);
+  }
+
+  // Zero-Discogs-call identity probe — powers the extension's "connected as"
+  // state and its post-sign-in verification.
+  if (url.pathname === "/api/whoami") {
+    return json(request, { username: auth.username });
   }
 
   const ctx: CoreContext = {
-    client: new CachedDiscogsClient({ kind: "token", token }, env.CACHE_KV),
-    username: identity.username,
+    client: new CachedDiscogsClient(auth.discogsAuth, env.CACHE_KV),
+    username: auth.username,
   };
   const q = url.searchParams;
   const axis = q.get("axis") ?? undefined;

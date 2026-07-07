@@ -95,11 +95,15 @@ Then point a client at `http://localhost:8787/mcp` (e.g. `claude mcp add --trans
 ## REST API (for non-LLM clients)
 
 Alongside the MCP interface, the Worker exposes a small read-only **REST API** over the same
-engine — intended for a browser extension or other non-LLM clients. It authenticates with a
-Discogs **personal access token** (`Authorization: Bearer <token>`), enforces the same
-`ALLOWED_DISCOGS_USERS` allowlist when one is set, and returns JSON with CORS enabled.
+engine — intended for a browser extension or other non-LLM clients. It authenticates with
+`Authorization: Bearer <token>` where the token is either a **Worker-issued OAuth access
+token** (obtained through the same `/authorize` → `/token` flow MCP clients use — this is how
+the extension's "Sign in with Discogs" works) or a Discogs **personal access token** (handy
+for self-hosters and curl). It enforces the same `ALLOWED_DISCOGS_USERS` allowlist when one
+is set, and returns JSON with CORS enabled.
 
 - `GET /api/health` — unauthenticated connectivity check
+- `GET /api/whoami` — the authenticated Discogs username
 - `GET /api/analyze?release=<id>&axis=` — compact verdict for one release: this pressing's
   dossier, the album's best pressing, taste-fit, owned/wanted
 - `GET /api/analyze?title=<album>&artist=<artist>&axis=` — same, by album
