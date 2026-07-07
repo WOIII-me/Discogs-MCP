@@ -57,8 +57,10 @@ export const DiscogsAuthHandler: ExportedHandler<Env> = {
 async function handle(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
-    // REST API head for the browser extension (PAT-authed). OAuthProvider only
-    // claims /mcp + /sse, so /api/* reaches this default handler.
+    // REST API head for the browser extension (Worker-issued OAuth tokens or
+    // Discogs PATs — see src/api/handler.ts). OAuthProvider only claims
+    // /mcp + /sse, so /api/* reaches this default handler, where
+    // env.OAUTH_PROVIDER lets it unwrap Worker tokens itself.
     if (url.pathname.startsWith("/api/")) {
       return handleApi(request, env);
     }
