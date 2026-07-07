@@ -43,16 +43,34 @@ const SHELF: FakeItem[] = [
   { id: 6, title: "Moanin'", artist: "Art Blakey", year: 1959, genres: ["Jazz"], styles: ["Hard Bop"], labels: ["Blue Note"], rating: 5, dateAdded: "2026-03-01T10:00:00-07:00" },
 ];
 
-function fakeCtx(items: FakeItem[] = SHELF, wantlistCount = 2): CoreContext {
+function fakeCtx(
+  items: FakeItem[] = SHELF,
+  wantlistCount = 2,
+  opts: { liveCollection?: number; liveWantlist?: number; countsFail?: boolean } = {}
+): CoreContext {
+  // The 1-item pages are the fresh-counts probe; full pages are the aggregate.
   const client = {
     cacheTtls: { collection: 1, wantlist: 1 },
     withCache: async (_k: string, _t: number, fetcher: () => Promise<unknown>) => fetcher(),
-    getCollection: async () => ({
-      pagination: { pages: 1, items: items.length, page: 1, per_page: 100 },
-      releases: items.map(release),
-    }),
-    getWantlist: async () => ({
-      pagination: { pages: 1, items: wantlistCount, page: 1, per_page: 100 },
+    getCollection: async (_u: string, o?: { per_page?: number }) => {
+      if (o?.per_page === 1 && opts.countsFail) throw new Error("boom");
+      return {
+        pagination: {
+          pages: 1,
+          items: o?.per_page === 1 && opts.liveCollection !== undefined ? opts.liveCollection : items.length,
+          page: 1,
+          per_page: o?.per_page ?? 100,
+        },
+        releases: o?.per_page === 1 ? [] : items.map(release),
+      };
+    },
+    getWantlist: async (_u: string, o?: { per_page?: number }) => ({
+      pagination: {
+        pages: 1,
+        items: o?.per_page === 1 && opts.liveWantlist !== undefined ? opts.liveWantlist : wantlistCount,
+        page: 1,
+        per_page: o?.per_page ?? 100,
+      },
       wants: [],
     }),
   } as unknown as CachedDiscogsClient;
@@ -87,6 +105,21 @@ describe("core/shelf shelfProfile", () => {
     expect(p.recentlyAdded[0]).toMatchObject({ title: "Kind Of Blue", artists: ["Miles Davis"], year: 1959 });
 
     expect(p.moods).toEqual(KNOWN_MOODS);
+  });
+
+  it("prefers fresh counts over stale aggregate totals", async () => {
+    // Aggregate says 6/2, the live one-item probe says 5/364 (recent changes)
+    const p = await shelfProfile(fakeCtx(SHELF, 2, { liveCollection: 5, liveWantlist: 364 }), new Date("2026-07-07T12:00:00Z"));
+    expect(p.collectionSize).toBe(5);
+    expect(p.wantlistSize).toBe(364);
+    // Profile content still comes from the aggregate
+    expect(p.dominantGenres[0]).toBe("Jazz");
+  });
+
+  it("falls back to aggregate totals when the counts probe fails", async () => {
+    const p = await shelfProfile(fakeCtx(SHELF, 2, { countsFail: true }), new Date("2026-07-07T12:00:00Z"));
+    expect(p.collectionSize).toBe(6);
+    expect(p.wantlistSize).toBe(2);
   });
 
   it("handles an empty collection without dividing by zero", async () => {
