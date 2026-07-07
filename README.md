@@ -112,14 +112,14 @@ is set, and returns JSON with CORS enabled.
 - `GET /api/versions?master=<id>` — list pressings
 - `GET /api/taste-fit?release=<id>` — affinity of a release to your collection
 
-## Browser extension (MVP)
+## Browser extension
 
 **Discogs Copilot** — a Chrome side panel that shows pressing intelligence for whatever
 Discogs page you're on: verdict + score for the pressing you're viewing, the album's best
 pressing on a sonic / collector / value axis, taste-fit against your collection,
 owned/wanted badges, and an evidence dossier (matrix runouts, mastering credits, plants,
-data caveats). It consumes the REST API above — read-only, personal-token auth, no build
-step, plain JS.
+data caveats). It consumes the REST API above — read-only, one-click **Sign in with
+Discogs** (or a personal access token for self-hosters), no build step, plain JS.
 
 Install (load unpacked, Chrome 114+) and usage: **[extension/README.md](extension/README.md)**.
 Extension releases are tagged `ext-v*`.
