@@ -39,7 +39,12 @@ side under Settings → Applications).
 | `discogs.com/release/…` and `discogs.com/sell/release/…` | Auto-analyzes: verdict, score, evidence coverage, best pressing of the album, taste fit, owned/wanted, dossier (matrix, engineer, plant, signals, caveats) |
 | `discogs.com/master/…` | Top-3 best pressings of the album on the chosen axis |
 | `discogs.com/shop/item/…` (and legacy `/sell/item/…`) | Button-triggered analysis of the listed pressing (so browsing doesn't burn your rate budget) |
-| anything else | Empty state; collection/wantlist pages note the v0.2 plans |
+| anything else, signed in | **"Your shelf" home screen** — taste profile (dominant styles/genres/decades, top labels, format split), collection/wantlist counts, "what to spin tonight" mood picks from your own records, recently analyzed, recently added |
+| anything else, signed out | Empty state |
+
+The home screen is served entirely from the server's cached collection aggregates —
+opening the panel never burns your Discogs rate budget. Mood picks re-roll on every
+tap of the same chip.
 
 The **sonic / collector / value** segmented control re-scores on a different axis
 (cached, so toggling is instant after the first load).
@@ -61,6 +66,6 @@ so instead of pretending to be broken.
 - The panel follows the active tab; theme follows the OS (`prefers-color-scheme`).
 - Self-hosting the Worker? Point **Server URL** in settings at your instance.
 - UI dev without Chrome: open `sidepanel.html?demo=release` (also `master`,
-  `listing`, `setup`, `empty`, `v02`, `ratelimited`, `loading`) in any browser —
-  it renders bundled fixtures.
+  `listing`, `setup`, `empty`, `v02`, `home`, `ratelimited`, `loading`) in any
+  browser — it renders bundled fixtures.
 - Fonts: [Geist](https://vercel.com/font) (SIL OFL 1.1, see `fonts/OFL.txt`).

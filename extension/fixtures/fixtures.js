@@ -656,4 +656,55 @@ window.COPILOT_FIXTURES = {
       }
     ]
   },
+
+  // GET /api/profile — hand-built in the live response shape (demo=home)
+  profile: {
+    "username": "vinylfan",
+    "collectionSize": 307,
+    "wantlistSize": 163,
+    "truncated": false,
+    "dominantStyles": [
+      { "name": "Contemporary Jazz", "share": 11.1 },
+      { "name": "Hard Bop", "share": 9.4 },
+      { "name": "Modal", "share": 7.2 },
+      { "name": "Fusion", "share": 5.9 },
+      { "name": "Psychedelic Rock", "share": 4.6 }
+    ],
+    "dominantGenres": ["Jazz", "Rock", "Electronic"],
+    "decades": [
+      { "name": "1970s", "share": 31 },
+      { "name": "1960s", "share": 24 },
+      { "name": "1990s", "share": 12 }
+    ],
+    "topLabels": ["Blue Note", "Columbia", "Impulse!"],
+    "formatSplit": { "vinyl": 84, "cd": 12, "other": 4 },
+    "addedThisMonth": 4,
+    "recentlyAdded": [
+      { "id": 6276183, "title": "Kind Of Blue", "artists": ["Miles Davis"], "year": 1959, "dateAdded": "2026-07-05T09:12:00-07:00" },
+      { "id": 2015527, "title": "A Love Supreme", "artists": ["John Coltrane"], "year": 1965, "dateAdded": "2026-07-02T18:40:00-07:00" },
+      { "id": 1250628, "title": "Head Hunters", "artists": ["Herbie Hancock"], "year": 1973, "dateAdded": "2026-06-28T11:05:00-07:00" },
+      { "id": 373301, "title": "Bitches Brew", "artists": ["Miles Davis"], "year": 1970, "dateAdded": "2026-06-21T15:30:00-07:00" },
+      { "id": 521936, "title": "Maiden Voyage", "artists": ["Herbie Hancock"], "year": 1965, "dateAdded": "2026-06-14T10:00:00-07:00" }
+    ],
+    "moods": ["mellow", "relaxed", "peaceful", "dreamy", "intimate", "cozy", "energetic", "upbeat", "party", "pumped", "joyful", "dark", "melancholic", "moody", "sad", "noir", "focus", "productive", "study", "sunday", "morning", "latenight", "summer", "rainy", "groovy", "psychedelic", "epic", "raw", "smooth", "spiritual", "romantic", "nostalgic"]
+  },
+
+  // GET /api/spin?mood=latenight (demo=home; mood is overwritten by the tapped chip)
+  spin: {
+    "mood": "latenight",
+    "poolSize": 41,
+    "picks": [
+      { "id": 2015527, "title": "A Love Supreme", "artists": ["John Coltrane"], "year": 1965, "rating": 5, "matchedStyles": ["Hard Bop"], "why": "Matches latenight: Hard Bop" },
+      { "id": 6276183, "title": "Kind Of Blue", "artists": ["Miles Davis"], "year": 1959, "rating": 5, "matchedStyles": ["Cool Jazz"], "why": "Matches latenight: Cool Jazz" },
+      { "id": 1077245, "title": "Mezzanine", "artists": ["Massive Attack"], "year": 1998, "rating": 4, "matchedStyles": ["Trip Hop"], "why": "Matches latenight: Trip Hop" }
+    ]
+  },
+
+  // chrome.storage.local.recentAnalyses (demo=home)
+  recentAnalyses: [
+    { "releaseId": 6276183, "title": "Kind Of Blue", "artist": "Miles Davis", "axis": "sonic", "score": 52.8, "verdict": "solid pick", "ts": Date.now() - 35 * 60 * 1000 },
+    { "releaseId": 1250628, "title": "Head Hunters", "artist": "Herbie Hancock", "axis": "sonic", "score": 71.4, "verdict": "strong sonic pick", "ts": Date.now() - 5 * 60 * 60 * 1000 },
+    { "releaseId": 373301, "title": "Bitches Brew", "artist": "Miles Davis", "axis": "collector", "score": 64.0, "verdict": "solid pick", "ts": Date.now() - 26 * 60 * 60 * 1000 },
+    { "releaseId": 999451, "title": "In A Silent Way", "artist": "Miles Davis", "axis": "sonic", "score": 38.2, "verdict": "weak evidence", "ts": Date.now() - 3 * 24 * 60 * 60 * 1000 }
+  ],
 };
