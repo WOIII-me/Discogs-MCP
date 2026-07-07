@@ -180,7 +180,9 @@ async function handleSignIn() {
     }
     await chrome.storage.local.set({ oauthUsername: whoBody.username || "" });
 
-    memCache.clear(); // cached verdicts may belong to the previous account
+    // Cached verdicts and the analysis trail may belong to the previous account
+    memCache.clear();
+    await chrome.storage.local.remove("recentAnalyses");
     try { await chrome.storage.session.clear(); } catch { /* ignore */ }
     return { username: whoBody.username };
   } catch (e) {
@@ -191,7 +193,7 @@ async function handleSignIn() {
 }
 
 async function handleSignOut() {
-  await chrome.storage.local.remove(["oauthTokens", "oauthUsername"]);
+  await chrome.storage.local.remove(["oauthTokens", "oauthUsername", "recentAnalyses"]);
   memCache.clear();
   try { await chrome.storage.session.clear(); } catch { /* ignore */ }
   return { ok: true };
@@ -254,6 +256,33 @@ async function apiFetch(path) {
 }
 
 // ---------------------------------------------------------------------------
+// Recently analyzed (home-screen Tier 0): Discogs has no search-history API,
+// but every analysis flows through here — keep the last 10 locally.
+const RECENT_MAX = 10;
+
+async function recordRecentAnalysis(data, axis) {
+  const d = data?.thisPressing;
+  const r = data?.release;
+  if (!d || !r) return; // master surveys have no single verdict — skip
+  try {
+    const { recentAnalyses = [] } = await chrome.storage.local.get("recentAnalyses");
+    const entry = {
+      releaseId: d.releaseId,
+      title: r.title,
+      artist: (r.artists || []).join(", "),
+      axis,
+      score: d.overallScore,
+      verdict: d.verdict,
+      ts: Date.now(),
+    };
+    const rest = recentAnalyses.filter((e) => e.releaseId !== entry.releaseId);
+    await chrome.storage.local.set({ recentAnalyses: [entry, ...rest].slice(0, RECENT_MAX) });
+  } catch {
+    // history is a nicety — never fail an analysis over it
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Analyze broker. Returns exactly one of:
 //   {data}  {needsSetup:true}  {rateLimited:true, retryAfter}  {error}
 async function handleAnalyze({ releaseId, masterId, axis }) {
@@ -264,7 +293,10 @@ async function handleAnalyze({ releaseId, masterId, axis }) {
   const key = releaseId ? `r${releaseId}:${ax}` : `m${masterId}:${ax}`;
 
   const cached = await cacheGet(key);
-  if (cached) return { data: cached };
+  if (cached) {
+    if (releaseId) recordRecentAnalysis(cached, ax); // bump recency on revisits
+    return { data: cached };
+  }
 
   if (inFlight.has(key)) return inFlight.get(key);
 
@@ -298,6 +330,7 @@ async function handleAnalyze({ releaseId, masterId, axis }) {
     }
 
     await cachePut(key, body);
+    if (releaseId) recordRecentAnalysis(body, ax);
     return { data: body };
   })().finally(() => inFlight.delete(key));
 
@@ -338,6 +371,45 @@ async function handleAuthStatus() {
   return { method: "none" };
 }
 
+// Home-screen data. Profile piggybacks on the shared 10-min cache (it's built
+// from server-side cached aggregates, but skipping repeat fetches on every tab
+// switch keeps the panel snappy). Spin picks are never cached — the server
+// samples them so each tap varies, and they cost zero Discogs calls anyway.
+async function handleProfile() {
+  const cached = await cacheGet("profile");
+  if (cached) return { data: cached };
+  try {
+    const out = await apiFetch("/api/profile");
+    if (out.needsSetup) return { needsSetup: true };
+    const body = await out.res.json().catch(() => null);
+    if (out.res.status === 401) return { needsSetup: true };
+    if (out.res.status === 429) return { rateLimited: true, retryAfter: body?.retryAfter ?? 60 };
+    if (!out.res.ok || !body) return { error: body?.error || `Server error (HTTP ${out.res.status}).` };
+    await cachePut("profile", body);
+    return { data: body };
+  } catch (e) {
+    return { error: e.message };
+  }
+}
+
+async function handleSpin({ mood }) {
+  try {
+    const out = await apiFetch(`/api/spin?mood=${encodeURIComponent(mood)}`);
+    if (out.needsSetup) return { needsSetup: true };
+    const body = await out.res.json().catch(() => null);
+    if (out.res.status === 429) return { rateLimited: true, retryAfter: body?.retryAfter ?? 60 };
+    if (!out.res.ok || !body) return { error: body?.error || `Server error (HTTP ${out.res.status}).` };
+    return { data: body };
+  } catch (e) {
+    return { error: e.message };
+  }
+}
+
+async function handleRecentAnalyses() {
+  const { recentAnalyses = [] } = await chrome.storage.local.get("recentAnalyses");
+  return { items: recentAnalyses };
+}
+
 // Authenticated identity probe (options "Test connection").
 async function handleWhoami() {
   try {
@@ -359,6 +431,9 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
     signOut: handleSignOut,
     authStatus: handleAuthStatus,
     whoami: handleWhoami,
+    profile: handleProfile,
+    spin: handleSpin,
+    recentAnalyses: handleRecentAnalyses,
   };
   const handler = handlers[msg?.type];
   if (!handler) return false;
