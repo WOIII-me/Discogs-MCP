@@ -11,32 +11,61 @@
   <div class="m3-logo">◎</div>
   <div class="m3-appbar-text">
     <div class="t">Discogs Copilot — Settings</div>
-    <div class="s">read-only · your token stays on this device</div>
+    <div class="s">read-only · nothing here ever modifies your collection</div>
   </div>
 </div>
 
 <div class="opt-wrap">
   <div class="opt-field">
-    <label for="baseUrl">Server URL</label>
-    <input id="baseUrl" type="url" spellcheck="false"
-           placeholder="https://discogs-mcp.woiii.workers.dev" />
-    <div class="hint">The Discogs MCP Worker that does the analysis. Leave as-is unless you self-host.</div>
-  </div>
+    <label>Discogs account</label>
 
-  <div class="opt-field">
-    <label for="token">Discogs personal access token</label>
-    <input id="token" type="password" spellcheck="false" autocomplete="off"
-           placeholder="paste your token" />
-    <div class="hint">
-      Generate one at
-      <a href="https://www.discogs.com/settings/developers" target="_blank" rel="noreferrer">discogs.com/settings/developers</a>
-      ("Generate new token"). It grants read access to your own collection, wantlist and
-      release data, and is stored in plain text in this browser profile's extension storage.
+    <div id="account-signedout" hidden>
+      <div class="m3-actions" style="margin-top:8px">
+        <button class="m3-btn filled" id="signin">Sign in with Discogs</button>
+      </div>
+      <div class="hint">
+        Opens discogs.com to approve access. Your Discogs credentials stay on the server,
+        encrypted — this device only holds a revocable session token.
+      </div>
+    </div>
+
+    <div id="account-signedin" hidden>
+      <div class="opt-account">● Connected as <b id="account-username"></b></div>
+      <div class="m3-actions" style="margin-top:10px">
+        <button class="m3-btn tonal" id="signout">Sign out</button>
+      </div>
     </div>
   </div>
 
-  <div class="m3-actions">
-    <button class="m3-btn filled" id="save">Save</button>
+  <details class="opt-advanced" id="advanced">
+    <summary>Advanced — self-hosting &amp; personal access token</summary>
+
+    <div class="opt-field">
+      <label for="baseUrl">Server URL</label>
+      <input id="baseUrl" type="url" spellcheck="false"
+             placeholder="https://discogs-mcp.woiii.workers.dev" />
+      <div class="hint">The Discogs MCP Worker that does the analysis. Leave as-is unless you self-host.</div>
+    </div>
+
+    <div class="opt-field">
+      <label for="token">Discogs personal access token</label>
+      <input id="token" type="password" spellcheck="false" autocomplete="off"
+             placeholder="paste your token" />
+      <div class="hint">
+        Alternative to signing in — mainly for self-hosters and development. Generate one at
+        <a href="https://www.discogs.com/settings/developers" target="_blank" rel="noreferrer">discogs.com/settings/developers</a>
+        ("Generate new token"). It grants read access to your own collection, wantlist and
+        release data, and is stored in plain text in this browser profile's extension storage.
+        When you're signed in above, the sign-in session is used and this token is ignored.
+      </div>
+    </div>
+
+    <div class="m3-actions">
+      <button class="m3-btn tonal" id="save">Save</button>
+    </div>
+  </details>
+
+  <div class="m3-actions" style="margin-top:18px">
     <button class="m3-btn tonal" id="test">Test connection</button>
   </div>
   <div class="opt-status" id="status"></div>

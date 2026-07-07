@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "description": "Pressing intelligence side panel for Discogs: verdict + score for the pressing you're viewing, the album's best pressing, taste fit and an evidence dossier.",
   "minimum_chrome_version": "114",
-  "permissions": ["storage", "sidePanel", "scripting"],
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3U5RPuGK6g4xzf/U6qboHBg/Xe3e/aL0yBst7bD/fOL96oS1HnY8xCGrij7gdJ7pPS4AigaAiPh7pGKOLg0zYjpm0Dz6YSNxQNWUoZ0nUIDgk0Y+RDlDTCOpJAl6IGNnTe5SZxJfHIVsWIQqCqvX/ZFQWmypylEC2rZJSwVRC/KmJpic+5mD32y+cfpaOfIjGlfsR7JXBQt2H2Qfh7LI6IEH/Yk9h/H2ILnh3Dg1hu87RbHF3+yuur4vLdZDstxtN09Af2jCo1Kt00VqtjruOgCBdue9ySTDkWL1eaIGTSvcVhH3e++o4Zueh/6yyB7GHAQtNTaMfw6GGXfdjWFCTQIDAQAB",
+  "permissions": ["storage", "sidePanel", "scripting", "identity"],
   "host_permissions": [
     "https://discogs-mcp.woiii.workers.dev/*",
     "https://www.discogs.com/*"
