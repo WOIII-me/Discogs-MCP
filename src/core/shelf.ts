@@ -1,4 +1,5 @@
 import type { CoreContext, CoreResult } from "./pressings.js";
+import type { CachedDiscogsClient } from "../clients/cached-discogs.js";
 import { fetchFullCollection, fetchFullWantlist, type SlimItem } from "../utils/collection.js";
 import { buildProfile, topEntries } from "../utils/similarity-scoring.js";
 import { detectMoodFromQuery, getMoodFilters, KNOWN_MOODS } from "../utils/mood-mapping.js";
@@ -79,10 +80,37 @@ function addedThisMonth(items: SlimItem[], now: Date): number {
   return items.filter((i) => i.dateAdded?.startsWith(prefix)).length;
 }
 
+const COUNTS_TTL = 900; // seconds
+
+/**
+ * Near-live collection/wantlist totals. The full aggregates cache for hours
+ * (rebuilding them is what actually costs rate budget), which makes their
+ * counts visibly stale next to the Discogs page the user is looking at. Two
+ * one-item pages return exact totals for two cheap calls, at most every 15
+ * minutes. Falls back to nulls (→ aggregate totals) on any failure.
+ */
+async function freshCounts(
+  client: CachedDiscogsClient,
+  username: string
+): Promise<{ collection: number | null; wantlist: number | null }> {
+  try {
+    return await client.withCache(`shelf-counts:${username}`, COUNTS_TTL, async () => {
+      const [c, w] = await Promise.all([
+        client.getCollection(username, { page: 1, per_page: 1 }),
+        client.getWantlist(username, { page: 1, per_page: 1 }),
+      ]);
+      return { collection: c.pagination.items, wantlist: w.pagination.items };
+    });
+  } catch {
+    return { collection: null, wantlist: null };
+  }
+}
+
 export async function shelfProfile(ctx: CoreContext, now = new Date()): Promise<ShelfProfile> {
-  const [collection, wantlist] = await Promise.all([
+  const [collection, wantlist, counts] = await Promise.all([
     fetchFullCollection(ctx.client, ctx.username),
     fetchFullWantlist(ctx.client, ctx.username),
+    freshCounts(ctx.client, ctx.username),
   ]);
   const profile = buildProfile(collection.items);
   const pctShare = (share: number) => Math.round(share * 1000) / 10;
@@ -95,8 +123,8 @@ export async function shelfProfile(ctx: CoreContext, now = new Date()): Promise<
 
   return {
     username: ctx.username,
-    collectionSize: collection.totalItems,
-    wantlistSize: wantlist.totalItems,
+    collectionSize: counts.collection ?? collection.totalItems,
+    wantlistSize: counts.wantlist ?? wantlist.totalItems,
     truncated: collection.truncated,
     dominantStyles: topEntries(profile.styles, 5).map(([name, share]) => ({ name, share: pctShare(share) })),
     dominantGenres: topEntries(profile.genres, 3).map(([name]) => name),
