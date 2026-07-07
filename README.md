@@ -111,6 +111,10 @@ is set, and returns JSON with CORS enabled.
 - `GET /api/compare?releases=<id,id[,id]>&axis=` — side-by-side comparison
 - `GET /api/versions?master=<id>` — list pressings
 - `GET /api/taste-fit?release=<id>` — affinity of a release to your collection
+- `GET /api/profile` — your shelf, profiled: counts, dominant styles/genres/decades,
+  top labels, format split, recently added (served from cached aggregates)
+- `GET /api/spin?mood=<mood>` — 1–3 rating-weighted picks *from your own collection*
+  matching a mood ("mellow", "latenight", …)
 
 ## Browser extension
 
