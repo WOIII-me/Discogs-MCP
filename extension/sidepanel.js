@@ -187,8 +187,17 @@
   }
 
   // ------------------------------------------------------------- views
+  const DEFAULT_SUB = "pressing intelligence";
+
+  // The app bar's "● username · connected" is set when the home view loads;
+  // signed-out views must take it back down (demo keeps its own label).
+  function resetSub() {
+    if (DEMO === null) $sub.textContent = DEFAULT_SUB;
+  }
+
   function renderEmpty(reason) {
     $seg.hidden = true;
+    resetSub();
     const v02 =
       reason === "v02"
         ? '<div class="detail" style="margin-top:8px">Collection &amp; wantlist intelligence is coming in v0.2.</div>'
@@ -204,6 +213,7 @@
 
   function renderSetup({ busy = false, error = "" } = {}) {
     $seg.hidden = true;
+    resetSub();
     $body.innerHTML = `
       <div class="m3-state">
         <div class="icon">🔑</div>
