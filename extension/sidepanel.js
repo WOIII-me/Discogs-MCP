@@ -177,14 +177,20 @@
       </div>`;
   }
 
-  function renderSetup() {
+  function renderSetup({ busy = false, error = "" } = {}) {
     $seg.hidden = true;
     $body.innerHTML = `
       <div class="m3-state">
         <div class="icon">🔑</div>
         <div class="headline">Connect your Discogs account</div>
-        <div class="detail">Paste a Discogs <b>personal access token</b> in the extension settings. It stays on this device and is only sent to your Discogs&nbsp;MCP server.</div>
-        <div class="m3-actions"><button class="m3-btn filled" data-action="open-settings">Open settings</button></div>
+        <div class="detail">Sign in with Discogs to get pressing verdicts, taste fit and owned/wanted badges. Read-only — nothing ever modifies your collection.</div>
+        ${error ? `<div class="detail" style="margin-top:8px;color:var(--md-on-error-container)">${esc(error)}</div>` : ""}
+        <div class="m3-actions">
+          <button class="m3-btn filled" data-action="sign-in" ${busy ? "disabled" : ""}>${busy ? "Waiting for Discogs…" : "Sign in with Discogs"}</button>
+        </div>
+        <div class="m3-actions" style="margin-top:2px">
+          <button class="m3-btn text" data-action="open-settings">Settings (self-host / token)</button>
+        </div>
       </div>`;
   }
 
@@ -408,6 +414,18 @@
       if (IS_EXT) chrome.runtime.openOptionsPage();
       return;
     }
+    if (action === "sign-in") {
+      if (!IS_EXT) { alert("Demo mode — sign-in runs in the installed extension."); return; }
+      renderSetup({ busy: true });
+      const res = await chrome.runtime.sendMessage({ type: "signIn" });
+      if (res?.username) {
+        state.lastKey = null;
+        run(); // storage.onChanged also fires, but re-run immediately
+      } else {
+        renderSetup({ error: res?.error || "Sign-in failed." });
+      }
+      return;
+    }
     if (action === "retry") {
       state.lastKey = null;
       run();
@@ -472,9 +490,14 @@
     setRoute(changeInfo.url, tabId);
   });
 
-  // Re-render when the token or base URL changes (e.g. after first setup).
+  // Re-render when auth or the base URL changes (e.g. after first setup,
+  // sign-in from the options page, or sign-out). Routine token refreshes
+  // rewrite oauthTokens too — only presence toggles matter here.
   chrome.storage.onChanged.addListener((changes, area) => {
-    if (area !== "local" || !(changes.token || changes.baseUrl)) return;
+    if (area !== "local") return;
+    const sessionToggled =
+      changes.oauthTokens && !changes.oauthTokens.oldValue !== !changes.oauthTokens.newValue;
+    if (!(changes.token || changes.baseUrl || sessionToggled)) return;
     state.lastKey = null;
     scheduleRun();
   });

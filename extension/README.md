@@ -13,12 +13,24 @@ Requires **Chrome 114+** (the side panel API).
 1. Clone this repo (or download it) and note the `extension/` folder.
 2. Open `chrome://extensions`, enable **Developer mode** (top right).
 3. Click **Load unpacked** and pick the `extension/` folder.
-4. Click the extension's **Details → Extension options** (or the ◎ toolbar icon →
-   settings gear) to open settings.
-5. Paste a Discogs **personal access token** — generate one at
+4. Open any Discogs release page, click the ◎ toolbar icon to open the panel, and
+   hit **Sign in with Discogs** — approve access on discogs.com and you're done.
+5. Alternative (self-hosters/dev): in the extension options, expand **Advanced**
+   and paste a Discogs **personal access token** — generate one at
    [discogs.com/settings/developers](https://www.discogs.com/settings/developers)
-   ("Generate new token") — and hit **Test connection**.
-6. Open any Discogs release page and click the ◎ toolbar icon to toggle the panel.
+   ("Generate new token") — then hit **Test connection**.
+
+## How sign-in works
+
+Discogs only offers OAuth 1.0a, whose consumer secret can't ship inside a public
+extension — so the extension signs in **through the Worker**, which already runs
+an OAuth 2.1 ⇄ Discogs 1.0a bridge for MCP clients. The extension is a public
+OAuth client (authorization code + PKCE): it registers itself at `/register` on
+first sign-in, opens the Discogs consent page via `chrome.identity`, and
+exchanges the code at `/token`. Your Discogs credentials stay **server-side**,
+encrypted inside the OAuth grant; this device only stores the Worker-issued
+access/refresh tokens, which you can revoke by signing out (and on the Discogs
+side under Settings → Applications).
 
 ## What it does
 
@@ -39,9 +51,13 @@ so instead of pretending to be broken.
 
 ## Notes
 
-- **Your token is stored in plain text** in `chrome.storage.local` (MV3 has no
-  secret store). It grants read access to your own Discogs data; revoke it any
-  time at discogs.com/settings/developers.
+- **Tokens are stored in plain text** in `chrome.storage.local` (MV3 has no
+  secret store). With sign-in that's a revocable Worker-issued session token —
+  never a raw Discogs credential; with the Advanced PAT path it's the token you
+  pasted (revoke any time at discogs.com/settings/developers).
+- `manifest.json` pins a `key` so the unpacked dev extension always gets the same
+  ID (stable `https://<id>.chromiumapp.org` OAuth redirect). Remove the `key`
+  field when packaging for the Chrome Web Store — the store assigns its own.
 - The panel follows the active tab; theme follows the OS (`prefers-color-scheme`).
 - Self-hosting the Worker? Point **Server URL** in settings at your instance.
 - UI dev without Chrome: open `sidepanel.html?demo=release` (also `master`,

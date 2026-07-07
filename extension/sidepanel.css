@@ -218,6 +218,16 @@ details.m3-caveats li { margin: 4px 0; }
 }
 .opt-field input:focus { outline: 2px solid var(--md-primary); outline-offset: -1px; }
 .opt-field .hint { font-size: 12px; color: var(--md-on-surface-variant); margin-top: 6px; line-height: 1.5; }
+.opt-account { font-size: 14px; color: var(--md-on-surface); margin-top: 8px; }
+.opt-account::first-letter { color: var(--md-on-success-container); }
+details.opt-advanced { margin: 22px 0 0; border-top: 1px solid var(--md-outline-variant); padding-top: 14px; }
+details.opt-advanced summary {
+  cursor: pointer; font-size: 13px; font-weight: 600; color: var(--md-on-surface-variant);
+  list-style: none; display: flex; align-items: center; gap: 6px;
+}
+details.opt-advanced summary::-webkit-details-marker { display: none; }
+details.opt-advanced summary::before { content: "▸"; transition: transform 0.15s; }
+details.opt-advanced[open] summary::before { transform: rotate(90deg); }
 .opt-status { font-size: 13px; margin-top: 14px; min-height: 20px; }
 .opt-status.ok { color: var(--md-on-success-container); }
 .opt-status.err { color: var(--md-on-error-container); }
