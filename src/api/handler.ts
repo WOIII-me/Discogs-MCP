@@ -12,6 +12,7 @@ import {
 } from "../core/pressings.js";
 import { analyzeRelease, analyzeAlbum } from "../core/lookup.js";
 import { tasteFit } from "../core/taste.js";
+import { shelfProfile, spinPicks } from "../core/shelf.js";
 
 /**
  * REST API head — a second consumer of the same Worker engine, for the browser
@@ -186,6 +187,18 @@ export async function handleApi(request: Request, env: Env): Promise<Response> {
       const rel = await ctx.client.getRelease(releaseId);
       const fit = await tasteFit(ctx, { genres: rel.genres, styles: rel.styles, year: rel.year });
       return json(request, { releaseId, title: rel.title, ...fit });
+    }
+
+    // Home-screen endpoints — served from the KV-cached collection/wantlist
+    // aggregates (zero Discogs calls once those are warm).
+    if (url.pathname === "/api/profile") {
+      return json(request, await shelfProfile(ctx));
+    }
+
+    if (url.pathname === "/api/spin") {
+      const mood = q.get("mood");
+      if (!mood) return json(request, { error: "Provide ?mood=<mood>." }, 400);
+      return mapResult(request, await spinPicks(ctx, mood));
     }
 
     return json(request, { error: "Unknown API route." }, 404);
