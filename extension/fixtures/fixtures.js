@@ -708,3 +708,22 @@ window.COPILOT_FIXTURES = {
     { "releaseId": 999451, "title": "In A Silent Way", "artist": "Miles Davis", "axis": "sonic", "score": 38.2, "verdict": "weak evidence", "ts": Date.now() - 3 * 24 * 60 * 60 * 1000 }
   ],
 };
+
+// GET /api/analyze?...&mode=summary — derived from the full fixture: the
+// viewed pressing renders instantly, the survey (bestPressing) comes later.
+window.COPILOT_FIXTURES.summary = (() => {
+  const full = window.COPILOT_FIXTURES.release;
+  return {
+    ...full,
+    bestPressing: null,
+    dataCaveats: ["Scoring is reputation- and community-data-based, not measured audio quality."],
+    meta: {
+      level: "summary",
+      cacheStatus: "miss",
+      personalization: "ready",
+      candidatesScored: null,
+      candidatesTarget: null,
+      upstreamCalls: 1,
+    },
+  };
+})();

@@ -8,6 +8,13 @@ const DEFAULT_BASE_URL = "https://discogs-mcp.woiii.workers.dev";
 const CACHE_TTL_MS = 10 * 60 * 1000;
 const TOKEN_EXPIRY_SLACK_MS = 60 * 1000; // refresh this much before expiry
 
+// Persistent result cache (chrome.storage.local): survives browser restarts.
+// Fresh results serve directly; stale ones only as a fallback when the
+// server is rate-limited or unreachable — always labeled as such.
+const PERSIST_SCHEMA = "az1";
+const PERSIST_FRESH_MS = 24 * 60 * 60 * 1000;
+const PERSIST_STALE_MS = 7 * 24 * 60 * 60 * 1000;
+
 // Toolbar icon toggles the side panel (Claude-in-Chrome behavior). Top-level
 // so it also re-applies whenever the worker restarts.
 chrome.sidePanel
@@ -24,6 +31,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
   memCache.clear();
   chrome.storage.session.clear().catch(() => {});
   chrome.storage.local.remove("recentAnalyses").catch(() => {});
+  persistClearAll();
 });
 
 // ---------------------------------------------------------------------------
@@ -195,6 +203,7 @@ async function handleSignIn() {
     // Cached verdicts and the analysis trail may belong to the previous account
     memCache.clear();
     await chrome.storage.local.remove("recentAnalyses");
+    await persistClearAll();
     try { await chrome.storage.session.clear(); } catch { /* ignore */ }
     return { username: whoBody.username };
   } catch (e) {
@@ -207,6 +216,7 @@ async function handleSignIn() {
 async function handleSignOut() {
   await chrome.storage.local.remove(["oauthTokens", "oauthUsername", "recentAnalyses"]);
   memCache.clear();
+  await persistClearAll();
   try { await chrome.storage.session.clear(); } catch { /* ignore */ }
   return { ok: true };
 }
@@ -295,35 +305,98 @@ async function recordRecentAnalysis(data, axis) {
 }
 
 // ---------------------------------------------------------------------------
-// Analyze broker. Returns exactly one of:
-//   {data}  {needsSetup:true}  {rateLimited:true, retryAfter}  {error}
-async function handleAnalyze({ releaseId, masterId, axis }) {
+// Persistent result cache, scoped by schema + server + account so nothing can
+// leak across sign-ins or self-hosted servers.
+
+async function persistScope() {
+  const { baseUrl, token, oauth, username } = await getSettings();
+  const account = oauth ? `u:${username}` : token ? `p:${token.slice(0, 8)}` : "anon";
+  return `${PERSIST_SCHEMA}:${baseUrl}:${account}`;
+}
+
+async function persistGet(key) {
+  try {
+    const fullKey = `${await persistScope()}:${key}`;
+    const stored = await chrome.storage.local.get(fullKey);
+    const entry = stored[fullKey];
+    if (!entry) return null;
+    const age = Date.now() - entry.t;
+    if (age > PERSIST_STALE_MS) return null;
+    return { data: entry.data, fresh: age <= PERSIST_FRESH_MS };
+  } catch {
+    return null;
+  }
+}
+
+async function persistPut(key, data) {
+  try {
+    const fullKey = `${await persistScope()}:${key}`;
+    await chrome.storage.local.set({ [fullKey]: { t: Date.now(), data } });
+  } catch {
+    // persistence is a nicety
+  }
+}
+
+async function persistClearAll() {
+  try {
+    const all = await chrome.storage.local.get(null);
+    const keys = Object.keys(all).filter((k) => k.startsWith(`${PERSIST_SCHEMA}:`));
+    if (keys.length) await chrome.storage.local.remove(keys);
+  } catch {
+    // ignore
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Analyze broker. Progressive: mode "summary" costs ≤1 cold Discogs call and
+// renders instantly; "full" (default) adds the best-pressing survey. Returns
+// exactly one of:
+//   {data, stale?}  {needsSetup:true}  {deferred:true, retryAfter}
+//   {rateLimited:true, retryAfter}  {error}
+async function handleAnalyze({ releaseId, masterId, axis, mode }) {
   const { baseUrl, token, oauth } = await getSettings();
   if (!token && !oauth) return { needsSetup: true };
 
   const ax = axis || "sonic";
-  const key = releaseId ? `r${releaseId}:${ax}` : `m${masterId}:${ax}`;
+  const summary = mode === "summary" && !!releaseId;
+  const fullKey = releaseId ? `r${releaseId}:${ax}` : `m${masterId}:${ax}`;
+  const key = summary ? `${fullKey}:s` : fullKey;
 
-  const cached = await cacheGet(key);
-  if (cached) {
-    if (releaseId) recordRecentAnalysis(cached, ax); // bump recency on revisits
-    return { data: cached };
+  // A cached FULL result satisfies a summary request too (it's a superset).
+  const cachedFull = await cacheGet(fullKey);
+  if (cachedFull) {
+    if (releaseId) recordRecentAnalysis(cachedFull, ax);
+    return { data: cachedFull };
+  }
+  if (summary) {
+    const cachedSummary = await cacheGet(key);
+    if (cachedSummary) return { data: cachedSummary };
+  }
+  // Fresh persistent results (24h) serve without any network at all.
+  const persisted = await persistGet(fullKey);
+  if (persisted?.fresh) {
+    if (releaseId) recordRecentAnalysis(persisted.data, ax);
+    return { data: persisted.data };
   }
 
   if (inFlight.has(key)) return inFlight.get(key);
 
   const path = releaseId
-    ? `/api/analyze?release=${releaseId}&axis=${ax}`
+    ? `/api/analyze?release=${releaseId}&axis=${ax}${summary ? "&mode=summary" : ""}`
     : `/api/best-pressing?master=${masterId}&axis=${ax}`;
 
   const promise = (async () => {
+    // Stale-but-present beats a blocking error while rate-limited.
+    const staleFallback = (extra) =>
+      persisted ? { data: persisted.data, stale: true, ...extra } : extra;
+
     let res;
     try {
       const out = await apiFetch(path);
       if (out.needsSetup) return { needsSetup: true };
       res = out.res;
     } catch (e) {
-      return { error: `Could not reach ${baseUrl} — ${e.message}` };
+      return staleFallback({ error: `Could not reach ${baseUrl} — ${e.message}` });
     }
 
     let body = null;
@@ -334,15 +407,19 @@ async function handleAnalyze({ releaseId, masterId, axis }) {
     }
 
     if (res.status === 401) return { needsSetup: true };
+    if (res.status === 202) {
+      return { deferred: true, retryAfter: body?.retryAfter ?? 60 };
+    }
     if (res.status === 429) {
-      return { rateLimited: true, retryAfter: body?.retryAfter ?? 60 };
+      return staleFallback({ rateLimited: true, retryAfter: body?.retryAfter ?? 60 });
     }
     if (!res.ok) {
-      return { error: body?.error || `Server error (HTTP ${res.status}).` };
+      return staleFallback({ error: body?.error || `Server error (HTTP ${res.status}).` });
     }
 
     await cachePut(key, body);
-    if (releaseId) recordRecentAnalysis(body, ax);
+    if (!summary) await persistPut(fullKey, body); // persist complete results only
+    if (releaseId && !summary) recordRecentAnalysis(body, ax);
     return { data: body };
   })().finally(() => inFlight.delete(key));
 

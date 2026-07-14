@@ -22,6 +22,7 @@
     listingReleaseId: null, // resolved release for the current /sell/item tab
     seq: 0, // stale-response guard
     lastKey: null, // last successfully rendered request key
+    enrichCtx: null, // current release's params for the manual enrich action
   };
 
   // ------------------------------------------------------------- utilities
@@ -64,6 +65,12 @@
         setTimeout(() => {
           if (DEMO === "setup") return resolve({ needsSetup: true });
           if (DEMO === "ratelimited") return resolve({ rateLimited: true, retryAfter: 42 });
+          if (params.mode === "summary" && !params.masterId) {
+            return resolve({ data: { ...fx.summary, axis: params.axis } });
+          }
+          if (DEMO === "deferred" && !params.masterId) {
+            return resolve({ deferred: true, retryAfter: 12 });
+          }
           const data = params.masterId ? fx.master : fx.release;
           resolve({ data: { ...data, axis: params.axis } });
         }, delay)
@@ -264,12 +271,15 @@
       </div>`;
   }
 
-  function renderRelease(data, { listing = false } = {}) {
+  function renderRelease(data, { listing = false, enriching = false, stale = false } = {}) {
     const d = data.thisPressing;
     const best = data.bestPressing;
     const r = data.release;
     const isBest = best && best.releaseId === d.releaseId;
     const flagged = /test pressing|partial release/.test(d.verdict);
+    const meta = data.meta;
+    const partialSurvey =
+      meta && meta.candidatesScored != null && meta.candidatesTarget != null && meta.candidatesScored < meta.candidatesTarget;
 
     const headerChips = chipsHtml([
       chip(verdictChipClass(d), esc(d.verdict)),
@@ -293,6 +303,7 @@
           chip("", `${best.overallScore >= d.overallScore ? "+" : "−"}${fmtScore(Math.abs(best.overallScore - d.overallScore))} vs this copy`),
           best.inYourCollection ? chip("success", "✓ you own it") : "",
         ])}
+        ${partialSurvey ? `<div class="m3-sub" style="margin-top:8px">⚠ Partial survey — scored ${esc(meta.candidatesScored)} of ${esc(meta.candidatesTarget)} candidates (rate budget); re-check in a minute for the full ranking.</div>` : ""}
         <div class="m3-kv" style="margin-top:10px"><div class="k">Market</div><div class="v">${esc(marketLine(best))}</div></div>
         <div class="m3-actions">
           <a class="m3-btn tonal" href="${releaseUrl(best.releaseId)}" target="_blank" rel="noreferrer">View on Discogs ↗</a>
@@ -302,6 +313,7 @@
 
     $body.innerHTML = `
       ${listing ? '<div class="m3-overline">From this marketplace listing</div>' : ""}
+      ${stale ? '<div class="m3-sub" style="margin:0 2px 8px">⏳ Showing a saved result — Discogs is rate-limited right now; it refreshes automatically on your next visit.</div>' : ""}
       <div class="m3-card filled">
         <div class="m3-overline">This pressing</div>
         <div class="m3-title" style="margin-top:6px">${esc((r.artists || []).join(", "))} — ${esc(r.title)}</div>
@@ -311,6 +323,7 @@
         ${coverageHtml(d)}
       </div>
       ${bestCard}
+      ${enriching ? `<div class="m3-card" id="enrich-slot">${enrichSlotHtml({ kind: "loading" })}</div>` : ""}
       ${dossierCardHtml(d, data.dataCaveats)}`;
   }
 
@@ -646,14 +659,19 @@
     // Only show the loading skeleton if the answer isn't near-instant (cached
     // analyses resolve in ms — flashing a skeleton on every tab switch is jarring).
     const loadingTimer = setTimeout(() => renderLoading(r.kind), 250);
+    const listing = r.kind === "listing";
     const params =
       r.kind === "master"
         ? { masterId: r.id, axis: state.axis }
-        : { releaseId: r.kind === "listing" ? state.listingReleaseId : r.id, axis: state.axis };
+        : { releaseId: listing ? state.listingReleaseId : r.id, axis: state.axis };
+
+    // Progressive flow for releases: render the summary (≤1 cold Discogs
+    // call) immediately; the full survey only runs if this page stays open.
+    const twoStage = !!params.releaseId;
 
     let res;
     try {
-      res = await requestAnalyze(params);
+      res = await requestAnalyze(twoStage ? { ...params, mode: "summary" } : params);
     } catch (e) {
       res = { error: e.message || "Internal messaging error." };
     }
@@ -662,12 +680,120 @@
 
     if (!res) { renderError("No response from the extension service worker."); return; }
     if (res.needsSetup) { renderSetup(); return; }
-    if (res.rateLimited) { renderRateLimited(res.retryAfter); return; }
-    if (res.error) { renderError(res.error); return; }
+    if (res.rateLimited && !res.data) { renderRateLimited(res.retryAfter); return; }
+    if (res.deferred) {
+      // Even the summary couldn't run — treat like a cooldown.
+      renderRateLimited(res.retryAfter ?? 60);
+      return;
+    }
+    if (res.error && !res.data) { renderError(res.error); return; }
 
     state.lastKey = key;
-    if (r.kind === "master") renderMaster(res.data);
-    else renderRelease(res.data, { listing: r.kind === "listing" });
+    if (r.kind === "master") {
+      renderMaster(res.data);
+      return;
+    }
+    const isFull = !res.data.meta || res.data.meta.level === "full";
+    renderRelease(res.data, { listing, enriching: !isFull, stale: !!res.stale });
+    if (!isFull) {
+      state.enrichCtx = { key, params, listing };
+      scheduleEnrichment(key, params, seq, listing);
+    }
+  }
+
+  // ----------------------------------------------------- enrichment (stage 2)
+  // The full survey is the expensive part (up to 16 candidate fetches on the
+  // user's own budget) — it only starts after the same release stays open a
+  // beat longer, and a cooldown defers it without losing the summary.
+  const ENRICH_DELAY_MS = 1500;
+  let countdownTimer = null;
+
+  function enrichSlotHtml(state_) {
+    if (state_.kind === "loading") {
+      return `
+        <div class="m3-overline">Best pressing of this album</div>
+        <div class="m3-linear indet" style="margin-top:12px"><i></i></div>
+        <div class="m3-sub" style="margin-top:8px">Surveying pressings — first look takes a few seconds…</div>`;
+    }
+    if (state_.kind === "deferred") {
+      return `
+        <div class="m3-overline">Best pressing of this album</div>
+        <div class="m3-sub" style="margin-top:8px">Discogs rate budget is cooling down — retrying in <b id="enrich-count">${esc(state_.retryAfter)}</b>s. The verdict above stays usable.</div>
+        <div class="m3-actions"><button class="m3-btn tonal" data-action="enrich-now">Analyze best pressings</button></div>`;
+    }
+    if (state_.kind === "ready") {
+      return `
+        <div class="m3-overline">Best pressing of this album</div>
+        <div class="m3-sub" style="margin-top:8px">Cooldown finished.</div>
+        <div class="m3-actions"><button class="m3-btn tonal" data-action="enrich-now">Analyze best pressings</button></div>`;
+    }
+    return `
+      <div class="m3-overline">Best pressing of this album</div>
+      <div class="m3-sub" style="margin-top:8px">${esc(state_.message || "Survey unavailable right now.")}</div>
+      <div class="m3-actions"><button class="m3-btn tonal" data-action="enrich-now">Try again</button></div>`;
+  }
+
+  function setEnrichSlot(state_) {
+    const slot = document.getElementById("enrich-slot");
+    if (!slot) return false;
+    slot.innerHTML = enrichSlotHtml(state_);
+    return true;
+  }
+
+  function startCountdown(seconds) {
+    clearInterval(countdownTimer);
+    let left = seconds;
+    countdownTimer = setInterval(() => {
+      const el = document.getElementById("enrich-count");
+      if (!el) { clearInterval(countdownTimer); return; }
+      left--;
+      if (left <= 0) {
+        clearInterval(countdownTimer);
+        setEnrichSlot({ kind: "ready" }); // the auto-retry (if armed) takes it from here
+        return;
+      }
+      el.textContent = String(left);
+    }, 1000);
+  }
+
+  async function runEnrichment(key, params, seq, listing, { autoRetry = true } = {}) {
+    let res;
+    try {
+      res = await requestAnalyze({ ...params, mode: "full" });
+    } catch (e) {
+      res = { error: e.message || "Internal messaging error." };
+    }
+    if (seq !== state.seq || state.lastKey !== key) return; // navigated away
+
+    if (res?.data) {
+      renderRelease(res.data, { listing, stale: !!res.stale });
+      return;
+    }
+    if (res?.needsSetup) { renderSetup(); return; }
+
+    const retryAfter = res?.retryAfter ?? 60;
+    if (res?.deferred || res?.rateLimited) {
+      setEnrichSlot({ kind: "deferred", retryAfter });
+      startCountdown(retryAfter);
+      if (autoRetry) {
+        // One automatic retry if the same page is still open after cooldown.
+        setTimeout(() => {
+          if (seq !== state.seq || state.lastKey !== key) return;
+          setEnrichSlot({ kind: "loading" });
+          runEnrichment(key, params, seq, listing, { autoRetry: false });
+        }, (retryAfter + 2) * 1000);
+      }
+      return;
+    }
+    setEnrichSlot({ kind: "error", message: res?.error });
+  }
+
+  function scheduleEnrichment(key, params, seq, listing) {
+    setTimeout(() => {
+      if (seq !== state.seq || state.lastKey !== key) return; // moved on already
+      setEnrichSlot({ kind: "loading" });
+      runEnrichment(key, params, seq, listing);
+    }, DEMO !== null ? 700 : ENRICH_DELAY_MS);
   }
 
   const scheduleRun = debounce(run, 250);
@@ -731,6 +857,14 @@
       handleSpinTap(btn);
       return;
     }
+    if (action === "enrich-now") {
+      const c = state.enrichCtx;
+      if (!c || state.lastKey !== c.key) return;
+      clearInterval(countdownTimer);
+      setEnrichSlot({ kind: "loading" });
+      runEnrichment(c.key, c.params, state.seq, c.listing, { autoRetry: false });
+      return;
+    }
     if (action === "open-release") {
       openRelease(Number(btn.dataset.id));
       return;
@@ -758,6 +892,7 @@
       empty: { kind: "empty", reason: "notDiscogs" },
       v02: { kind: "empty", reason: "v02" },
       home: { kind: "empty", reason: "discogsOther" },
+      deferred: { kind: "release", id: 6276183 },
       setup: { kind: "release", id: 6276183 },
       ratelimited: { kind: "release", id: 6276183 },
       loading: { kind: "release", id: 6276183 },
