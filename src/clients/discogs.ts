@@ -47,6 +47,13 @@ export class DiscogsClient {
    */
   rateLimitRemaining: number | null = null;
 
+  /**
+   * Discogs requests actually issued by this client instance (cache hits
+   * don't count). The REST head creates one client per request, so this is
+   * the per-analysis cost — surfaced as response metadata for measurement.
+   */
+  upstreamCalls = 0;
+
   constructor(auth: DiscogsAuth) {
     if (auth.kind === "token") {
       this.personalToken = auth.token;
@@ -67,6 +74,7 @@ export class DiscogsClient {
       for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
     }
 
+    this.upstreamCalls++;
     const response = await fetch(url.toString(), {
       headers: {
         Authorization: this.authHeader(url.toString()),

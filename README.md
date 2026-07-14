@@ -104,8 +104,12 @@ is set, and returns JSON with CORS enabled.
 
 - `GET /api/health` — unauthenticated connectivity check
 - `GET /api/whoami` — the authenticated Discogs username
-- `GET /api/analyze?release=<id>&axis=` — compact verdict for one release: this pressing's
-  dossier, the album's best pressing, taste-fit, owned/wanted
+- `GET /api/analyze?release=<id>&axis=&mode=` — compact verdict for one release: this
+  pressing's dossier, the album's best pressing, taste-fit, owned/wanted.
+  `mode=summary` returns the viewed pressing only (≤1 cold Discogs call; personalization
+  `null` when uncached); omitted `mode` = `full`. Responses carry `meta`
+  (`level`, `cacheStatus`, `candidatesScored/Target`, `upstreamCalls`); a full analysis
+  that can't safely start under the rate budget answers `202 {status:"deferred", retryAfter}`
 - `GET /api/analyze?title=<album>&artist=<artist>&axis=` — same, by album
 - `GET /api/best-pressing?master=<id>|release=<id>&axis=` — full ranking
 - `GET /api/compare?releases=<id,id[,id]>&axis=` — side-by-side comparison

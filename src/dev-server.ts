@@ -37,7 +37,7 @@ export default {
       return mcpHandler.fetch(request, env, ctx);
     }
     if (url.pathname.startsWith("/api/")) {
-      return handleApi(request, env);
+      return handleApi(request, env, ctx);
     }
     return new Response("Not found", { status: 404 });
   },
