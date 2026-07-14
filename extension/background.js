@@ -14,6 +14,18 @@ chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
   .catch(() => {});
 
+// Cached verdicts and the analysis trail are scoped to one server + account.
+// Sign-in/out clears them explicitly; a changed server URL or a swapped PAT
+// must too, or results leak across servers/accounts. Value comparison keeps
+// a no-op "Save" in options from nuking a warm cache.
+chrome.storage.onChanged.addListener((changes, area) => {
+  const changed = (c) => c && c.oldValue !== c.newValue;
+  if (area !== "local" || !(changed(changes.baseUrl) || changed(changes.token))) return;
+  memCache.clear();
+  chrome.storage.session.clear().catch(() => {});
+  chrome.storage.local.remove("recentAnalyses").catch(() => {});
+});
+
 // ---------------------------------------------------------------------------
 // Cache: in-memory Map for the worker's lifetime + chrome.storage.session so
 // entries survive worker restarts within the browser session.
