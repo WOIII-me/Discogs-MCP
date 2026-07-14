@@ -1,10 +1,11 @@
-# Discogs Copilot — Chrome extension (MVP)
+# Discogs Copilot — Chrome extension
 
 A Chrome **side panel** that shows pressing intelligence for whatever Discogs.com
 page is in the active tab: verdict + score for the pressing you're viewing, the
 album's best pressing on a sonic / collector / value axis, taste-fit against your
-collection, owned/wanted badges, and an evidence dossier — powered by the
-[Discogs MCP](../README.md) Worker's REST API. Read-only.
+collection, owned/wanted badges, and an evidence dossier — plus a logged-in home
+screen ("Your shelf") with taste profile and what-to-spin-tonight picks. Powered
+by the [Discogs MCP](../README.md) Worker's REST API. Read-only.
 
 ## Install (load unpacked)
 
