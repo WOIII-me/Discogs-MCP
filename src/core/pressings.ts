@@ -82,10 +82,17 @@ const RATE_LIMIT_NOTE =
   "— already-fetched pressings are cached, so the rerun is fast.";
 
 /**
+ * Keep this many requests of the user's per-minute budget in reserve while
+ * fetching optional survey candidates — enough headroom that the rest of the
+ * analysis (and the user's own browsing) doesn't slam into a 429.
+ */
+const BUDGET_RESERVE = 8;
+
+/**
  * Fetch release details for candidates in small concurrent batches, stopping
- * early the moment Discogs rate-limits us (rather than grinding through every
- * candidate with retries). Returns whatever was retrieved plus a rateLimited
- * flag so callers can report a partial result honestly.
+ * early the moment Discogs rate-limits us — and preemptively, before starting
+ * a chunk the remaining budget can't afford. Returns whatever was retrieved
+ * plus a rateLimited flag so callers can report a partial result honestly.
  */
 async function fetchReleases(
   ctx: CoreContext,
@@ -96,6 +103,14 @@ async function fetchReleases(
   let rateLimited = false;
   for (let i = 0; i < candidates.length; i += concurrency) {
     const chunk = candidates.slice(i, i + concurrency);
+    // Candidates come from KV first; only cache misses cost budget. Stop
+    // launching new chunks once the reported remaining budget can no longer
+    // cover a full chunk plus the reserve. (No header seen yet = no gating.)
+    const remaining = ctx.client.rateLimitRemaining;
+    if (typeof remaining === "number" && remaining < chunk.length + BUDGET_RESERVE) {
+      rateLimited = true;
+      break;
+    }
     const settled = await Promise.allSettled(chunk.map((c) => ctx.client.getRelease(c.id)));
     for (const s of settled) {
       if (s.status === "fulfilled") releases.push(s.value);

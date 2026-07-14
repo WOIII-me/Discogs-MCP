@@ -102,6 +102,26 @@ describe("REST API handler", () => {
     expect(e.OAUTH_PROVIDER.unwrapToken).not.toHaveBeenCalled();
   });
 
+  it("maps a rate-limited identity lookup to 429, not a fake 401", async () => {
+    const e = mockedEnv();
+    (e.CACHE_KV.get as ReturnType<typeof vi.fn>).mockResolvedValue(null);
+    // getIdentityWithToken throws with the upstream status in the message
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(new Response("throttled", { status: 429 }))
+    );
+    try {
+      const res = await handleApi(
+        new Request("https://x/api/whoami", { headers: { Authorization: "Bearer plainpat123" } }),
+        e
+      );
+      expect(res.status).toBe(429);
+      expect(await res.json()).toMatchObject({ retryAfter: 60 });
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("enforces the allowlist on Worker-token identities", async () => {
     const e = mockedEnv({ ALLOWED_DISCOGS_USERS: "someoneelse" });
     const res = await handleApi(

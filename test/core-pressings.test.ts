@@ -57,6 +57,29 @@ describe("core/pressings", () => {
     expect(top).toHaveProperty("matrixRunout");
   });
 
+  it("stops fetching candidates preemptively when the remaining budget is low", async () => {
+    const ctx = fakeCtx({ 1: mfslPressing, 2: makeRelease({ id: 2 }) });
+    const client = ctx.client as unknown as {
+      rateLimitRemaining: number | null;
+      getRelease: (id: number) => Promise<unknown>;
+    };
+    // Simulate a nearly-exhausted per-minute budget reported by Discogs:
+    // the candidate batch must never launch — zero getRelease calls beyond
+    // the master resolution, and an honest rate-limit error.
+    const original = client.getRelease.bind(client);
+    let candidateFetches = 0;
+    client.getRelease = async (id: number) => {
+      candidateFetches++;
+      return original(id);
+    };
+    client.rateLimitRemaining = 5;
+    const r = await findBestPressing(ctx, { masterId: 5460, axis: "sonic", topN: 2 });
+    expect(r.ok).toBe(false);
+    if (r.ok) return;
+    expect(r.error).toMatch(/rate-limiting/i);
+    expect(candidateFetches).toBe(0);
+  });
+
   it("findBestPressing errors clearly when given no album reference", async () => {
     const ctx = fakeCtx({});
     const r = await findBestPressing(ctx, {});
