@@ -36,7 +36,7 @@ side under Settings → Applications).
 
 | Page | Panel behavior |
 |---|---|
-| `discogs.com/release/…` and `discogs.com/sell/release/…` | Auto-analyzes: verdict, score, evidence coverage, best pressing of the album, taste fit, owned/wanted, dossier (matrix, engineer, plant, signals, caveats) |
+| `discogs.com/release/…` and `discogs.com/sell/release/…` | Auto-analyzes **progressively**: the viewed pressing's verdict renders near-instantly (≤1 Discogs call), then the album survey (best pressing) fills in once the page stays open a moment — so quick browsing never burns your rate budget. During a Discogs cooldown the verdict stays usable with a countdown + manual "Analyze best pressings" |
 | `discogs.com/master/…` | Top-3 best pressings of the album on the chosen axis |
 | `discogs.com/shop/item/…` (and legacy `/sell/item/…`) | Button-triggered analysis of the listed pressing (so browsing doesn't burn your rate budget) |
 | anything else, signed in | **"Your shelf" home screen** — taste profile (dominant styles/genres/decades, top labels, format split), collection/wantlist counts, "what to spin tonight" mood picks from your own records, recently analyzed, recently added |
@@ -65,7 +65,10 @@ so instead of pretending to be broken.
   field when packaging for the Chrome Web Store — the store assigns its own.
 - The panel follows the active tab; theme follows the OS (`prefers-color-scheme`).
 - Self-hosting the Worker? Point **Server URL** in settings at your instance.
+- Results persist across browser restarts (`chrome.storage.local`, fresh 24 h,
+  scoped by server + account); when the server is rate-limited, a saved result
+  is shown labeled as such instead of a blocking error.
 - UI dev without Chrome: open `sidepanel.html?demo=release` (also `master`,
-  `listing`, `setup`, `empty`, `v02`, `home`, `ratelimited`, `loading`) in any
-  browser — it renders bundled fixtures.
+  `listing`, `setup`, `empty`, `v02`, `home`, `deferred`, `ratelimited`,
+  `loading`) in any browser — it renders bundled fixtures.
 - Fonts: [Geist](https://vercel.com/font) (SIL OFL 1.1, see `fonts/OFL.txt`).
