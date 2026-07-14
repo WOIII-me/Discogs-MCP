@@ -109,7 +109,13 @@ async function authenticate(env: Env, token: string): Promise<ApiAuth | null> {
   }
 }
 
-export async function handleApi(request: Request, env: Env): Promise<Response> {
+export async function handleApi(
+  request: Request,
+  env: Env,
+  // Available for background continuation (ctx.waitUntil) in later iterations;
+  // the OAuthProvider passes it through to the default handler.
+  _ctx?: ExecutionContext
+): Promise<Response> {
   const url = new URL(request.url);
 
   if (request.method === "OPTIONS") {
@@ -160,7 +166,19 @@ export async function handleApi(request: Request, env: Env): Promise<Response> {
   try {
     if (url.pathname === "/api/analyze") {
       const release = num(q.get("release"));
-      if (release) return mapResult(request, await analyzeRelease(ctx, release, axis));
+      if (release) {
+        // Progressive contract: mode=summary returns the viewed pressing for
+        // ≤1 cold Discogs call; omitted mode stays `full` (existing clients).
+        const mode = q.get("mode") === "summary" ? "summary" : "full";
+        const r = await analyzeRelease(ctx, release, axis, mode);
+        if (!r.ok) {
+          if ("deferred" in r) {
+            return json(request, { status: "deferred", retryAfter: r.deferred.retryAfter }, 202);
+          }
+          return json(request, { error: r.error }, 422);
+        }
+        return json(request, r.data);
+      }
       const title = q.get("title");
       if (title) return mapResult(request, await analyzeAlbum(ctx, { artist: q.get("artist") ?? undefined, title }, axis));
       return json(request, { error: "Provide ?release=<id> or ?title=<album>&artist=<artist>." }, 400);

@@ -66,6 +66,15 @@ export class CachedDiscogsClient extends DiscogsClient {
     return this.ttls;
   }
 
+  /**
+   * Read a cached value WITHOUT fetching on miss. Summary-mode analysis uses
+   * this to consult the collection/wantlist aggregates read-only — a cold
+   * aggregate means "personalization pending", never a crawl.
+   */
+  async peekCache<R>(key: string): Promise<R | null> {
+    return (await this.kv.get(key, "json")) as R | null;
+  }
+
   override async search(
     query: string,
     options?: Parameters<DiscogsClient["search"]>[1]

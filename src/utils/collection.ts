@@ -77,6 +77,22 @@ export async function fetchFullCollection(
   );
 }
 
+/** The cached collection aggregate if present — never fetches (summary mode). */
+export async function peekFullCollection(
+  client: CachedDiscogsClient,
+  username: string
+): Promise<FullCollection | null> {
+  return client.peekCache<FullCollection>(`collection-full:${username}`);
+}
+
+/** The cached wantlist aggregate if present — never fetches (summary mode). */
+export async function peekFullWantlist(
+  client: CachedDiscogsClient,
+  username: string
+): Promise<FullCollection | null> {
+  return client.peekCache<FullCollection>(`wantlist-full:${username}`);
+}
+
 /** Fetch a user's entire wantlist as slim items (same aggregate caching). */
 export async function fetchFullWantlist(
   client: CachedDiscogsClient,

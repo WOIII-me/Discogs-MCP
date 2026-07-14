@@ -287,6 +287,9 @@ export interface FindBestPressingParams {
   axis?: string;
   preferredFormats?: string[];
   topN?: number;
+  /** Cap on candidate detail fetches (default DETAIL_BUDGET). Progressive
+   * analysis shrinks this when the remaining rate budget is constrained. */
+  detailBudget?: number;
 }
 
 export async function findBestPressing(
@@ -311,7 +314,11 @@ export async function findBestPressing(
   }
 
   const axis: Axis = normalizeAxis(params.axis);
-  const candidates = selectCandidates(pool, master.main_release, DETAIL_BUDGET);
+  const candidates = selectCandidates(
+    pool,
+    master.main_release,
+    Math.max(1, Math.min(params.detailBudget ?? DETAIL_BUDGET, DETAIL_BUDGET))
+  );
 
   const { releases, rateLimited, attempted } = await fetchReleases(ctx, candidates);
   if (releases.length === 0) {

@@ -37,9 +37,9 @@ function html(body: string, status = 200): Response {
  *                     the Discogs credentials embedded as props
  */
 export const DiscogsAuthHandler: ExportedHandler<Env> = {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     try {
-      return await handle(request, env);
+      return await handle(request, env, ctx);
     } catch (e) {
       // Never surface a blank Cloudflare 1101 to the user — log the stack and
       // show the actual error so OAuth failures are debuggable.
@@ -54,7 +54,7 @@ export const DiscogsAuthHandler: ExportedHandler<Env> = {
   },
 };
 
-async function handle(request: Request, env: Env): Promise<Response> {
+async function handle(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
     // REST API head for the browser extension (Worker-issued OAuth tokens or
@@ -62,7 +62,7 @@ async function handle(request: Request, env: Env): Promise<Response> {
     // /mcp + /sse, so /api/* reaches this default handler, where
     // env.OAUTH_PROVIDER lets it unwrap Worker tokens itself.
     if (url.pathname.startsWith("/api/")) {
-      return handleApi(request, env);
+      return handleApi(request, env, ctx);
     }
 
     if (url.pathname === "/authorize") {
