@@ -1,5 +1,5 @@
 import type { CoreContext } from "./pressings.js";
-import { fetchFullCollection } from "../utils/collection.js";
+import { fetchFullCollection, type FullCollection } from "../utils/collection.js";
 import { buildProfile, scoreAffinity, topEntries } from "../utils/similarity-scoring.js";
 
 export interface TasteFit {
@@ -10,12 +10,15 @@ export interface TasteFit {
   dominantGenres: string[];
 }
 
-/** How well a candidate (genres/styles/year) fits the user's taste profile. */
-export async function tasteFit(
-  ctx: CoreContext,
+/**
+ * Taste-fit from an already-fetched collection — callers that have the
+ * aggregate in hand (e.g. analyzeRelease) must use this instead of the
+ * fetching variant so one analysis never crawls the collection twice.
+ */
+export function tasteFitFromCollection(
+  collection: FullCollection,
   candidate: { genres?: string[]; styles?: string[]; year?: number }
-): Promise<TasteFit> {
-  const collection = await fetchFullCollection(ctx.client, ctx.username);
+): TasteFit {
   const profile = buildProfile(collection.items);
   return {
     affinity: scoreAffinity(profile, candidate),
@@ -26,4 +29,13 @@ export async function tasteFit(
     })),
     dominantGenres: topEntries(profile.genres, 3).map(([name]) => name),
   };
+}
+
+/** How well a candidate (genres/styles/year) fits the user's taste profile. */
+export async function tasteFit(
+  ctx: CoreContext,
+  candidate: { genres?: string[]; styles?: string[]; year?: number }
+): Promise<TasteFit> {
+  const collection = await fetchFullCollection(ctx.client, ctx.username);
+  return tasteFitFromCollection(collection, candidate);
 }

@@ -1,5 +1,5 @@
 import { findBestPressing, type CoreContext, type CoreResult, type DossierEntry } from "./pressings.js";
-import { tasteFit, type TasteFit } from "./taste.js";
+import { tasteFitFromCollection, type TasteFit } from "./taste.js";
 import { fetchFullCollection, fetchFullWantlist } from "../utils/collection.js";
 import { buildDossier } from "../utils/pressing-dossier.js";
 import { normalizeAxis, scorePressing, type Axis } from "../utils/pressing-scoring.js";
@@ -38,11 +38,12 @@ export async function analyzeRelease(
   const axis: Axis = normalizeAxis(axisInput);
   const rel = await ctx.client.getRelease(releaseId);
 
-  const [collection, wantlist, fit] = await Promise.all([
+  const [collection, wantlist] = await Promise.all([
     fetchFullCollection(ctx.client, ctx.username),
     fetchFullWantlist(ctx.client, ctx.username),
-    tasteFit(ctx, { genres: rel.genres, styles: rel.styles, year: rel.year }),
   ]);
+  // Derived from the collection fetched above — never a second crawl.
+  const fit = tasteFitFromCollection(collection, { genres: rel.genres, styles: rel.styles, year: rel.year });
   const owned = collection.items.some((i) => i.id === releaseId);
   const wanted = wantlist.items.some((i) => i.id === releaseId);
 

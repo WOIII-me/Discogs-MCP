@@ -38,13 +38,28 @@ export class CachedDiscogsClient extends DiscogsClient {
     super(auth);
   }
 
+  /** In-isolate single-flight: concurrent misses on one key share one fetch. */
+  private static inFlight = new Map<string, Promise<unknown>>();
+
   /** Read-through cache. Also used by higher-level helpers for derived aggregates. */
   async withCache<R>(key: string, ttl: number, fetcher: () => Promise<R>): Promise<R> {
     const cached = await this.kv.get(key, "json");
     if (cached !== null) return cached as R;
-    const data = await fetcher();
-    await this.kv.put(key, JSON.stringify(data), { expirationTtl: Math.max(ttl, 60) });
-    return data;
+
+    // Join an identical fetch already in flight — without this, simultaneous
+    // misses (e.g. the collection aggregate needed by several helpers of one
+    // analysis) each crawl Discogs independently. Keys are user-scoped where
+    // the data is user-specific, so sharing across client instances is safe.
+    const existing = CachedDiscogsClient.inFlight.get(key);
+    if (existing) return existing as Promise<R>;
+
+    const flight = (async () => {
+      const data = await fetcher();
+      await this.kv.put(key, JSON.stringify(data), { expirationTtl: Math.max(ttl, 60) });
+      return data;
+    })().finally(() => CachedDiscogsClient.inFlight.delete(key));
+    CachedDiscogsClient.inFlight.set(key, flight);
+    return flight as Promise<R>;
   }
 
   get cacheTtls(): CacheTTLs {

@@ -98,7 +98,13 @@ async function authenticate(env: Env, token: string): Promise<ApiAuth | null> {
   try {
     const identity = await resolveIdentity(env, token);
     return { ...identity, discogsAuth: { kind: "token", token } };
-  } catch {
+  } catch (e) {
+    // A rate-limited (or briefly failing) Discogs must not read as "bad
+    // token" — the extension would bounce a valid user to the setup screen.
+    // getIdentityWithToken reports the upstream status in its message.
+    if (e instanceof Error && /identity error (429|5\d\d)/.test(e.message)) {
+      throw new RateLimitError(60);
+    }
     return null;
   }
 }
@@ -121,7 +127,15 @@ export async function handleApi(request: Request, env: Env): Promise<Response> {
     return json(request, { error: "Missing 'Authorization: Bearer <token>'." }, 401);
   }
 
-  const auth = await authenticate(env, token);
+  let auth: ApiAuth | null;
+  try {
+    auth = await authenticate(env, token);
+  } catch (e) {
+    if (e instanceof RateLimitError) {
+      return json(request, { error: e.message, retryAfter: e.retryAfter }, 429);
+    }
+    throw e;
+  }
   if (!auth) {
     return json(request, { error: "Invalid or expired token." }, 401);
   }

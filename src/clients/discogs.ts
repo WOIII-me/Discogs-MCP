@@ -5,8 +5,6 @@ import type * as T from "./types.js";
 const BASE_URL = "https://api.discogs.com";
 export const USER_AGENT = `WOIII-Discogs-MCP/${VERSION} +https://github.com/WOIII-me/Discogs-MCP`;
 
-const MAX_RETRIES = 3;
-
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -42,6 +40,13 @@ export class DiscogsClient {
   private token?: { key: string; secret: string };
   private personalToken?: string;
 
+  /**
+   * The user's remaining per-minute Discogs budget as last reported by
+   * X-Discogs-Ratelimit-Remaining (null until the first response). Callers
+   * use it to stop launching optional work into a nearly-exhausted budget.
+   */
+  rateLimitRemaining: number | null = null;
+
   constructor(auth: DiscogsAuth) {
     if (auth.kind === "token") {
       this.personalToken = auth.token;
@@ -62,37 +67,33 @@ export class DiscogsClient {
       for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
     }
 
-    for (let attempt = 0; ; attempt++) {
-      const authHeader = this.authHeader(url.toString());
-      const response = await fetch(url.toString(), {
-        headers: {
-          Authorization: authHeader,
-          "User-Agent": USER_AGENT,
-          Accept: "application/vnd.discogs.v2.discogs+json",
-        },
-      });
+    const response = await fetch(url.toString(), {
+      headers: {
+        Authorization: this.authHeader(url.toString()),
+        "User-Agent": USER_AGENT,
+        Accept: "application/vnd.discogs.v2.discogs+json",
+      },
+    });
 
-      if (response.status === 429) {
-        const retryAfter = Number.parseInt(response.headers.get("Retry-After") ?? "60", 10);
-        if (attempt >= MAX_RETRIES) throw new RateLimitError(retryAfter);
-        // Exponential backoff capped at the server-suggested wait
-        await sleep(Math.min(retryAfter, 2 ** attempt) * 1000);
-        continue;
-      }
+    const remainingHeader = response.headers.get("X-Discogs-Ratelimit-Remaining");
+    if (remainingHeader !== null) this.rateLimitRemaining = Number.parseInt(remainingHeader, 10);
 
-      if (!response.ok) {
-        throw new DiscogsApiError(response.status, await response.text());
-      }
-
-      // Soft-throttle when the per-minute budget is nearly exhausted
-      const remaining = Number.parseInt(
-        response.headers.get("X-Discogs-Ratelimit-Remaining") ?? "60",
-        10
-      );
-      if (remaining <= 3) await sleep(1500);
-
-      return response.json() as Promise<R>;
+    if (response.status === 429) {
+      // No automatic retries: the per-minute window means an in-window retry
+      // is guaranteed to fail again. Callers treat this as an honest partial
+      // (surveys) or surface retryAfter to the client (REST 429 mapping).
+      this.rateLimitRemaining = 0;
+      throw new RateLimitError(Number.parseInt(response.headers.get("Retry-After") ?? "60", 10));
     }
+
+    if (!response.ok) {
+      throw new DiscogsApiError(response.status, await response.text());
+    }
+
+    // Soft-throttle when the per-minute budget is nearly exhausted
+    if (this.rateLimitRemaining !== null && this.rateLimitRemaining <= 3) await sleep(1500);
+
+    return response.json() as Promise<R>;
   }
 
   // === Database ===
