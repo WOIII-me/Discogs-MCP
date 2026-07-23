@@ -12,6 +12,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "validate:submission": "node scripts/validate-openai-submission.mjs",
+    "check:oauth": "node scripts/check-openai-oauth-contract.mjs",
     "inspect": "npx @modelcontextprotocol/inspector http://localhost:8787/mcp",
     "lint": "tsc --noEmit",
     "setup:kv": "wrangler kv namespace create OAUTH_KV && wrangler kv namespace create CACHE_KV"
