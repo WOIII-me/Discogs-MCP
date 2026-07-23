@@ -37,3 +37,13 @@ keep weights consistent with the existing entries. Add or update a test in
 - Keep the server **read-only** — no collection/marketplace writes (a deliberate scope decision).
 - Run `npm test` and `npm run lint` before opening a PR; CI runs both.
 - Match the surrounding code style. Tools live under `src/mcp/tools/`, scoring under `src/utils/`.
+- Describe user-data, caching, authentication, or external-service impact in the PR when applicable.
+- Never commit Discogs/OpenAI reviewer credentials, OAuth grants, `.dev.vars`, private approval
+  correspondence, or production logs.
+- Changes to the proposed OpenAI surface should update the relevant
+  [`docs/openai-submission/phase-1`](docs/openai-submission/phase-1/README.md) contract and state
+  whether a new OpenAI scan/review would be required.
+
+By participating, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md). For usage help,
+see [SUPPORT.md](SUPPORT.md); report vulnerabilities through the private route in
+[SECURITY.md](SECURITY.md), not through a public issue.
