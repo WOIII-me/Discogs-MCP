@@ -30,6 +30,12 @@
       "reviewedOn": "2026-07-23"
     },
     {
+      "authority": "OpenAI",
+      "title": "Apps SDK authentication",
+      "url": "https://developers.openai.com/apps-sdk/build/auth",
+      "reviewedOn": "2026-07-23"
+    },
+    {
       "authority": "Discogs",
       "title": "API Terms of Use",
       "url": "https://support.discogs.com/hc/en-us/articles/360009334593-API-Terms-of-Use",
