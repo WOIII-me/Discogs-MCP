@@ -1,0 +1,30 @@
+{
+  "name": "dig-for-discogs",
+  "version": "0.1.0",
+  "description": "Read-only Discogs pressing comparison and collection-aware discovery workflows.",
+  "author": {
+    "name": "WOIII.me",
+    "email": "support@woiii.me",
+    "url": "https://woiii.me"
+  },
+  "homepage": "https://woiii.me",
+  "repository": "https://github.com/WOIII-me/Discogs-MCP",
+  "license": "MIT",
+  "keywords": ["discogs", "music", "vinyl", "pressings", "collection"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "DIG for Discogs",
+    "shortDescription": "Compare pressings and explore your Discogs collection.",
+    "longDescription": "Use evidence-backed, read-only workflows to compare Discogs pressings, understand scoring caveats, and explore an authenticated collection without modifying Discogs data.",
+    "developerName": "WOIII.me",
+    "category": "Lifestyle",
+    "capabilities": ["Read-only", "MCP", "Skills"],
+    "websiteURL": "https://woiii.me",
+    "privacyPolicyURL": "https://woiii.me/privacy",
+    "defaultPrompt": [
+      "Find the best-sounding pressing of an album.",
+      "Compare these Discogs release IDs for value.",
+      "Pick something mellow from my collection."
+    ]
+  }
+}
