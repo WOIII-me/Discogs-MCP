@@ -15,8 +15,9 @@ Auth is browser-based Discogs OAuth: connect an MCP client to the server URL and
 
 > **OpenAI directory status:** DIG is not currently listed in OpenAI's Plugin Directory. The
 > documentation-only [Phase 1 readiness package](docs/openai-submission/phase-1/README.md) records
-> the proposed tool/data contract and remaining approval gates. It does not change the hosted
-> server or existing MCP clients.
+> the proposed tool/data contract and remaining approval gates. Its contract tests and
+> [unpublished plugin scaffold](openai-plugin/dig-for-discogs/README.md) are development artifacts;
+> they do not change the hosted server or existing MCP clients.
 
 ## Use the hosted server
 
@@ -190,6 +191,7 @@ Ideas and feedback → [Discussions](https://github.com/WOIII-me/Discogs-MCP/dis
 ```sh
 npm test        # vitest unit tests (scoring, mood mapping, similarity)
 npm run lint    # tsc --noEmit
+npm run validate:submission # validate the unpublished plugin and submission contract
 npm run build   # wrangler dry-run bundle
 ```
 

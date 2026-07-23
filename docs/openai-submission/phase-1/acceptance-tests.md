@@ -1,6 +1,6 @@
 # Phase 1B — acceptance and reviewer test specification
 
-**Status:** contract-level specification; not executable yet
+**Status:** contract-level specification with executable static validation; deployed runtime execution remains gated
 **Portal subset:** exactly five positive and three negative cases
 
 ## Test-account fixture
@@ -232,6 +232,7 @@ Before the additive endpoint can deploy:
 
 ## Exit evidence
 
-The test specification is complete now. Execution remains future work because
-the additive endpoint, reviewer account, approved field set, and production
-origin do not yet exist. Phase 6 owns implementation and recorded results.
+The specification and its static contract validation are complete now. End-to-end
+execution remains future work because the additive endpoint, reviewer account,
+approved field set, and production origin do not yet exist. Phase 6 owns runtime
+implementation and recorded results.

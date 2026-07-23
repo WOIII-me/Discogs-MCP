@@ -1,0 +1,4 @@
+interface:
+  display_name: "DIG for Discogs"
+  short_description: "Choose pressings and explore a Discogs collection"
+  default_prompt: "Use DIG for Discogs to compare pressings or explore my collection with evidence and clear caveats."

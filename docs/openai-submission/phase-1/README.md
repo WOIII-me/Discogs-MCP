@@ -59,6 +59,13 @@ No Phase 2–4 implementation has started. In particular, the repository still
 contains the current cache TTLs, tool registration metadata, OAuth behavior,
 and text-only MCP results described in the inventory.
 
+The consent-independent preparation layer is executable: `submission-contract.json`
+captures the proposed inventory and reviewer cases in machine-readable form,
+`test/openai-submission-contract.test.ts` enforces its invariants, and the unpublished
+plugin scaffold under `openai-plugin/dig-for-discogs/` can be validated locally. These
+artifacts are not imported by the Worker and do not authorize or implement the future
+OpenAI endpoint.
+
 ## Source hierarchy
 
 When sources disagree, use this order:
