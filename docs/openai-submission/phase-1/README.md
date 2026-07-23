@@ -45,6 +45,7 @@ must be revised before runtime implementation.
 | [Threat model](threat-model.md) | Assets, trust boundaries, threats, mitigations, and verification requirements |
 | [Acceptance tests](acceptance-tests.md) | Golden prompts plus the exact five positive and three negative portal cases |
 | [Decision register](decision-register.md) | Phase 1B decisions, conditional branches, v1 tool inventory, and reopening rules |
+| [Submission content draft](../draft/README.md) | Portal-ready copy, annotations, gap register, gates, and owner sign-off checklist |
 
 ## Phase 1 completion statement
 
@@ -65,6 +66,10 @@ captures the proposed inventory and reviewer cases in machine-readable form,
 plugin scaffold under `openai-plugin/dig-for-discogs/` can be validated locally. These
 artifacts are not imported by the Worker and do not authorize or implement the future
 OpenAI endpoint.
+
+The consent-independent [submission content draft](../draft/README.md) translates this
+contract into portal fields and a closure checklist. It remains deliberately
+non-submittable: unresolved owner and external values are empty and validated as gates.
 
 ## Source hierarchy
 

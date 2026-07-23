@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "status": "conditional-draft",
+  "preparedOn": "2026-07-23",
+  "runtimeImpact": "none",
+  "submissionType": "plugin-with-mcp-and-skills",
+  "sourceDocuments": [
+    {
+      "authority": "OpenAI",
+      "title": "Submit plugins",
+      "url": "https://learn.chatgpt.com/docs/submit-plugins",
+      "reviewedOn": "2026-07-23"
+    },
+    {
+      "authority": "OpenAI",
+      "title": "Prepare an app for submission",
+      "url": "https://developers.openai.com/apps-sdk/deploy/submission",
+      "reviewedOn": "2026-07-23"
+    },
+    {
+      "authority": "OpenAI",
+      "title": "App guidelines",
+      "url": "https://developers.openai.com/apps-sdk/app-guidelines",
+      "reviewedOn": "2026-07-23"
+    },
+    {
+      "authority": "OpenAI",
+      "title": "Apps SDK reference",
+      "url": "https://developers.openai.com/apps-sdk/reference",
+      "reviewedOn": "2026-07-23"
+    },
+    {
+      "authority": "Discogs",
+      "title": "API Terms of Use",
+      "url": "https://support.discogs.com/hc/en-us/articles/360009334593-API-Terms-of-Use",
+      "reviewedOn": "2026-07-23"
+    },
+    {
+      "authority": "Discogs",
+      "title": "Application Name and Description Policy",
+      "url": "https://support.discogs.com/hc/en-us/articles/360009207054-Application-Name-and-Description-Policy",
+      "reviewedOn": "2026-07-23"
+    }
+  ],
+  "listing": {
+    "name": "DIG for Discogs",
+    "publisher": "WOIII.me",
+    "shortDescription": "Compare pressings and explore your Discogs collection.",
+    "longDescription": "Use evidence-backed, read-only workflows to compare Discogs pressings, understand scoring caveats, and explore an authenticated collection without modifying Discogs data.",
+    "category": "Lifestyle",
+    "websiteUrl": "https://woiii.me",
+    "supportUrl": null,
+    "supportEmail": null,
+    "privacyPolicyUrl": "https://woiii.me/privacy",
+    "termsOfServiceUrl": null,
+    "logo": {
+      "path": null,
+      "status": "missing-production-asset"
+    },
+    "screenshots": {
+      "paths": [],
+      "status": "not-applicable-no-component-ui"
+    },
+    "languages": ["en"],
+    "countries": [],
+    "releaseNotes": "Initial directory submission of DIG for Discogs: a read-only pressing comparison, Discogs catalogue discovery, and authenticated collection exploration integration."
+  },
+  "mcp": {
+    "serverUrl": null,
+    "permanentOrigin": null,
+    "domainVerificationToken": null,
+    "authentication": {
+      "type": "oauth2",
+      "resourceIdentifier": null,
+      "proposedScopes": ["discogs.read"]
+    },
+    "contentSecurityPolicy": {
+      "status": "finalize-in-portal-after-tool-scan",
+      "connectDomains": [],
+      "resourceDomains": [],
+      "frameDomains": [],
+      "redirectDomains": []
+    },
+    "reviewerAccess": {
+      "accountStrategy": null,
+      "credentialsStorage": "portal-only",
+      "credentialsIncludedInRepository": false,
+      "multiFactorAuthenticationRequired": false
+    }
+  },
+  "starterPrompts": [
+    "Find the best-sounding pressing of an album.",
+    "Compare these Discogs release IDs for value.",
+    "Pick something mellow from my collection."
+  ],
+  "toolAnnotations": [
+    {
+      "name": "search_collection",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true,
+      "justification": "Reads and filters the authenticated user's collection through the external Discogs service without modifying external state."
+    },
+    {
+      "name": "search_discogs",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true,
+      "justification": "Searches the bounded Discogs catalogue and checks only the authenticated user's membership signal without modifying data."
+    },
+    {
+      "name": "get_release",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true,
+      "justification": "Reads one Discogs catalogue release and optional permitted market snapshot without modifying external state."
+    },
+    {
+      "name": "get_master_release",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true,
+      "justification": "Reads one Discogs master release and its catalogue aggregate without modifying external state."
+    },
+    {
+      "name": "get_release_versions",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true,
+      "justification": "Reads and filters the Discogs catalogue versions of one master release without modifying external state."
+    },
+    {
+      "name": "find_best_pressing",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true,
+      "justification": "Reads bounded Discogs catalogue evidence and computes a pressing ranking without modifying external state."
+    },
+    {
+      "name": "compare_pressings",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true,
+      "justification": "Reads two to five Discogs releases and computes a comparison without modifying external state."
+    },
+    {
+      "name": "get_collection_stats",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true,
+      "justification": "Reads the authenticated user's collection through the external Discogs service and returns minimized aggregates without modifying external state."
+    },
+    {
+      "name": "get_wantlist",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true,
+      "justification": "Reads only the authenticated user's own wantlist through the external Discogs service and does not modify external state."
+    },
+    {
+      "name": "get_recommendations",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true,
+      "justification": "Reads Discogs catalogue data and the authenticated user's collection-derived profile to rank suggestions without modifying external state."
+    }
+  ],
+  "portalTestIds": {
+    "positive": ["P1", "P2", "P3", "P4", "P5"],
+    "negative": ["N1", "N2", "N3"]
+  },
+  "attestations": {
+    "finalized": false,
+    "dataUseMatchesPrivacyPolicy": null,
+    "thirdPartyAuthorizationConfirmed": null,
+    "toolAnnotationsVerifiedAgainstProduction": null,
+    "publisherAuthorityConfirmed": null,
+    "notes": "Attestations must be completed by an authorized owner only after the external gates and production verification are complete."
+  },
+  "gates": [
+    {
+      "id": "GATE-DISCOGS-GUIDANCE",
+      "owner": "project-owner",
+      "state": "pending-external",
+      "evidence": null,
+      "blocks": ["runtime-implementation", "final-attestations", "submission"]
+    },
+    {
+      "id": "GATE-PUBLISHER-VERIFICATION",
+      "owner": "project-owner",
+      "state": "pending-external",
+      "evidence": null,
+      "blocks": ["submission"]
+    },
+    {
+      "id": "GATE-PERMANENT-MCP-ORIGIN",
+      "owner": "project-owner",
+      "state": "pending-owner-decision",
+      "evidence": null,
+      "blocks": ["runtime-implementation", "tool-scan", "submission"]
+    },
+    {
+      "id": "GATE-OAUTH-RESOURCE",
+      "owner": "engineering",
+      "state": "pending-origin",
+      "evidence": null,
+      "blocks": ["runtime-implementation", "reviewer-access", "submission"]
+    },
+    {
+      "id": "GATE-PRIVACY-POLICY",
+      "owner": "project-owner",
+      "state": "revision-required",
+      "evidence": "https://woiii.me/privacy",
+      "blocks": ["final-attestations", "submission"]
+    },
+    {
+      "id": "GATE-TERMS-URL",
+      "owner": "project-owner",
+      "state": "missing",
+      "evidence": null,
+      "blocks": ["submission"]
+    },
+    {
+      "id": "GATE-SUPPORT-CONTACT",
+      "owner": "project-owner",
+      "state": "pending-owner-decision",
+      "evidence": null,
+      "blocks": ["submission"]
+    },
+    {
+      "id": "GATE-REVIEWER-FIXTURE",
+      "owner": "project-owner-and-engineering",
+      "state": "pending-external",
+      "evidence": null,
+      "blocks": ["reviewer-access", "submission"]
+    },
+    {
+      "id": "GATE-AVAILABILITY",
+      "owner": "project-owner",
+      "state": "pending-owner-decision",
+      "evidence": null,
+      "blocks": ["submission"]
+    },
+    {
+      "id": "GATE-PRODUCTION-LOGO",
+      "owner": "project-owner",
+      "state": "missing",
+      "evidence": null,
+      "blocks": ["submission"]
+    }
+  ],
+  "repositoryExclusions": [
+    "reviewer credentials",
+    "OAuth client secrets",
+    "Discogs tokens",
+    "OpenAI app identifiers and verification secrets",
+    ".mcp.json",
+    ".app.json",
+    ".env",
+    ".dev.vars"
+  ]
+}
