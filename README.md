@@ -1,8 +1,9 @@
-# Discogs MCP
+# DIG for Discogs
 
 > A [WOIII.me](https://github.com/WOIII-me) project
 
 [![CI](https://github.com/WOIII-me/Discogs-MCP/actions/workflows/ci.yml/badge.svg)](https://github.com/WOIII-me/Discogs-MCP/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/WOIII-me/Discogs-MCP?label=server)](https://github.com/WOIII-me/Discogs-MCP/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 A remote [Model Context Protocol](https://modelcontextprotocol.io) server for Discogs, hosted on Cloudflare Workers. Two things it's good at:
@@ -11,6 +12,11 @@ A remote [Model Context Protocol](https://modelcontextprotocol.io) server for Di
 2. **Mood & taste based recommendations** — mood-aware search of your own collection ("mellow Sunday morning"), catalog discovery ranked against your taste profile, and cross-user discovery that mines other collectors' public collections.
 
 Auth is browser-based Discogs OAuth: connect an MCP client to the server URL and you'll be redirected to Discogs to log in. Read-only — the server never modifies your collection.
+
+> **OpenAI directory status:** DIG is not currently listed in OpenAI's Plugin Directory. The
+> documentation-only [Phase 1 readiness package](docs/openai-submission/phase-1/README.md) records
+> the proposed tool/data contract and remaining approval gates. It does not change the hosted
+> server or existing MCP clients.
 
 ## Use the hosted server
 
@@ -166,15 +172,16 @@ Extension releases are tagged `ext-v*`.
 - **Caching**: all Discogs reads go through a KV read-through cache (releases/masters 24 h, versions 12 h, search 6 h, collections/wantlists 4 h). Collections are additionally cached as a single slim aggregate, so mood search, stats, and recommendations cost zero API calls when warm.
 - **Pressing scoring**: pressings are graded along an explicit axis (`sonic` best-sounding / `collector` most desirable / `value` best-per-dollar) from multiple weighted signals — mastering pedigree (reputable label by Discogs id, renowned engineer credits, matrix/runout stamper marks, pressing studio), format/medium, used-market price & scarcity, collector demand, and community rating *delta vs. the album baseline*. Scoring is evidence-weighted (`wᵢ·confidenceᵢ`) so missing data doesn't penalise a pressing. Candidate selection is stratified so audiophile reissues and in-demand originals are both always scored. Non-retail copies (test pressings, promos, acetates, white labels) and non-album items (single / alt-take / bonus discs that ride under the same master) are demoted and flagged so they can't top a "best pressing to buy" ranking despite a reputable label's pedigree.
 - **Evidence dossiers**: `find_best_pressing` / `compare_pressings` return a full dossier per pressing, not just a number — the concrete signals found, mastering credits, matrix/runout, a one-line `whyItScores`, an `evidenceCoverage` (0–1) showing how well-supported the score is, and a provisional `verdict`. Verdicts are provisional: read them alongside coverage, and treat the scoring as reputation/community-data-based, not measured sound (the response's `dataCaveats` spell this out).
-- **Rate limits**: Discogs allows 60 req/min authenticated. The client retries 429s with exponential backoff and soft-throttles when the remaining budget is low. `find_best_pressing` fetches details for a bounded candidate set (~16, the versions endpoint carries no ratings).
+- **Rate limits**: Discogs allows 60 req/min authenticated. Database calls do not retry a 429 inside the same rate window; expensive surveys stop early and report partial/retry guidance, while OAuth exchanges retry bounded transient failures. The client soft-throttles when the remaining budget is low. `find_best_pressing` fetches details for a bounded candidate set (~16, because the versions endpoint carries no ratings).
 - Collections are fetched at 100 items/page up to 3,000 items; beyond that results are truncated and flagged (`truncated: true`).
 
 ## Roadmap
 
-Two things are planned next, in order — both additive, neither changes existing tool output:
+Current priorities are additive and preserve the existing MCP/REST contracts:
 
-1. ~~**Chrome extension (MVP)**~~ — shipped as a **side panel** (`ext-v0.1.0`, see [Browser extension](#browser-extension-mvp)). Next for the extension (v0.2): ranked wantlist / marketplace / collection views.
-2. **External sonic consensus (opt-in)** — an enrichment pipeline that summarizes audiophile-community consensus (with source attribution) into an `externalSonic` scoring factor. Off by default; derived verdicts + source links only, never republished content.
+1. **OpenAI submission readiness** — the [Phase 1 contract package](docs/openai-submission/phase-1/README.md) is complete as a conditional specification. Runtime implementation waits for the documented Discogs, publisher, and origin gates.
+2. **Submission hardening** — freshness/attribution enforcement, minimized structured MCP results, tool metadata, OAuth scope validation, and reviewer-safe tests on a separate OpenAI-facing endpoint.
+3. **External sonic consensus (opt-in)** — a future enrichment pipeline that summarizes audiophile-community consensus (with source attribution) into an `externalSonic` scoring factor. Off by default; derived verdicts plus source links only, never republished content.
 
 Ideas and feedback → [Discussions](https://github.com/WOIII-me/Discogs-MCP/discussions). Know a reissue label, engineer, or stamper mark the scorer should recognize? [Contributions welcome](https://github.com/WOIII-me/Discogs-MCP/discussions/6) — no code required.
 
@@ -185,3 +192,12 @@ npm test        # vitest unit tests (scoring, mood mapping, similarity)
 npm run lint    # tsc --noEmit
 npm run build   # wrangler dry-run bundle
 ```
+
+Project policies and maintenance guides:
+
+- [Contributing](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
+- [Support](SUPPORT.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Release process](docs/RELEASING.md)
+- [GitHub releases](https://github.com/WOIII-me/Discogs-MCP/releases)
