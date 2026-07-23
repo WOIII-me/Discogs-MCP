@@ -25,6 +25,7 @@ fail if those values are silently filled while the workbook still has
 | [`portal-workbook.md`](portal-workbook.md) | Human checklist for entering the approved values in OpenAI's submission portal |
 | [`policy-gap-register.md`](policy-gap-register.md) | Evidence-based gaps between the current public surfaces and submission requirements |
 | [`oauth-preflight.md`](oauth-preflight.md) | Reproducible read-only check of public OAuth metadata and unauthenticated challenges |
+| [`public-surface-preflight.md`](public-surface-preflight.md) | Reproducible read-only check of website, privacy, terms, and support surfaces |
 | [`owner-signoff.md`](owner-signoff.md) | Approval record to complete immediately before submission |
 
 The exact test prompts and expected tool routes remain canonical in
@@ -51,9 +52,10 @@ Run:
 npm run validate:submission
 npm test -- test/openai-submission-contract.test.ts
 npm run check:oauth
+npm run check:surfaces
 ```
 
-The first two commands are local checks. The OAuth command performs three
-unauthenticated reads against the selected public origin and runs in report
+The first two commands are local checks. The preflight commands perform only
+unauthenticated reads against the selected public origins and run in report
 mode unless `--strict` is supplied. Nothing in this directory is imported by
 `src/` or included in the Worker bundle.

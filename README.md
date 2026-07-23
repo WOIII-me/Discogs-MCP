@@ -195,6 +195,7 @@ npm test        # vitest unit tests (scoring, mood mapping, similarity)
 npm run lint    # tsc --noEmit
 npm run validate:submission # validate the unpublished plugin and submission contract
 npm run check:oauth # report public OAuth submission-readiness gaps (read-only network check)
+npm run check:surfaces # report website/policy submission-readiness gaps (read-only network check)
 npm run build   # wrangler dry-run bundle
 ```
 
