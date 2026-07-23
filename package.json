@@ -16,11 +16,11 @@
     "setup:kv": "wrangler kv namespace create OAUTH_KV && wrangler kv namespace create CACHE_KV"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260610.1",
-    "@types/node": "^25.9.2",
-    "typescript": "^6.0.3",
-    "vitest": "^4.1.8",
-    "wrangler": "^4.99.0"
+    "@cloudflare/workers-types": "^5.20260723.1",
+    "@types/node": "^26.1.1",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10",
+    "wrangler": "^4.113.0"
   },
   "dependencies": {
     "@cloudflare/workers-oauth-provider": "^0.7.2",
