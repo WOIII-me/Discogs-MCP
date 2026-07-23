@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import submissionContent from "../docs/openai-submission/draft/submission-content.json";
 import contract from "../docs/openai-submission/phase-1/submission-contract.json";
 import manifest from "../openai-plugin/dig-for-discogs/.codex-plugin/plugin.json";
 
@@ -90,5 +91,65 @@ describe("OpenAI submission contract", () => {
     expect(manifest).not.toHaveProperty("apps");
     expect(manifest).not.toHaveProperty("mcpServers");
     expect(manifest.interface.defaultPrompt).toHaveLength(3);
+  });
+
+  it("keeps portal listing copy aligned with the plugin manifest", () => {
+    expect(submissionContent.status).toBe("conditional-draft");
+    expect(submissionContent.runtimeImpact).toBe("none");
+    expect(submissionContent.listing).toMatchObject({
+      name: manifest.interface.displayName,
+      publisher: manifest.interface.developerName,
+      shortDescription: manifest.interface.shortDescription,
+      longDescription: manifest.interface.longDescription,
+      category: manifest.interface.category,
+      websiteUrl: manifest.interface.websiteURL,
+      privacyPolicyUrl: manifest.interface.privacyPolicyURL,
+    });
+    expect(submissionContent.starterPrompts).toEqual(manifest.interface.defaultPrompt);
+  });
+
+  it("maps every candidate tool to a conservative read-only annotation", () => {
+    expect(submissionContent.toolAnnotations.map(({ name }) => name)).toEqual(candidateNames);
+    for (const annotation of submissionContent.toolAnnotations) {
+      expect(annotation).toMatchObject({
+        readOnlyHint: true,
+        destructiveHint: false,
+        openWorldHint: true,
+      });
+      expect(annotation.justification.length).toBeGreaterThanOrEqual(60);
+    }
+  });
+
+  it("references the canonical portal cases without duplicating their prompts", () => {
+    expect(submissionContent.portalTestIds.positive).toEqual(
+      contract.portalTests.positive.map(({ id }) => id),
+    );
+    expect(submissionContent.portalTestIds.negative).toEqual(
+      contract.portalTests.negative.map(({ id }) => id),
+    );
+  });
+
+  it("leaves owner-controlled and external values unresolved", () => {
+    expect(submissionContent.listing).toMatchObject({
+      supportUrl: null,
+      supportEmail: null,
+      termsOfServiceUrl: null,
+      countries: [],
+    });
+    expect(submissionContent.listing.logo.path).toBeNull();
+    expect(submissionContent.mcp).toMatchObject({
+      serverUrl: null,
+      permanentOrigin: null,
+      domainVerificationToken: null,
+      authentication: { resourceIdentifier: null },
+      reviewerAccess: {
+        accountStrategy: null,
+        credentialsStorage: "portal-only",
+        credentialsIncludedInRepository: false,
+      },
+    });
+    expect(submissionContent.attestations.finalized).toBe(false);
+    expect(submissionContent.gates).toHaveLength(10);
+    expect(submissionContent.gates.every(({ state }) => state !== "closed")).toBe(true);
   });
 });

@@ -17,7 +17,9 @@ Auth is browser-based Discogs OAuth: connect an MCP client to the server URL and
 > documentation-only [Phase 1 readiness package](docs/openai-submission/phase-1/README.md) records
 > the proposed tool/data contract and remaining approval gates. Its contract tests and
 > [unpublished plugin scaffold](openai-plugin/dig-for-discogs/README.md) are development artifacts;
-> they do not change the hosted server or existing MCP clients.
+> they do not change the hosted server or existing MCP clients. A conditional
+> [portal content draft](docs/openai-submission/draft/README.md) prepares listing fields,
+> annotations, tests, and sign-off evidence without filling unresolved approvals.
 
 ## Use the hosted server
 
