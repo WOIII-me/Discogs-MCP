@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Usage questions and ideas
+    url: https://github.com/WOIII-me/Discogs-MCP/discussions
+    about: Ask for help or discuss ideas without opening a bug report.
+  - name: Direct support
+    url: https://woiii.me/#support
+    about: Contact the maintainer about non-security support matters.
+  - name: Security vulnerability
+    url: https://github.com/WOIII-me/Discogs-MCP/security/advisories/new
+    about: Report vulnerabilities privately; do not open a public issue.
