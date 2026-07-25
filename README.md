@@ -142,7 +142,10 @@ read-only, one-click **Sign in with Discogs** (or a personal access token for
 self-hosters), no build step, plain JS.
 
 Install (load unpacked, Chrome 114+) and usage: **[extension/README.md](extension/README.md)**.
-Extension releases are tagged `ext-v*`.
+Extension releases are tagged `ext-v*` and carry a ready-to-load
+`discogs-copilot-<version>.zip` under the release's **Assets** — unzip it and
+**Load unpacked** that folder. (Don't use *Source code (zip)*: it's the whole repo,
+so Chrome reports a missing manifest — the extension lives in `extension/`.)
 
 ## Tools
 

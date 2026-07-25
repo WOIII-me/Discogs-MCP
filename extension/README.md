@@ -9,17 +9,57 @@ by the [Discogs MCP](../README.md) Worker's REST API. Read-only.
 
 ## Install (load unpacked)
 
-Requires **Chrome 114+** (the side panel API).
+Requires **Chrome 114+** (the side panel API). Not on the Chrome Web Store yet, so
+installation is **load unpacked** either way — Chrome will show a developer-mode
+notice, and the extension does not auto-update.
 
-1. Clone this repo (or download it) and note the `extension/` folder.
-2. Open `chrome://extensions`, enable **Developer mode** (top right).
-3. Click **Load unpacked** and pick the `extension/` folder.
-4. Open any Discogs release page, click the ◎ toolbar icon to open the panel, and
-   hit **Sign in with Discogs** — approve access on discogs.com and you're done.
-5. Alternative (self-hosters/dev): in the extension options, expand **Advanced**
-   and paste a Discogs **personal access token** — generate one at
-   [discogs.com/settings/developers](https://www.discogs.com/settings/developers)
-   ("Generate new token") — then hit **Test connection**.
+**A. Download the zip** (easiest)
+
+1. Open the [latest `ext-v*` release](https://github.com/WOIII-me/Discogs-MCP/releases?q=ext-v)
+   and, under **Assets**, download `discogs-copilot-<version>.zip`.
+   ⚠️ **Not** *Source code (zip)* — see [Troubleshooting](#troubleshooting).
+2. Unzip it. The folder must contain `manifest.json` directly.
+3. Open `chrome://extensions`, enable **Developer mode** (top right).
+4. Click **Load unpacked** and pick the unzipped folder.
+
+**B. Clone the repo** (for development — lets you `git pull` to update)
+
+1. Clone this repo, then `chrome://extensions` → **Developer mode** →
+   **Load unpacked**.
+2. Pick the **`extension/` subfolder** — not the repo root, which has no
+   `manifest.json`.
+
+**Then, either way**
+
+- Open any Discogs release page, click the ◎ toolbar icon to open the panel, and
+  hit **Sign in with Discogs** — approve access on discogs.com and you're done.
+- Alternative (self-hosters/dev): in the extension options, expand **Advanced**
+  and paste a Discogs **personal access token** — generate one at
+  [discogs.com/settings/developers](https://www.discogs.com/settings/developers)
+  ("Generate new token") — then hit **Test connection**.
+
+### Updating
+
+- **Zip install:** unzip the new `discogs-copilot-<version>.zip` **over the same
+  folder** you loaded, then hit **Reload (↻)** in `chrome://extensions`. Keep the
+  folder path — removing the extension entry clears its `chrome.storage.local`, so
+  you'd have to sign in again.
+- **Clone install:** `git pull`, then hit **Reload (↻)** in `chrome://extensions`.
+
+## Troubleshooting
+
+**"Manifest file is missing or unreadable. Could not load manifest."**
+
+Chrome was pointed at a folder with no `manifest.json` at its top level. Almost
+always this means *Source code (zip)* was downloaded instead of the release asset:
+that archive is the **whole repository**, so the manifest sits one level down in
+`extension/`. Fix it by using the `discogs-copilot-<version>.zip` under a release's
+**Assets** (path A above), or by picking the `extension/` subfolder if you cloned
+(path B).
+
+**Panel is empty / "sign in" does nothing** — check the **Server URL** in the
+extension options; the default is the hosted Worker. Reload the extension after
+changing it.
 
 ## How sign-in works
 
