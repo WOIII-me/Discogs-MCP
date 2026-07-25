@@ -19,4 +19,6 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run validate:submission
+      # Builds the release zip so a packaging break surfaces here, not at release time.
+      - run: npm run package:ext
       - run: npm run build

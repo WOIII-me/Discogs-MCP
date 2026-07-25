@@ -11,6 +11,7 @@
     "deploy:prod": "wrangler deploy --env production",
     "test": "vitest run",
     "test:watch": "vitest",
+    "package:ext": "node scripts/package-extension.mjs",
     "validate:submission": "node scripts/validate-openai-submission.mjs",
     "check:oauth": "node scripts/check-openai-oauth-contract.mjs",
     "check:surfaces": "node scripts/check-openai-public-surfaces.mjs",
