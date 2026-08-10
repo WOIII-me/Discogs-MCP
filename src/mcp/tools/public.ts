@@ -1,4 +1,4 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServer } from "@modelcontextprotocol/server";
 import type { GetContext } from "./context.js";
 import { jsonResult } from "./context.js";
 import { KNOWN_MOODS } from "../../utils/mood-mapping.js";

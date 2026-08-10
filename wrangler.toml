@@ -9,7 +9,9 @@
 name = "discogs-mcp"
 main = "src/index.ts"
 compatibility_date = "2026-04-01"
-compatibility_flags = ["nodejs_compat"]
+# global_fetch_strictly_public: required by workers-oauth-provider's CIMD
+# support (fetching client_id metadata URLs must never hit internal services)
+compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 
 # OAuth token storage for @cloudflare/workers-oauth-provider (binding name is required to be OAUTH_KV)
 [[kv_namespaces]]
