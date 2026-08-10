@@ -32,7 +32,7 @@ A public instance runs at **`https://discogs-mcp.woiii.workers.dev`** — open t
   [mcp_servers.discogs]
   url = "https://discogs-mcp.woiii.workers.dev/mcp"
   ```
-- Legacy SSE clients can use `/sse` instead of `/mcp`.
+- Legacy SSE clients can use `/sse` instead of `/mcp` (deprecated transport, kept for compatibility).
 
 The hosted instance is best-effort: Discogs allows 60 requests/min per authenticated user (your own budget — other users don't eat into it), and heavy tools like `find_best_pressing` are bounded to stay inside it. For anything serious, self-host — it's one `wrangler deploy`.
 
@@ -84,7 +84,7 @@ Same as the hosted instance, with your own Worker URL:
   ```sh
   codex mcp login discogs
   ```
-- Legacy SSE clients can use `/sse` instead of `/mcp`.
+- Legacy SSE clients can use `/sse` instead of `/mcp` (deprecated transport, kept for compatibility).
 
 The server's prompts surface as **slash commands** in clients that support them (`/find-best-pressing`, `/best-value-pressing`, `/rank-my-wantlist`, …), each scoped to the right tools.
 
@@ -174,7 +174,8 @@ so Chrome reports a missing manifest — the extension lives in `extension/`.)
 
 ## Architecture notes
 
-- **Auth bridge**: MCP clients speak OAuth 2.1 to the Worker (via `@cloudflare/workers-oauth-provider`); the Worker speaks OAuth 1.0a to Discogs. Discogs tokens live encrypted inside the MCP access token (`props`) — no server-side session store.
+- **Protocol**: `/mcp` serves MCP **2026-07-28** statelessly (no session, no Durable Object per client) and transparently falls back to the 2025-era protocol for older clients — one endpoint, both eras. List results carry the revision's `ttlMs`/`cacheScope` cache hints. The deprecated HTTP+SSE transport remains available at `/sse` (Durable Object-backed) until clients drain.
+- **Auth bridge**: MCP clients speak OAuth 2.1 to the Worker (via `@cloudflare/workers-oauth-provider`); the Worker speaks OAuth 1.0a to Discogs. Discogs tokens live encrypted inside the MCP access token (`props`) — no server-side session store. Clients may register via Client ID Metadata Documents (an HTTPS `client_id` URL) or legacy Dynamic Client Registration at `/register`.
 - **Caching**: all Discogs reads go through a KV read-through cache (releases/masters 24 h, versions 12 h, search 6 h, collections/wantlists 4 h). Collections are additionally cached as a single slim aggregate, so mood search, stats, and recommendations cost zero API calls when warm.
 - **Pressing scoring**: pressings are graded along an explicit axis (`sonic` best-sounding / `collector` most desirable / `value` best-per-dollar) from multiple weighted signals — mastering pedigree (reputable label by Discogs id, renowned engineer credits, matrix/runout stamper marks, pressing studio), format/medium, used-market price & scarcity, collector demand, and community rating *delta vs. the album baseline*. Scoring is evidence-weighted (`wᵢ·confidenceᵢ`) so missing data doesn't penalise a pressing. Candidate selection is stratified so audiophile reissues and in-demand originals are both always scored. Non-retail copies (test pressings, promos, acetates, white labels) and non-album items (single / alt-take / bonus discs that ride under the same master) are demoted and flagged so they can't top a "best pressing to buy" ranking despite a reputable label's pedigree.
 - **Evidence dossiers**: `find_best_pressing` / `compare_pressings` return a full dossier per pressing, not just a number — the concrete signals found, mastering credits, matrix/runout, a one-line `whyItScores`, an `evidenceCoverage` (0–1) showing how well-supported the score is, and a provisional `verdict`. Verdicts are provisional: read them alongside coverage, and treat the scoring as reputation/community-data-based, not measured sound (the response's `dataCaveats` spell this out).
