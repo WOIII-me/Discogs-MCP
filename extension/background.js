@@ -160,20 +160,33 @@ async function ensureClient(baseUrl) {
 async function handleSignIn() {
   try {
     const { baseUrl } = await getSettings();
-    const clientId = await ensureClient(baseUrl);
+    let clientId = await ensureClient(baseUrl);
 
     const verifier = randomB64url();
     const state = randomB64url(16);
     const redirectUri = chrome.identity.getRedirectURL();
-    const authUrl =
+    const buildAuthUrl = async (id) =>
       `${baseUrl}/authorize?response_type=code` +
-      `&client_id=${encodeURIComponent(clientId)}` +
+      `&client_id=${encodeURIComponent(id)}` +
       `&redirect_uri=${encodeURIComponent(redirectUri)}` +
       `&state=${state}` +
       `&code_challenge=${b64url(await sha256(verifier))}` +
       `&code_challenge_method=S256`;
 
-    const resultUrl = await chrome.identity.launchWebAuthFlow({ url: authUrl, interactive: true });
+    let resultUrl;
+    try {
+      resultUrl = await chrome.identity.launchWebAuthFlow({ url: await buildAuthUrl(clientId), interactive: true });
+    } catch (e) {
+      // The server expires dynamically-registered clients (~90 days), but we
+      // cache ours forever — a stale client_id makes /authorize answer 400,
+      // which Chrome surfaces as "Authorization page could not be loaded".
+      // Drop the cached registration, register fresh, and retry once.
+      // Genuine user cancellations throw a different message and rethrow here.
+      if (!/could not be loaded/i.test(e?.message ?? "")) throw e;
+      await chrome.storage.local.remove("oauthClient");
+      clientId = await ensureClient(baseUrl);
+      resultUrl = await chrome.identity.launchWebAuthFlow({ url: await buildAuthUrl(clientId), interactive: true });
+    }
     if (!resultUrl) return { error: "Sign-in was cancelled." };
     const params = new URL(resultUrl).searchParams;
     if (params.get("state") !== state) return { error: "Sign-in failed (state mismatch) — please retry." };
@@ -214,7 +227,9 @@ async function handleSignIn() {
 }
 
 async function handleSignOut() {
-  await chrome.storage.local.remove(["oauthTokens", "oauthUsername", "recentAnalyses"]);
+  // oauthClient goes too: the server may have expired the registration while
+  // we were signed in, and the next sign-in re-registers for free anyway.
+  await chrome.storage.local.remove(["oauthTokens", "oauthUsername", "recentAnalyses", "oauthClient"]);
   memCache.clear();
   await persistClearAll();
   try { await chrome.storage.session.clear(); } catch { /* ignore */ }
