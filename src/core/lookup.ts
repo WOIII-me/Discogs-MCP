@@ -132,6 +132,14 @@ export async function analyzeRelease(
       dataCaveats = survey.data.dataCaveats;
       candidatesScored = survey.data.album.candidatesScored;
       candidatesTarget = survey.data.album.candidatesAttempted;
+    } else if (survey.rateLimited) {
+      // Every candidate fetch hit the rate limit. Answering "complete" here
+      // would ship bestPressing:null as a cacheable result (the extension
+      // persists full results for 24h) — defer instead so the client retries
+      // once the budget drains; everything fetched so far is KV-cached.
+      return { ok: false, deferred: { retryAfter: 60 } };
+    } else {
+      dataCaveats = [...dataCaveats, `Best-pressing survey unavailable: ${survey.error}`];
     }
   }
 

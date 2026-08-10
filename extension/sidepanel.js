@@ -693,7 +693,9 @@
       renderMaster(res.data);
       return;
     }
-    const isFull = !res.data.meta || res.data.meta.level === "full";
+    // A full result still owing its survey (rate-limited away) re-enters the
+    // enrichment loop like a summary would, instead of ending the flow.
+    const isFull = (!res.data.meta || res.data.meta.level === "full") && !res.surveyPending;
     renderRelease(res.data, { listing, enriching: !isFull, stale: !!res.stale });
     if (!isFull) {
       state.enrichCtx = { key, params, listing };
@@ -765,23 +767,31 @@
     }
     if (seq !== state.seq || state.lastKey !== key) return; // navigated away
 
-    if (res?.data) {
+    if (res?.data && !res.surveyPending) {
       renderRelease(res.data, { listing, stale: !!res.stale });
       return;
     }
     if (res?.needsSetup) { renderSetup(); return; }
 
+    if (res?.data && res.surveyPending) {
+      // The verdict came back but the survey was rate-limited away — show
+      // what we have and keep the best-pressing slot in the retry loop.
+      renderRelease(res.data, { listing, stale: !!res.stale, enriching: true });
+    }
+
     const retryAfter = res?.retryAfter ?? 60;
-    if (res?.deferred || res?.rateLimited) {
+    if (res?.deferred || res?.rateLimited || res?.surveyPending) {
       setEnrichSlot({ kind: "deferred", retryAfter });
       startCountdown(retryAfter);
       if (autoRetry) {
         // One automatic retry if the same page is still open after cooldown.
+        // Jittered past the nominal cooldown: Discogs uses a rolling window,
+        // and retrying the moment it half-opens keeps the budget pinned low.
         setTimeout(() => {
           if (seq !== state.seq || state.lastKey !== key) return;
           setEnrichSlot({ kind: "loading" });
           runEnrichment(key, params, seq, listing, { autoRetry: false });
-        }, (retryAfter + 2) * 1000);
+        }, (retryAfter + 15 + Math.random() * 30) * 1000);
       }
       return;
     }

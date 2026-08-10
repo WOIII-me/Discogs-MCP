@@ -377,9 +377,14 @@ async function handleAnalyze({ releaseId, masterId, axis, mode }) {
   const fullKey = releaseId ? `r${releaseId}:${ax}` : `m${masterId}:${ax}`;
   const key = summary ? `${fullKey}:s` : fullKey;
 
+  // A release-level "full" result without its survey is a rate-limit casualty
+  // (old servers answered 200 with bestPressing:null) — never serve or store
+  // it as complete, or the best-pressing card silently disappears for 24h.
+  const surveyless = (d) => !!releaseId && !d?.bestPressing;
+
   // A cached FULL result satisfies a summary request too (it's a superset).
   const cachedFull = await cacheGet(fullKey);
-  if (cachedFull) {
+  if (cachedFull && !surveyless(cachedFull)) {
     if (releaseId) recordRecentAnalysis(cachedFull, ax);
     return { data: cachedFull };
   }
@@ -389,7 +394,7 @@ async function handleAnalyze({ releaseId, masterId, axis, mode }) {
   }
   // Fresh persistent results (24h) serve without any network at all.
   const persisted = await persistGet(fullKey);
-  if (persisted?.fresh) {
+  if (persisted?.fresh && !surveyless(persisted.data)) {
     if (releaseId) recordRecentAnalysis(persisted.data, ax);
     return { data: persisted.data };
   }
@@ -432,9 +437,15 @@ async function handleAnalyze({ releaseId, masterId, axis, mode }) {
       return staleFallback({ error: body?.error || `Server error (HTTP ${res.status}).` });
     }
 
-    await cachePut(key, body);
-    if (!summary) await persistPut(fullKey, body); // persist complete results only
+    const incomplete = !summary && surveyless(body);
+    if (!incomplete) await cachePut(key, body);
+    if (!summary && !incomplete) await persistPut(fullKey, body); // persist complete results only
     if (releaseId && !summary) recordRecentAnalysis(body, ax);
+    if (incomplete) {
+      // Render what we have, but tell the panel the survey is still owed so
+      // it re-runs after the rate window drains instead of ending the flow.
+      return { data: body, surveyPending: true, retryAfter: 75 };
+    }
     return { data: body };
   })().finally(() => inFlight.delete(key));
 
