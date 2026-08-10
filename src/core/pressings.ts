@@ -21,7 +21,9 @@ export interface CoreContext {
   username: string;
 }
 
-export type CoreResult<T> = { ok: true; data: T } | { ok: false; error: string };
+export type CoreResult<T> =
+  | { ok: true; data: T }
+  | { ok: false; error: string; rateLimited?: boolean };
 
 /** A scored pressing dossier as returned in tool/API responses. */
 export type DossierEntry = PressingDossier & { inYourCollection: boolean; rank?: number };
@@ -325,6 +327,7 @@ export async function findBestPressing(
     return {
       ok: false,
       error: "Couldn't fetch any pressing details — Discogs is rate-limiting. Wait ~60s and try again.",
+      rateLimited,
     };
   }
   const baseline = baselineRating(releases);

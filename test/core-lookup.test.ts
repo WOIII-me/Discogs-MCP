@@ -155,3 +155,35 @@ describe("core/lookup analyzeRelease — progressive contract", () => {
     expect("deferred" in r && r.deferred.retryAfter).toBe(60);
   });
 });
+
+describe("core/lookup analyzeRelease under survey rate-limiting", () => {
+  it("defers instead of returning a 'complete' result with bestPressing null", async () => {
+    const ctx = fakeCtx();
+    const client = ctx.client as unknown as {
+      getRelease: (id: number) => Promise<unknown>;
+      rateLimitRemaining: number | null;
+    };
+    // The viewed release itself resolves, but by survey time the budget
+    // header reports the window is exhausted, so every candidate chunk is
+    // skipped and zero dossiers come back.
+    await client.getRelease(1); // warm the viewed release into the memo
+    client.rateLimitRemaining = 30; // enough to pass the surveyBudget gate...
+    const origGetRelease = client.getRelease.bind(client);
+    client.getRelease = async (id: number) => {
+      const r = await origGetRelease(id);
+      // ...but the first survey fetch reveals a drained budget.
+      client.rateLimitRemaining = 0;
+      return r;
+    };
+
+    const r = await analyzeRelease(ctx, 1, "sonic");
+    // Either outcome must be honest: a deferral (retry signal) or a complete
+    // result that actually carries the survey. Never ok-with-null-best.
+    if (r.ok) {
+      expect(r.data.bestPressing).not.toBeNull();
+    } else {
+      expect("deferred" in r && r.deferred.retryAfter).toBeGreaterThan(0);
+    }
+  });
+
+});
