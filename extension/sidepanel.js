@@ -136,53 +136,21 @@
   }
 
   // ------------------------------------------------------------- templates
-  function chipsHtml(items) {
-    return `<div class="m3-chips">${items.filter(Boolean).join("")}</div>`;
-  }
-  const chip = (cls, text) => `<span class="m3-chip ${cls}">${text}</span>`;
+  // The panel is an answer, not a dashboard: judgment renders as toned TEXT
+  // (good / fair / poor), numbers as plain numerals, detail behind one
+  // disclosure. No gauges, no bars, no badges.
 
-  // ------------------------------------------------- micro-charts (pure SVG/CSS)
-  // Word-sized visuals in place of raw decimals: a groove-ring score (read
-  // like dead wax), five-segment grading tiers, and paired comparison bars.
-
-  /** Verdict tone: lime (strong), teal (solid), rose (flagged), plain. */
-  function toneClass(d) {
+  /** Judgment tone for verdicts and scores. */
+  function tone(d) {
     const c = verdictChipClass(d);
-    return c === "gold" ? "" : c === "success" ? "teal" : c === "error" ? "rose" : "plain";
-  }
-
-  function grooveRing(score, toneCls) {
-    const s = Math.max(0, Math.min(100, score));
-    const r = 28;
-    const c = 2 * Math.PI * r;
-    const off = c * (1 - s / 100);
-    return `
-      <svg class="gr-ring ${toneCls}" width="68" height="68" viewBox="0 0 68 68" role="img" aria-label="score ${esc(fmtScore(score))} of 100">
-        <circle class="groove" cx="34" cy="34" r="32.5" fill="none" stroke-width="1"/>
-        <circle class="track" cx="34" cy="34" r="${r}" fill="none" stroke-width="3"/>
-        <circle class="arc" cx="34" cy="34" r="${r}" fill="none" stroke-width="3" stroke-linecap="round"
-          stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 34 34)"/>
-        <text x="34" y="32" text-anchor="middle" dominant-baseline="central">${esc(fmtScore(score))}</text>
-        <text class="of" x="34" y="45" text-anchor="middle">of 100</text>
-      </svg>`;
-  }
-
-  function tierBand(v01, label, word, { toneCls = "", warn = false } = {}) {
-    const on = Math.round(Math.max(0, Math.min(1, v01)) * 5);
-    const segs = Array.from({ length: 5 }, (_, i) => `<i class="${i < on ? "on" : ""}"></i>`).join("");
-    return `
-      <div class="tier ${toneCls}">
-        <div class="lbl">${esc(label)}</div>
-        <div class="segs">${segs}</div>
-        <div class="word ${warn ? "warn" : ""}">${esc(word)}</div>
-      </div>`;
+    return c === "gold" ? "good" : c === "success" ? "fair" : c === "error" ? "poor" : "plain";
   }
 
   function coverageWord(c) {
     if (c >= 0.85) return "well documented";
     if (c >= 0.6) return "good evidence";
     if (c >= 0.35) return "partial evidence";
-    return "thin data — low confidence";
+    return "thin evidence — low confidence";
   }
 
   function fitWord(aff) {
@@ -192,71 +160,31 @@
     return "outside your usual lane";
   }
 
-  /** Conditional tone for a 0..1 grading value: lime, teal, amber, rose. */
-  function tierTone(v01) {
-    return v01 >= 0.6 ? "" : v01 >= 0.35 ? "teal" : v01 >= 0.15 ? "amber" : "rose";
-  }
-
-  function pairBars(mine, best) {
-    const max = Math.max(mine, best, 1);
-    const row = (who, n, lead) => `
-      <div class="row ${lead ? "lead" : ""}">
-        <div class="who">${esc(who)}</div>
-        <div class="bar"><i style="width:${pct(n / max)}"></i></div>
-        <div class="n">${esc(fmtScore(n))}</div>
-      </div>`;
-    return `<div class="pair">${row("best copy", best, best >= mine)}${row("this copy", mine, mine > best)}</div>`;
-  }
-
   const FACTOR_NAMES = {
-    pedigree: "Pedigree",
-    format: "Format",
-    ratingDelta: "Community",
-    marketValue: "Market",
-    scarcity: "Scarcity",
-    demand: "Demand",
+    pedigree: "pedigree",
+    format: "format",
+    ratingDelta: "community",
+    marketValue: "market",
+    scarcity: "scarcity",
+    demand: "demand",
   };
 
   function factorGrade(s) {
     return s >= 80 ? "strong" : s >= 55 ? "good" : s >= 30 ? "fair" : "weak";
   }
 
-  /** Top factors by weight; bar width = score, bar opacity = confidence. */
-  function factorRows(factors) {
+  /** One quiet text line: "pedigree weak · community good · format good". */
+  function factorsLine(factors) {
     if (!factors) return "";
-    const rows = Object.entries(factors)
+    const parts = Object.entries(factors)
       .filter(([, f]) => f && typeof f.score === "number" && f.confidence > 0)
       .sort((a, b) => b[1].weight - a[1].weight)
       .slice(0, 4)
-      .map(([k, f]) => {
-        const grade = factorGrade(f.score);
-        return `
-        <div class="factor ${grade}">
-          <div class="name">${esc(FACTOR_NAMES[k] || k)}</div>
-          <div class="bar"><i style="width:${pct(f.score / 100)};opacity:${(0.35 + 0.65 * f.confidence).toFixed(2)}"></i></div>
-          <div class="grade">${esc(grade)}</div>
-        </div>`;
-      })
-      .join("");
-    return rows ? `<div class="factors">${rows}</div>` : "";
+      .map(([k, f]) => `${FACTOR_NAMES[k] || k} ${factorGrade(f.score)}`);
+    return parts.join(" · ");
   }
 
-
-  function caveatsHtml(caveats) {
-    if (!caveats?.length) return "";
-    return `
-      <details class="m3-caveats">
-        <summary>Data caveats (${caveats.length})</summary>
-        <ul>${caveats.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>
-      </details>`;
-  }
-
-  function kvRow(k, v) {
-    return v ? `<div class="m3-kv"><div class="k">${esc(k)}</div><div class="v">${v}</div></div>` : "";
-  }
-
-  function dossierCardHtml(d, caveats) {
-    const signals = (d.signals || []).slice(0, 3);
+  function evidenceHtml(d, caveats) {
     const matrix = (d.matrixRunout || []).slice(0, 2).map((x) => esc(x.value)).join("<br>");
     const engineers = (d.masteringCredits || []).join(", ");
     const plants = (d.pressingCompanies || []).map((c) => c.name).join(", ");
@@ -265,49 +193,45 @@
       ? `${d.rating.toFixed(2)} of 5 (${d.ratingCount} ratings)` +
         (delta != null ? ` · ${delta >= 0 ? "+" : "−"}${Math.abs(delta).toFixed(2)} vs album` : "")
       : "not enough ratings";
+    const factors = factorsLine(d.factors);
 
-    // whyItScores is the top signals joined (see pressing-dossier.ts), so it's
-    // only worth showing when there's no signal list to render.
     return `
-      <div class="m3-card">
-        <div class="m3-overline">Why it scores</div>
-        ${signals.length
-          ? `<ul class="m3-signals">${signals.map((s) => `<li>${esc(s)}</li>`).join("")}</ul>`
-          : `<div class="m3-why">${esc(d.whyItScores)}</div>`}
-        ${factorRows(d.factors)}
-        <hr class="m3-divider" />
-        ${matrix ? `<div class="m3-kv"><div class="k">Dead wax</div><div class="v"><div class="etching">${matrix}</div></div></div>` : ""}
-        ${kvRow("Engineer", esc(engineers))}
-        ${kvRow("Plant", esc(plants))}
-        ${kvRow("Rating", esc(rating))}
-        ${kvRow("Market", esc(marketLine(d)))}
-        ${caveats?.length ? '<hr class="m3-divider" />' : ""}
-        ${caveatsHtml(caveats)}
-      </div>`;
+      <details class="evidence">
+        <summary>Evidence</summary>
+        <div class="ev-body">
+          ${matrix ? `<div class="kv"><div class="k">Dead wax</div><div class="v mono">${matrix}</div></div>` : ""}
+          ${engineers ? `<div class="kv"><div class="k">Engineer</div><div class="v">${esc(engineers)}</div></div>` : ""}
+          ${plants ? `<div class="kv"><div class="k">Plant</div><div class="v">${esc(plants)}</div></div>` : ""}
+          <div class="kv"><div class="k">Rating</div><div class="v">${esc(rating)}</div></div>
+          <div class="kv"><div class="k">Market</div><div class="v">${esc(marketLine(d))}</div></div>
+          ${factors ? `<div class="kv"><div class="k">Factors</div><div class="v">${esc(factors)}</div></div>` : ""}
+          ${(caveats || []).map((c) => `<div class="ev-note">${esc(c)}</div>`).join("")}
+          <div class="ev-note">Reputation-based, not measured sound. Read-only.</div>
+        </div>
+      </details>`;
   }
 
   // ------------------------------------------------------------- views
-  const DEFAULT_SUB = "pressing intelligence";
+  const DEFAULT_SUB = "";
+
+  function setSub(text) {
+    if ($sub) $sub.textContent = text;
+  }
 
   // The app bar's "● username · connected" is set when the home view loads;
   // signed-out views must take it back down (demo keeps its own label).
   function resetSub() {
-    if (DEMO === null) $sub.textContent = DEFAULT_SUB;
+    if (DEMO === null) setSub(DEFAULT_SUB);
   }
 
   function renderEmpty(reason) {
     $seg.hidden = true;
     resetSub();
-    const v02 =
-      reason === "v02"
-        ? '<div class="detail" style="margin-top:8px">Collection &amp; wantlist intelligence is coming in v0.2.</div>'
-        : "";
+    const v02 = reason === "v02" ? " Collection and wantlist views are coming in a later release." : "";
     $body.innerHTML = `
-      <div class="m3-state">
-        <div class="disc still"></div>
+      <div class="state">
         <div class="headline">Nothing to analyze here</div>
-        <div class="detail">Open a Discogs <b>release</b>, <b>master</b> or <b>marketplace listing</b> and the pressing dossier appears here.</div>
-        ${v02}
+        <div class="detail">Open a Discogs <b>release</b>, <b>master</b> or <b>marketplace listing</b> and the verdict appears here.${esc(v02)}</div>
       </div>`;
   }
 
@@ -315,168 +239,144 @@
     $seg.hidden = true;
     resetSub();
     $body.innerHTML = `
-      <div class="m3-state">
-        <div class="disc still amber"></div>
+      <div class="state">
         <div class="headline">Connect your Discogs account</div>
-        <div class="detail">Sign in with Discogs to get pressing verdicts, taste fit and owned/wanted badges. Read-only — nothing ever modifies your collection.</div>
-        ${error ? `<div class="detail" style="margin-top:8px;color:var(--md-on-error-container)">${esc(error)}</div>` : ""}
-        <div class="m3-actions">
-          <button class="m3-btn filled" data-action="sign-in" ${busy ? "disabled" : ""}>${busy ? "Waiting for Discogs…" : "Sign in with Discogs"}</button>
-        </div>
-        <div class="m3-actions" style="margin-top:2px">
-          <button class="m3-btn text" data-action="open-settings">Settings (self-host / token)</button>
+        <div class="detail">Pressing verdicts, taste fit and owned/wanted context. Read-only — nothing ever modifies your collection.</div>
+        ${error ? `<div class="detail" style="margin-top:8px;color:var(--poor)">${esc(error)}</div>` : ""}
+        <div class="actions">
+          <button class="btn primary" data-action="sign-in" ${busy ? "disabled" : ""}>${busy ? "Waiting for Discogs…" : "Sign in with Discogs"}</button>
+          <button class="btn quiet" data-action="open-settings">Settings</button>
         </div>
       </div>`;
   }
 
-  function renderLoading(kind) {
-    const copy =
-      kind === "master"
-        ? "Surveying pressings of this album — a first look takes ~15 s. Repeat visits are near-instant (server cache)."
-        : "Surveying this album's pressings — a first look takes ~15 s. Repeat visits are near-instant (server cache).";
+  function renderLoading() {
     $body.innerHTML = `
-      <div class="m3-loading">
-        <div class="disc"></div>
-        <div class="copy">${esc(copy)}</div>
-        <div class="m3-skelrow" style="width:70%"></div>
-        <div class="m3-skelrow" style="width:90%"></div>
-        <div class="m3-skelrow" style="width:55%"></div>
+      <div class="sect">
+        <div class="progress"><i></i></div>
+        <div class="loading-copy">Surveying this album’s pressings — a first look takes ~15s. Repeat visits are near-instant.</div>
       </div>`;
   }
 
   function renderRateLimited(retryAfter) {
     $body.innerHTML = `
-      <div class="m3-state">
-        <div class="disc slow"></div>
+      <div class="state">
         <div class="headline">Discogs rate limit reached</div>
-        <div class="detail">The analysis uses your own Discogs request budget (60/min). Try again in ~${esc(retryAfter)}s — already-surveyed pressings are cached, so the retry is fast.</div>
-        <div class="m3-actions"><button class="m3-btn tonal" data-action="retry">Retry</button></div>
+        <div class="detail">Analysis runs on your own request budget (60/min). Try again in ~${esc(retryAfter)}s — surveyed pressings are cached, so the retry is fast.</div>
+        <div class="actions"><button class="btn" data-action="retry">Retry</button></div>
       </div>`;
   }
 
   function renderError(message) {
     $body.innerHTML = `
-      <div class="m3-state">
-        <div class="disc still rust"></div>
+      <div class="state">
         <div class="headline">Analysis failed</div>
         <div class="detail">${esc(message)}</div>
-        <div class="m3-actions"><button class="m3-btn tonal" data-action="retry">Retry</button></div>
+        <div class="actions"><button class="btn" data-action="retry">Retry</button></div>
       </div>`;
   }
 
   function renderRelease(data, { listing = false, enriching = false, stale = false } = {}) {
     const d = data.thisPressing;
     const best = data.bestPressing;
-    const r = data.release;
     const isBest = best && best.releaseId === d.releaseId;
     const flagged = /test pressing|partial release/.test(d.verdict);
     const meta = data.meta;
     const partialSurvey =
       meta && meta.candidatesScored != null && meta.candidatesTarget != null && meta.candidatesScored < meta.candidatesTarget;
+    const t = tone(d);
 
-    const tone = toneClass(d);
+    // The page the user is looking at already names the record — the panel
+    // answers. Marks and taste live on one quiet metadata line each.
     const marks = [
-      data.owned ? '<span>✓ in your collection</span>' : "",
-      data.wanted ? '<span class="want">♡ on your wantlist</span>' : "",
-      isBest ? `<span>◎ top ${esc(data.axis)} pick of the album</span>` : "",
-    ].filter(Boolean);
+      data.owned ? "in your collection" : "",
+      data.wanted ? "on your wantlist" : "",
+    ].filter(Boolean).join(" · ");
+    const fit = data.tasteFit ? fitWord(data.tasteFit.affinity) : "";
 
-    // Verdict leads, spoken in words; the score reads from the groove ring.
-    const hero = `
-      <div class="gr-hero">
-        ${grooveRing(d.overallScore, tone)}
-        <div class="gr-verdict ${tone}">
-          <div class="word">${esc(cap(d.verdict))}</div>
-          <div class="ev">${esc(coverageWord(d.evidenceCoverage))} · ${esc(data.axis)} axis</div>
-          ${marks.length ? `<div class="marks">${marks.join("")}</div>` : ""}
-        </div>
+    const answer = `
+      <div class="sect">
+        ${listing ? '<div class="context">From this marketplace listing</div>' : ""}
+        ${stale ? '<div class="context">Saved result — Discogs is rate-limited; refreshes on your next visit</div>' : ""}
+        <div class="score tone-${t}">${esc(fmtScore(d.overallScore))}<span class="of">/ 100</span></div>
+        <div class="verdict tone-${t}">${esc(cap(d.verdict))}</div>
+        <div class="meta">${esc(coverageWord(d.evidenceCoverage))}${fit ? `<span class="sep"> · </span>${esc(fit)}` : ""}</div>
+        ${marks ? `<div class="meta">${esc(marks)}</div>` : ""}
+        ${flagged ? '<div class="caution">Not a standard retail copy of the full album — score is penalized.</div>' : ""}
       </div>`;
 
-    const fit = data.tasteFit
-      ? tierBand(data.tasteFit.affinity / 100, "Taste fit", fitWord(data.tasteFit.affinity), {
-          toneCls: tierTone(data.tasteFit.affinity / 100),
-        })
-      : "";
+    let betterSect = "";
+    if (isBest) {
+      betterSect = `
+        <div class="sect better">
+          <div class="this-wins">This is the album’s best ${esc(data.axis)} pressing${meta?.candidatesScored ? ` of the ${esc(meta.candidatesScored)} surveyed` : ""}.</div>
+        </div>`;
+    } else if (best) {
+      const delta = best.overallScore - d.overallScore;
+      betterSect = `
+        <div class="sect better">
+          <div class="sect-h">A better copy exists</div>
+          <div class="line">${esc(best.year || "")} · ${esc(best.label)} ${esc(best.catno)}${best.country ? " · " + esc(best.country) : ""}</div>
+          <div class="line">${esc(best.format)}</div>
+          <div class="line">Scores <span class="delta">${esc(fmtScore(best.overallScore))}</span> — ${esc(fmtScore(Math.abs(delta)))} ${delta >= 0 ? "above" : "below"} this copy · ${esc(marketLine(best))}${best.inYourCollection ? " · you own it" : ""}</div>
+          ${partialSurvey ? `<div class="context" style="margin-top:8px">Partial survey — ${esc(meta.candidatesScored)} of ${esc(meta.candidatesTarget)} pressings scored so far</div>` : ""}
+          <div class="actions"><a class="btn" href="${releaseUrl(best.releaseId)}" target="_blank" rel="noreferrer">View on Discogs</a></div>
+        </div>`;
+    }
 
-    const bestCard =
-      best && !isBest
-        ? `
-      <div class="m3-card">
-        <div class="m3-overline">Best ${esc(data.axis)} pressing of this album</div>
-        <div class="m3-title" style="font-size:13.5px;margin-top:8px">${esc(best.year || "")} · ${esc(best.label)} ${esc(best.catno)}</div>
-        <div class="m3-sub2">${esc(best.format)}${best.country ? " · " + esc(best.country) : ""}${best.inYourCollection ? " · ✓ you own it" : ""}</div>
-        ${pairBars(d.overallScore, best.overallScore)}
-        ${partialSurvey ? `<div class="m3-sub2" style="margin-top:10px;color:var(--rust)">Partial survey — scored ${esc(meta.candidatesScored)} of ${esc(meta.candidatesTarget)} pressings so far; re-check in a minute for the full ranking.</div>` : ""}
-        <div class="m3-kv" style="margin-top:10px"><div class="k">Market</div><div class="v">${esc(marketLine(best))}</div></div>
-        <div class="m3-actions" style="margin-top:10px">
-          <a class="m3-btn tonal" href="${releaseUrl(best.releaseId)}" target="_blank" rel="noreferrer">View on Discogs ↗</a>
-        </div>
-      </div>`
-        : "";
+    const signals = (d.signals || []).slice(0, 3);
+    const whySect = `
+      <div class="sect">
+        <div class="sect-h">Why</div>
+        ${signals.length
+          ? `<ul class="why">${signals.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`
+          : `<div class="meta">${esc(d.whyItScores)}</div>`}
+        ${evidenceHtml(d, data.dataCaveats)}
+      </div>`;
 
     $body.innerHTML = `
-      ${listing ? '<div class="m3-overline">From this marketplace listing</div>' : ""}
-      ${stale ? '<div class="m3-sub2" style="margin:0 2px 8px">Showing a saved result — Discogs is rate-limited right now; it refreshes on your next visit.</div>' : ""}
-      <div class="m3-card filled">
-        <div class="m3-overline">This pressing</div>
-        <div class="m3-title" style="margin-top:8px">${esc((r.artists || []).join(", "))} — ${esc(r.title)}</div>
-        <div class="m3-sub">${esc(r.year || "?")} · ${esc(r.label)} ${esc(r.catno)}${r.country ? " · " + esc(r.country) : ""}</div>
-        <div class="m3-sub2">${esc(r.format)}</div>
-        ${hero}
-        ${flagged ? '<div class="m3-cov"><div class="warn">Not a standard retail copy of the full album — score is penalized accordingly.</div></div>' : ""}
-        ${fit}
-      </div>
-      ${bestCard}
-      ${enriching ? `<div class="m3-card" id="enrich-slot">${enrichSlotHtml({ kind: "loading" })}</div>` : ""}
-      ${dossierCardHtml(d, data.dataCaveats)}`;
+      ${answer}
+      ${enriching ? `<div class="sect" id="enrich-slot">${enrichSlotHtml({ kind: "loading" })}</div>` : betterSect}
+      ${whySect}`;
   }
 
   function renderMaster(data) {
     const a = data.album;
     const rows = (data.topPressings || [])
       .map((p, i) => {
+        const lead = i === 0;
         return `
-        <div class="m3-wrow ${i === 0 ? "top" : ""}">
-          <div class="m3-rank">${p.rank ?? i + 1}</div>
-          <div style="flex:1;min-width:0">
-            <div class="m3-title" style="font-size:14px">${esc(p.year || "")} · ${esc(p.label)} ${esc(p.catno)}</div>
-            <div class="m3-sub">${esc(p.format)}${p.country ? " · " + esc(p.country) : ""} · ${esc(marketLine(p))}</div>
-            ${chipsHtml([
-              chip(verdictChipClass(p), esc(p.verdict)),
-              p.inYourCollection ? chip("success", "✓ you own it") : "",
-            ])}
-            <div class="m3-actions" style="margin-top:10px">
-              <a class="m3-btn text" style="height:30px;padding:0 6px" href="${releaseUrl(p.releaseId)}" target="_blank" rel="noreferrer">View on Discogs ↗</a>
-            </div>
+        <a class="row ${lead ? "lead" : ""}" href="${releaseUrl(p.releaseId)}" target="_blank" rel="noreferrer">
+          <div class="rank">${esc(p.rank ?? i + 1)}</div>
+          <div class="txt">
+            <div class="t">${esc(p.year || "")} · ${esc(p.label)} ${esc(p.catno)}</div>
+            <div class="s">${esc(p.format)}${p.country ? " · " + esc(p.country) : ""} · ${esc(marketLine(p))}${p.inYourCollection ? " · you own it" : ""}</div>
           </div>
-          <div class="m3-score">${fmtScore(p.overallScore)}</div>
-        </div>`;
+          <div class="num">${esc(fmtScore(p.overallScore))}</div>
+        </a>`;
       })
       .join("");
 
     $body.innerHTML = `
-      <div class="m3-card filled">
-        <div class="m3-overline">Best ${esc(data.axis)} pressings</div>
-        <div class="m3-title" style="margin-top:6px">${esc((a.artists || []).join(", "))} — ${esc(a.title)}</div>
-        <div class="m3-sub">original release ${esc(a.originalYear || "?")} · scored ${esc(a.candidatesScored)} of ${esc(a.totalVersionsSurveyed)} versions</div>
-        ${data.partial ? chipsHtml([chip("error", "partial survey — rate-limited, retry in ~60 s")]) : ""}
-      </div>
-      ${rows || '<div class="m3-state"><div class="detail">No scorable pressings found.</div></div>'}
-      ${data.note ? `<div class="m3-sub">${esc(data.note)}</div>` : ""}
-      ${caveatsHtml(data.dataCaveats)}`;
+      <div class="sect">
+        <div class="sect-h">Best ${esc(data.axis)} pressings</div>
+        <div class="context">scored ${esc(a.candidatesScored)} of ${esc(a.totalVersionsSurveyed)} versions${a.originalYear ? ` · original release ${esc(a.originalYear)}` : ""}${data.partial ? " · partial survey, rate-limited — retry in ~60s" : ""}</div>
+        <div class="rows">${rows || '<div class="meta">No scorable pressings found.</div>'}</div>
+        ${data.note ? `<div class="context" style="margin-top:10px">${esc(data.note)}</div>` : ""}
+        ${(data.dataCaveats || []).length ? `<details class="evidence"><summary>Caveats</summary><div class="ev-body">${data.dataCaveats.map((c) => `<div class="ev-note">${esc(c)}</div>`).join("")}</div></details>` : ""}
+      </div>`;
   }
 
   function renderListingIntro({ unresolved = false } = {}) {
     const detail = unresolved
-      ? "Couldn't find this listing's release link — the page may still be loading. Try again in a moment, or open the release page itself (dossier loads automatically there)."
-      : "Analysis is button-triggered here so browsing listings doesn't burn your Discogs rate budget.";
+      ? "Couldn’t find this listing’s release link — the page may still be loading. Try again in a moment, or open the release page itself."
+      : "Analysis is button-triggered on listings so browsing doesn’t spend your Discogs rate budget.";
     $body.innerHTML = `
-      <div class="m3-card filled">
-        <div class="m3-overline">Marketplace listing</div>
-        <div class="m3-title" style="margin-top:6px">Pressing check</div>
-        <div class="m3-sub">${detail}</div>
-        <div class="m3-actions">
-          <button class="m3-btn ${unresolved ? "tonal" : "filled"}" data-action="analyze-listing">${unresolved ? "Try again" : "Analyze this pressing"}</button>
+      <div class="state">
+        <div class="headline">Pressing check</div>
+        <div class="detail">${esc(detail)}</div>
+        <div class="actions">
+          <button class="btn ${unresolved ? "" : "primary"}" data-action="analyze-listing">${unresolved ? "Try again" : "Analyze this pressing"}</button>
         </div>
       </div>`;
   }
@@ -513,92 +413,68 @@
     return parts.join(" · ") || "Analyze a few records and your shelf profile appears here";
   }
 
-  function shelfCardHtml(p) {
-    const maxShare = p.dominantStyles[0]?.share || 1;
-    const bars = p.dominantStyles
-      .map(
-        (s) => `
-        <div class="m3-bar">
-          <div class="name">${esc(s.name)}</div>
-          <div class="m3-linear"><i style="width:${pct(Math.min(1, s.share / maxShare))}"></i></div>
-          <div class="pct">${esc(s.share)}%</div>
-        </div>`
-      )
-      .join("");
-    const genresLine = p.dominantGenres.length
-      ? `<div class="m3-sub" style="margin-top:10px">${esc(p.dominantGenres.join(" · "))}${
-          p.decades[0] ? ` — leans ${esc(p.decades[0].name)} (${esc(p.decades[0].share)}%)` : ""
-        }</div>`
-      : "";
+  function shelfSectHtml(p) {
+    const styles = p.dominantStyles
+      .slice(0, 5)
+      .map((x) => `<b>${esc(x.name)}</b> <span class="pc">${esc(x.share)}%</span>`)
+      .join(" · ");
     const user = encodeURIComponent(p.username);
     return `
-      <div class="m3-card filled">
-        <div class="m3-overline">Your shelf</div>
-        <div class="m3-title" style="margin-top:6px">${esc(shelfOpinion(p))}</div>
-        ${p.truncated ? '<div class="m3-sub">profiled from your first 3,000 records</div>' : ""}
-        ${bars ? `<div class="m3-bars">${bars}</div>` : ""}
-        ${genresLine}
-        <div class="m3-stats">
-          <a class="m3-stat" href="${DISCOGS}/user/${user}/collection" target="_blank" rel="noreferrer">
-            <div class="n">${esc(p.collectionSize)}</div><div class="l">collection ↗</div>
-          </a>
-          <a class="m3-stat" href="${DISCOGS}/wantlist?user=${user}" target="_blank" rel="noreferrer">
-            <div class="n">${esc(p.wantlistSize)}</div><div class="l">wantlist ↗</div>
-          </a>
-          <div class="m3-stat">
-            <div class="n">+${esc(p.addedThisMonth)}</div><div class="l">this month</div>
-          </div>
-        </div>
+      <div class="sect">
+        <div class="sect-h">${esc(shelfOpinion(p))}</div>
+        <div class="stat-line"><b>${esc(p.collectionSize)}</b> in <a href="${DISCOGS}/user/${user}/collection" target="_blank" rel="noreferrer">collection</a> · <b>${esc(p.wantlistSize)}</b> on <a href="${DISCOGS}/wantlist?user=${user}" target="_blank" rel="noreferrer">wantlist</a> · <b>+${esc(p.addedThisMonth)}</b> this month</div>
+        ${styles ? `<div class="style-list" style="margin-top:8px">${styles}</div>` : ""}
+        ${p.truncated ? '<div class="context" style="margin-top:6px">profiled from your first 3,000 records</div>' : ""}
       </div>`;
   }
 
-  function spinCardHtml(moods) {
-    const chips = MOOD_CHIPS.filter((m) => !moods || moods.includes(m))
-      .map((m) => `<button class="m3-chip" data-action="spin" data-mood="${esc(m)}">${esc(m)}</button>`)
+  function spinSectHtml(moods) {
+    const btns = MOOD_CHIPS.filter((m) => !moods || moods.includes(m))
+      .map((m) => `<button data-action="spin" data-mood="${esc(m)}">${esc(m)}</button>`)
       .join("");
     return `
-      <div class="m3-card">
-        <div class="m3-overline">What to spin tonight</div>
-        <div class="m3-chips">${chips}</div>
+      <div class="sect">
+        <div class="sect-h">What to spin tonight</div>
+        <div class="moods">${btns}</div>
         <div id="spin-result"></div>
       </div>`;
   }
 
   function spinPicksHtml(data) {
     return `
-      <div class="m3-minis" style="margin-top:12px">
+      <div class="rows" style="margin-top:10px">
         ${data.picks
           .map(
             (k) => `
-          <button class="m3-mini" data-action="open-release" data-id="${esc(k.id)}">
+          <button class="row" data-action="open-release" data-id="${esc(k.id)}">
             <div class="txt">
               <div class="t">${esc(k.artists.join(", "))} — ${esc(k.title)}</div>
               <div class="s">${esc(k.why)}${k.year ? ` · ${esc(k.year)}` : ""}</div>
             </div>
-            <div class="right">${k.rating ? `<span class="m3-chip gold">${"★".repeat(k.rating)}</span>` : ""}</div>
+            ${k.rating ? `<div class="num">${"★".repeat(k.rating)}</div>` : ""}
           </button>`
           )
           .join("")}
       </div>
-      <div class="m3-sub">${esc(data.poolSize)} matches on your shelf · tap the mood again to re-roll</div>`;
+      <div class="context" style="margin-top:6px">${esc(data.poolSize)} matches on your shelf · tap the mood again to re-roll</div>`;
   }
 
   function recentAnalysesHtml(items) {
     if (!items?.length) return "";
     return `
-      <div class="m3-card">
-        <div class="m3-overline">Recently analyzed</div>
-        <div class="m3-minis">
+      <div class="sect">
+        <div class="sect-h">Recently analyzed</div>
+        <div class="rows">
           ${items
             .slice(0, 6)
             .map(
               (e) => `
-            <button class="m3-mini" data-action="open-release" data-id="${esc(e.releaseId)}">
+            <button class="row" data-action="open-release" data-id="${esc(e.releaseId)}">
               <div class="txt">
                 <div class="t">${esc(e.artist)} — ${esc(e.title)}</div>
                 <div class="s">${esc(e.verdict)} · ${esc(e.axis)} · ${esc(fmtAgo(e.ts))}</div>
               </div>
-              <div class="right"><span class="m3-chip ${verdictChipClass(e)}">${esc(fmtScore(e.score))}</span></div>
+              <div class="num tone-${tone(e)}">${esc(fmtScore(e.score))}</div>
             </button>`
             )
             .join("")}
@@ -609,18 +485,18 @@
   function recentlyAddedHtml(p) {
     if (!p?.recentlyAdded?.length) return "";
     return `
-      <div class="m3-card">
-        <div class="m3-overline">Recently added to your collection</div>
-        <div class="m3-minis">
+      <div class="sect">
+        <div class="sect-h">Recently added to your collection</div>
+        <div class="rows">
           ${p.recentlyAdded
             .map(
               (r) => `
-            <button class="m3-mini" data-action="open-release" data-id="${esc(r.id)}">
+            <button class="row" data-action="open-release" data-id="${esc(r.id)}">
               <div class="txt">
                 <div class="t">${esc(r.artists.join(", "))} — ${esc(r.title)}</div>
                 <div class="s">${esc(r.year || "")}</div>
               </div>
-              <div class="right"><span class="m3-sub">${esc(r.dateAdded ? fmtDay(r.dateAdded) : "")}</span></div>
+              <div class="when">${esc(r.dateAdded ? fmtDay(r.dateAdded) : "")}</div>
             </button>`
             )
             .join("")}
@@ -630,32 +506,28 @@
 
   function renderHome(profile, recent, note) {
     $seg.hidden = true;
-    if (profile?.username) $sub.textContent = `● ${profile.username} · connected`;
+    if (profile?.username) setSub(`${profile.username} · connected`);
     const shelf = profile
-      ? shelfCardHtml(profile)
+      ? shelfSectHtml(profile)
       : `
-      <div class="m3-card filled">
-        <div class="m3-overline">Your shelf</div>
-        <div class="m3-sub" style="margin-top:8px">${esc(note || "Shelf profile unavailable right now.")}</div>
-        <div class="m3-actions"><button class="m3-btn tonal" data-action="home-retry">Retry</button></div>
+      <div class="sect">
+        <div class="sect-h">Your shelf</div>
+        <div class="meta">${esc(note || "Shelf profile unavailable right now.")}</div>
+        <div class="actions"><button class="btn" data-action="home-retry">Retry</button></div>
       </div>`;
     $body.innerHTML = `
       ${shelf}
-      ${spinCardHtml(profile?.moods)}
+      ${spinSectHtml(profile?.moods)}
       ${recentAnalysesHtml(recent)}
-      ${recentlyAddedHtml(profile)}
-      <div class="m3-teaser">Ranked wantlist &amp; marketplace views — coming next</div>`;
+      ${recentlyAddedHtml(profile)}`;
   }
 
   function renderHomeLoading() {
     $seg.hidden = true;
     $body.innerHTML = `
-      <div class="m3-loading">
-        <div class="m3-linear indet"><i></i></div>
-        <div class="copy">Reading your shelf…</div>
-        <div class="m3-skelrow" style="width:70%"></div>
-        <div class="m3-skelrow" style="width:90%"></div>
-        <div class="m3-skelrow" style="width:55%"></div>
+      <div class="sect">
+        <div class="progress"><i></i></div>
+        <div class="loading-copy">Reading your shelf…</div>
       </div>`;
   }
 
@@ -817,26 +689,30 @@
   function enrichSlotHtml(state_) {
     if (state_.kind === "loading") {
       return `
-        <div class="m3-overline">Best pressing of this album</div>
-        <div class="m3-linear indet" style="margin-top:12px"><i></i></div>
-        <div class="m3-sub" style="margin-top:8px">Surveying pressings — first look takes a few seconds…</div>`;
+        <div class="survey-status">
+          <span>Surveying pressings</span>
+          <div class="progress"><i></i></div>
+        </div>`;
     }
     if (state_.kind === "deferred") {
       return `
-        <div class="m3-overline">Best pressing of this album</div>
-        <div class="m3-sub" style="margin-top:8px">Discogs rate budget is cooling down — retrying in <b id="enrich-count">${esc(state_.retryAfter)}</b>s. The verdict above stays usable.</div>
-        <div class="m3-actions"><button class="m3-btn tonal" data-action="enrich-now">Analyze best pressings</button></div>`;
+        <div class="survey-status">
+          <span>Rate window cooling — best-pressing survey resumes in <b id="enrich-count">${esc(state_.retryAfter)}</b>s</span>
+          <button class="btn quiet" data-action="enrich-now">Retry now</button>
+        </div>`;
     }
     if (state_.kind === "ready") {
       return `
-        <div class="m3-overline">Best pressing of this album</div>
-        <div class="m3-sub" style="margin-top:8px">Cooldown finished.</div>
-        <div class="m3-actions"><button class="m3-btn tonal" data-action="enrich-now">Analyze best pressings</button></div>`;
+        <div class="survey-status">
+          <span>Cooldown finished</span>
+          <button class="btn" data-action="enrich-now">Survey best pressings</button>
+        </div>`;
     }
     return `
-      <div class="m3-overline">Best pressing of this album</div>
-      <div class="m3-sub" style="margin-top:8px">${esc(state_.message || "Survey unavailable right now.")}</div>
-      <div class="m3-actions"><button class="m3-btn tonal" data-action="enrich-now">Try again</button></div>`;
+      <div class="survey-status">
+        <span>${esc(state_.message || "Best-pressing survey unavailable right now.")}</span>
+        <button class="btn quiet" data-action="enrich-now">Try again</button>
+      </div>`;
   }
 
   function setEnrichSlot(state_) {
@@ -998,7 +874,7 @@
 
   // ------------------------------------------------------------- init
   if (DEMO !== null) {
-    $sub.textContent = "demo mode · fixture data";
+    setSub("demo · fixture data");
     const demoRoutes = {
       release: { kind: "release", id: 6276183 },
       master: { kind: "master", id: 5460 },
