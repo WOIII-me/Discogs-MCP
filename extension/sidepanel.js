@@ -46,6 +46,7 @@
 
   const releaseUrl = (id) => `${DISCOGS}/release/${id}`;
   const fmtScore = (n) => (Math.round(n * 10) / 10).toString();
+  const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
   const pct = (x) => `${Math.round(x * 100)}%`;
 
   function marketLine(d) {
@@ -140,15 +141,100 @@
   }
   const chip = (cls, text) => `<span class="m3-chip ${cls}">${text}</span>`;
 
-  function coverageHtml(d) {
-    const thin = d.evidenceCoverage < 0.35;
+  // ------------------------------------------------- micro-charts (pure SVG/CSS)
+  // Word-sized visuals in place of raw decimals: a groove-ring score (read
+  // like dead wax), five-segment grading tiers, and paired comparison bars.
+
+  /** Verdict tone: amber (default/strong), sage (solid), rust (flagged), etch. */
+  function toneClass(d) {
+    const c = verdictChipClass(d);
+    return c === "gold" ? "" : c === "success" ? "sage" : c === "error" ? "rust" : "etch";
+  }
+
+  function grooveRing(score, toneCls) {
+    const s = Math.max(0, Math.min(100, score));
+    const r = 28;
+    const c = 2 * Math.PI * r;
+    const off = c * (1 - s / 100);
     return `
-      <div class="m3-cov">
-        <div class="top"><span>Evidence coverage</span><span>${esc(d.evidenceCoverage.toFixed(2))}</span></div>
-        <div class="m3-linear"><i style="width:${pct(d.evidenceCoverage)}"></i></div>
-        ${thin ? '<div class="warn">⚠ Thin data — treat this verdict as low-confidence.</div>' : ""}
+      <svg class="gr-ring ${toneCls}" width="68" height="68" viewBox="0 0 68 68" role="img" aria-label="score ${esc(fmtScore(score))} of 100">
+        <circle class="groove" cx="34" cy="34" r="32.5" fill="none" stroke-width="1"/>
+        <circle class="track" cx="34" cy="34" r="${r}" fill="none" stroke-width="3"/>
+        <circle class="arc" cx="34" cy="34" r="${r}" fill="none" stroke-width="3" stroke-linecap="round"
+          stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 34 34)"/>
+        <text x="34" y="32" text-anchor="middle" dominant-baseline="central">${esc(fmtScore(score))}</text>
+        <text class="of" x="34" y="45" text-anchor="middle">of 100</text>
+      </svg>`;
+  }
+
+  function tierBand(v01, label, word, { toneCls = "", warn = false } = {}) {
+    const on = Math.round(Math.max(0, Math.min(1, v01)) * 5);
+    const segs = Array.from({ length: 5 }, (_, i) => `<i class="${i < on ? "on" : ""}"></i>`).join("");
+    return `
+      <div class="tier ${toneCls}">
+        <div class="lbl">${esc(label)}</div>
+        <div class="segs">${segs}</div>
+        <div class="word ${warn ? "warn" : ""}">${esc(word)}</div>
       </div>`;
   }
+
+  function coverageWord(c) {
+    if (c >= 0.85) return "well documented";
+    if (c >= 0.6) return "good evidence";
+    if (c >= 0.35) return "partial evidence";
+    return "thin data — low confidence";
+  }
+
+  function fitWord(aff) {
+    if (aff >= 60) return "right in your lane";
+    if (aff >= 35) return "close to your shelf";
+    if (aff >= 15) return "a stretch for your shelf";
+    return "outside your usual lane";
+  }
+
+  function pairBars(mine, best) {
+    const max = Math.max(mine, best, 1);
+    const row = (who, n, lead) => `
+      <div class="row ${lead ? "lead" : ""}">
+        <div class="who">${esc(who)}</div>
+        <div class="bar"><i style="width:${pct(n / max)}"></i></div>
+        <div class="n">${esc(fmtScore(n))}</div>
+      </div>`;
+    return `<div class="pair">${row("best copy", best, best >= mine)}${row("this copy", mine, mine > best)}</div>`;
+  }
+
+  const FACTOR_NAMES = {
+    pedigree: "Pedigree",
+    format: "Format",
+    ratingDelta: "Community",
+    marketValue: "Market",
+    scarcity: "Scarcity",
+    demand: "Demand",
+  };
+
+  function factorGrade(s) {
+    return s >= 80 ? "strong" : s >= 55 ? "good" : s >= 30 ? "fair" : "weak";
+  }
+
+  /** Top factors by weight; bar width = score, bar opacity = confidence. */
+  function factorRows(factors) {
+    if (!factors) return "";
+    const rows = Object.entries(factors)
+      .filter(([, f]) => f && typeof f.score === "number" && f.confidence > 0)
+      .sort((a, b) => b[1].weight - a[1].weight)
+      .slice(0, 4)
+      .map(
+        ([k, f]) => `
+        <div class="factor">
+          <div class="name">${esc(FACTOR_NAMES[k] || k)}</div>
+          <div class="bar"><i style="width:${pct(f.score / 100)};opacity:${(0.35 + 0.65 * f.confidence).toFixed(2)}"></i></div>
+          <div class="grade">${esc(factorGrade(f.score))}</div>
+        </div>`
+      )
+      .join("");
+    return rows ? `<div class="factors">${rows}</div>` : "";
+  }
+
 
   function caveatsHtml(caveats) {
     if (!caveats?.length) return "";
@@ -170,20 +256,21 @@
     const plants = (d.pressingCompanies || []).map((c) => c.name).join(", ");
     const delta = d.ratingDelta?.value;
     const rating = d.ratingCount
-      ? `${d.rating.toFixed(2)} (${d.ratingCount} ratings)` +
-        (delta != null ? ` · Δ${delta >= 0 ? "+" : ""}${delta.toFixed(2)} vs album` : "")
+      ? `${d.rating.toFixed(2)} of 5 (${d.ratingCount} ratings)` +
+        (delta != null ? ` · ${delta >= 0 ? "+" : "−"}${Math.abs(delta).toFixed(2)} vs album` : "")
       : "not enough ratings";
 
     // whyItScores is the top signals joined (see pressing-dossier.ts), so it's
     // only worth showing when there's no signal list to render.
     return `
       <div class="m3-card">
-        <div class="m3-overline">Evidence dossier</div>
+        <div class="m3-overline">Why it scores</div>
         ${signals.length
           ? `<ul class="m3-signals">${signals.map((s) => `<li>${esc(s)}</li>`).join("")}</ul>`
           : `<div class="m3-why">${esc(d.whyItScores)}</div>`}
+        ${factorRows(d.factors)}
         <hr class="m3-divider" />
-        ${kvRow("Matrix", matrix)}
+        ${matrix ? `<div class="m3-kv"><div class="k">Dead wax</div><div class="v"><div class="etching">${matrix}</div></div></div>` : ""}
         ${kvRow("Engineer", esc(engineers))}
         ${kvRow("Plant", esc(plants))}
         ${kvRow("Rating", esc(rating))}
@@ -211,7 +298,7 @@
         : "";
     $body.innerHTML = `
       <div class="m3-state">
-        <div class="icon">◎</div>
+        <div class="disc still"></div>
         <div class="headline">Nothing to analyze here</div>
         <div class="detail">Open a Discogs <b>release</b>, <b>master</b> or <b>marketplace listing</b> and the pressing dossier appears here.</div>
         ${v02}
@@ -223,7 +310,7 @@
     resetSub();
     $body.innerHTML = `
       <div class="m3-state">
-        <div class="icon">🔑</div>
+        <div class="disc still amber"></div>
         <div class="headline">Connect your Discogs account</div>
         <div class="detail">Sign in with Discogs to get pressing verdicts, taste fit and owned/wanted badges. Read-only — nothing ever modifies your collection.</div>
         ${error ? `<div class="detail" style="margin-top:8px;color:var(--md-on-error-container)">${esc(error)}</div>` : ""}
@@ -243,7 +330,7 @@
         : "Surveying this album's pressings — a first look takes ~15 s. Repeat visits are near-instant (server cache).";
     $body.innerHTML = `
       <div class="m3-loading">
-        <div class="m3-linear indet"><i></i></div>
+        <div class="disc"></div>
         <div class="copy">${esc(copy)}</div>
         <div class="m3-skelrow" style="width:70%"></div>
         <div class="m3-skelrow" style="width:90%"></div>
@@ -254,7 +341,7 @@
   function renderRateLimited(retryAfter) {
     $body.innerHTML = `
       <div class="m3-state">
-        <div class="icon">⏳</div>
+        <div class="disc slow"></div>
         <div class="headline">Discogs rate limit reached</div>
         <div class="detail">The analysis uses your own Discogs request budget (60/min). Try again in ~${esc(retryAfter)}s — already-surveyed pressings are cached, so the retry is fast.</div>
         <div class="m3-actions"><button class="m3-btn tonal" data-action="retry">Retry</button></div>
@@ -264,7 +351,7 @@
   function renderError(message) {
     $body.innerHTML = `
       <div class="m3-state">
-        <div class="icon">⚠️</div>
+        <div class="disc still rust"></div>
         <div class="headline">Analysis failed</div>
         <div class="detail">${esc(message)}</div>
         <div class="m3-actions"><button class="m3-btn tonal" data-action="retry">Retry</button></div>
@@ -281,31 +368,39 @@
     const partialSurvey =
       meta && meta.candidatesScored != null && meta.candidatesTarget != null && meta.candidatesScored < meta.candidatesTarget;
 
-    const headerChips = chipsHtml([
-      chip(verdictChipClass(d), esc(d.verdict)),
-      chip("primary", `score ${fmtScore(d.overallScore)}`),
-      isBest ? chip("gold", `◎ top ${esc(data.axis)} pick`) : "",
-      data.owned ? chip("success", "✓ in your collection") : "",
-      data.wanted ? chip("gold", "♡ on your wantlist") : "",
-      data.tasteFit ? chip("", `taste fit ${esc(data.tasteFit.affinity)}%`) : "",
-    ]);
+    const tone = toneClass(d);
+    const marks = [
+      data.owned ? '<span>✓ in your collection</span>' : "",
+      data.wanted ? '<span class="want">♡ on your wantlist</span>' : "",
+      isBest ? `<span>◎ top ${esc(data.axis)} pick of the album</span>` : "",
+    ].filter(Boolean);
+
+    // Verdict leads, spoken in words; the score reads from the groove ring.
+    const hero = `
+      <div class="gr-hero">
+        ${grooveRing(d.overallScore, tone)}
+        <div class="gr-verdict ${tone}">
+          <div class="word">${esc(cap(d.verdict))}</div>
+          <div class="ev">${esc(coverageWord(d.evidenceCoverage))} · ${esc(data.axis)} axis</div>
+          ${marks.length ? `<div class="marks">${marks.join("")}</div>` : ""}
+        </div>
+      </div>`;
+
+    const fit = data.tasteFit
+      ? tierBand(data.tasteFit.affinity / 100, "Taste fit", fitWord(data.tasteFit.affinity))
+      : "";
 
     const bestCard =
       best && !isBest
         ? `
       <div class="m3-card">
         <div class="m3-overline">Best ${esc(data.axis)} pressing of this album</div>
-        <div class="m3-title" style="font-size:14.5px">${esc(best.year || "")} · ${esc(best.label)} ${esc(best.catno)}</div>
-        <div class="m3-sub">${esc(best.format)}${best.country ? " · " + esc(best.country) : ""}</div>
-        ${chipsHtml([
-          chip(verdictChipClass(best), esc(best.verdict)),
-          chip("primary", `score ${fmtScore(best.overallScore)}`),
-          chip("", `${best.overallScore >= d.overallScore ? "+" : "−"}${fmtScore(Math.abs(best.overallScore - d.overallScore))} vs this copy`),
-          best.inYourCollection ? chip("success", "✓ you own it") : "",
-        ])}
-        ${partialSurvey ? `<div class="m3-sub" style="margin-top:8px">⚠ Partial survey — scored ${esc(meta.candidatesScored)} of ${esc(meta.candidatesTarget)} candidates (rate budget); re-check in a minute for the full ranking.</div>` : ""}
+        <div class="m3-title" style="font-size:13.5px;margin-top:8px">${esc(best.year || "")} · ${esc(best.label)} ${esc(best.catno)}</div>
+        <div class="m3-sub2">${esc(best.format)}${best.country ? " · " + esc(best.country) : ""}${best.inYourCollection ? " · ✓ you own it" : ""}</div>
+        ${pairBars(d.overallScore, best.overallScore)}
+        ${partialSurvey ? `<div class="m3-sub2" style="margin-top:10px;color:var(--rust)">Partial survey — scored ${esc(meta.candidatesScored)} of ${esc(meta.candidatesTarget)} pressings so far; re-check in a minute for the full ranking.</div>` : ""}
         <div class="m3-kv" style="margin-top:10px"><div class="k">Market</div><div class="v">${esc(marketLine(best))}</div></div>
-        <div class="m3-actions">
+        <div class="m3-actions" style="margin-top:10px">
           <a class="m3-btn tonal" href="${releaseUrl(best.releaseId)}" target="_blank" rel="noreferrer">View on Discogs ↗</a>
         </div>
       </div>`
@@ -313,14 +408,15 @@
 
     $body.innerHTML = `
       ${listing ? '<div class="m3-overline">From this marketplace listing</div>' : ""}
-      ${stale ? '<div class="m3-sub" style="margin:0 2px 8px">⏳ Showing a saved result — Discogs is rate-limited right now; it refreshes automatically on your next visit.</div>' : ""}
+      ${stale ? '<div class="m3-sub2" style="margin:0 2px 8px">Showing a saved result — Discogs is rate-limited right now; it refreshes on your next visit.</div>' : ""}
       <div class="m3-card filled">
         <div class="m3-overline">This pressing</div>
-        <div class="m3-title" style="margin-top:6px">${esc((r.artists || []).join(", "))} — ${esc(r.title)}</div>
-        <div class="m3-sub">${esc(r.year || "?")} · ${esc(r.label)} ${esc(r.catno)} · ${esc(r.format)}${r.country ? " · " + esc(r.country) : ""}</div>
-        ${headerChips}
-        ${flagged ? '<div class="m3-cov"><div class="warn">⚠ Not a standard retail copy of the full album — score is penalized accordingly.</div></div>' : ""}
-        ${coverageHtml(d)}
+        <div class="m3-title" style="margin-top:8px">${esc((r.artists || []).join(", "))} — ${esc(r.title)}</div>
+        <div class="m3-sub">${esc(r.year || "?")} · ${esc(r.label)} ${esc(r.catno)}${r.country ? " · " + esc(r.country) : ""}</div>
+        <div class="m3-sub2">${esc(r.format)}</div>
+        ${hero}
+        ${flagged ? '<div class="m3-cov"><div class="warn">Not a standard retail copy of the full album — score is penalized accordingly.</div></div>' : ""}
+        ${fit}
       </div>
       ${bestCard}
       ${enriching ? `<div class="m3-card" id="enrich-slot">${enrichSlotHtml({ kind: "loading" })}</div>` : ""}
