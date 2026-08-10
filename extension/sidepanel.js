@@ -145,10 +145,10 @@
   // Word-sized visuals in place of raw decimals: a groove-ring score (read
   // like dead wax), five-segment grading tiers, and paired comparison bars.
 
-  /** Verdict tone: amber (default/strong), sage (solid), rust (flagged), etch. */
+  /** Verdict tone: lime (strong), teal (solid), rose (flagged), plain. */
   function toneClass(d) {
     const c = verdictChipClass(d);
-    return c === "gold" ? "" : c === "success" ? "sage" : c === "error" ? "rust" : "etch";
+    return c === "gold" ? "" : c === "success" ? "teal" : c === "error" ? "rose" : "plain";
   }
 
   function grooveRing(score, toneCls) {
@@ -192,6 +192,11 @@
     return "outside your usual lane";
   }
 
+  /** Conditional tone for a 0..1 grading value: lime, teal, amber, rose. */
+  function tierTone(v01) {
+    return v01 >= 0.6 ? "" : v01 >= 0.35 ? "teal" : v01 >= 0.15 ? "amber" : "rose";
+  }
+
   function pairBars(mine, best) {
     const max = Math.max(mine, best, 1);
     const row = (who, n, lead) => `
@@ -223,14 +228,15 @@
       .filter(([, f]) => f && typeof f.score === "number" && f.confidence > 0)
       .sort((a, b) => b[1].weight - a[1].weight)
       .slice(0, 4)
-      .map(
-        ([k, f]) => `
-        <div class="factor">
+      .map(([k, f]) => {
+        const grade = factorGrade(f.score);
+        return `
+        <div class="factor ${grade}">
           <div class="name">${esc(FACTOR_NAMES[k] || k)}</div>
           <div class="bar"><i style="width:${pct(f.score / 100)};opacity:${(0.35 + 0.65 * f.confidence).toFixed(2)}"></i></div>
-          <div class="grade">${esc(factorGrade(f.score))}</div>
-        </div>`
-      )
+          <div class="grade">${esc(grade)}</div>
+        </div>`;
+      })
       .join("");
     return rows ? `<div class="factors">${rows}</div>` : "";
   }
@@ -387,7 +393,9 @@
       </div>`;
 
     const fit = data.tasteFit
-      ? tierBand(data.tasteFit.affinity / 100, "Taste fit", fitWord(data.tasteFit.affinity))
+      ? tierBand(data.tasteFit.affinity / 100, "Taste fit", fitWord(data.tasteFit.affinity), {
+          toneCls: tierTone(data.tasteFit.affinity / 100),
+        })
       : "";
 
     const bestCard =
