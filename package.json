@@ -33,7 +33,7 @@
     "@modelcontextprotocol/server": "^2.0.0",
     "agents": "^0.20.1",
     "oauth-1.0a": "^2.2.6",
-    "zod": "^4.4.3"
+    "zod": "^4.5.4"
   },
   "overrides": {
     "@hono/node-server": ">=2.0.5"
