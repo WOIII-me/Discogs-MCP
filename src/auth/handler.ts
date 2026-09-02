@@ -2,11 +2,13 @@ import type { AuthRequest } from "@cloudflare/workers-oauth-provider";
 import type { Env, DiscogsProps } from "../types/env.js";
 import {
   AUTHORIZE_URL,
+  DiscogsOAuthError,
   getAccessToken,
   getIdentity,
   getRequestToken,
 } from "./discogs-oauth.js";
 import { isAllowedUser } from "./allowlist.js";
+import { markLoginThrottled } from "./login-throttle.js";
 import { handleApi } from "../api/handler.js";
 
 const OAUTH_STATE_TTL = 600; // seconds; Discogs request tokens are short-lived anyway
@@ -16,12 +18,12 @@ interface PendingAuthState {
   requestTokenSecret: string;
 }
 
-function html(body: string, status = 200): Response {
+function html(body: string, status = 200, headers: Record<string, string> = {}): Response {
   return new Response(
     `<!doctype html><html><head><meta charset="utf-8"><title>Discogs MCP</title>
 <style>body{font-family:system-ui;max-width:40rem;margin:4rem auto;padding:0 1rem;color:#222}</style>
 </head><body>${body}</body></html>`,
-    { status, headers: { "Content-Type": "text/html; charset=utf-8" } }
+    { status, headers: { "Content-Type": "text/html; charset=utf-8", ...headers } }
   );
 }
 
@@ -77,11 +79,34 @@ async function handle(request: Request, env: Env, ctx: ExecutionContext): Promis
       }
 
       const callbackUrl = `${url.origin}/callback`;
-      const requestToken = await getRequestToken(
-        env.DISCOGS_CONSUMER_KEY,
-        env.DISCOGS_CONSUMER_SECRET,
-        callbackUrl
-      );
+      let requestToken;
+      try {
+        requestToken = await getRequestToken(
+          env.DISCOGS_CONSUMER_KEY,
+          env.DISCOGS_CONSUMER_SECRET,
+          callbackUrl
+        );
+      } catch (e) {
+        // Discogs rate-limits its OAuth endpoints per source IP, and ours is
+        // Cloudflare egress shared with every other Discogs app on Workers.
+        // getRequestToken already retried with backoff; a 429 here is sticky.
+        // Answer 503 + Retry-After (not a generic 500) and flag it so
+        // /api/health can tell clients what is actually going on.
+        if (e instanceof DiscogsOAuthError && e.isRateLimited) {
+          const retryAfter = await markLoginThrottled(env, e.retryAfter ?? undefined);
+          console.warn(`Discogs OAuth request_token rate-limited; login throttled for ${retryAfter}s`);
+          return html(
+            `<h1>Discogs is throttling logins right now</h1>
+<p>Discogs limits how often our server may start a new login, and that limit is shared with
+other apps hosted on the same infrastructure. Please try again in about
+${Math.ceil(retryAfter / 60)} minute${retryAfter > 90 ? "s" : ""}.</p>
+<p>Existing sign-ins and analyses are not affected — only starting a <em>new</em> login is.</p>`,
+            503,
+            { "Retry-After": String(retryAfter) }
+          );
+        }
+        throw e;
+      }
 
       const state: PendingAuthState = {
         oauthReqInfo,

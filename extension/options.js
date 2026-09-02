@@ -87,14 +87,19 @@ async function testConnection() {
   const baseUrl = normalizedBaseUrl();
 
   setStatus("Checking server…");
+  let loginNote = "";
   try {
     const health = await fetch(`${baseUrl}/api/health`);
     const body = await health.json();
     if (!health.ok || !body.ok) throw new Error(`unexpected reply (HTTP ${health.status})`);
+    if (body.login?.ok === false) {
+      loginNote = ` Note: Discogs is currently throttling new sign-ins — retry in ~${body.login.retryAfter ?? 60}s.`;
+    }
   } catch (e) {
     setStatus(`Server unreachable at ${baseUrl} — ${e.message}`, "err");
     return;
   }
+  if (loginNote) setStatus(`Server OK.${loginNote}`, "err");
 
   if (!IS_EXT) return setStatus("Server OK. (Demo mode — auth check runs in the installed extension.)", "ok");
 
