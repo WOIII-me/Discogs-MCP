@@ -12,6 +12,21 @@ export interface OAuthToken {
   tokenSecret: string;
 }
 
+/** A non-2xx from a Discogs OAuth endpoint, after retries. `retryAfter` is
+ * Discogs's Retry-After in seconds when it sent one (429s), else null. */
+export class DiscogsOAuthError extends Error {
+  constructor(
+    public status: number,
+    body: string,
+    public retryAfter: number | null = null
+  ) {
+    super(`Discogs OAuth error ${status}: ${body}`);
+  }
+  get isRateLimited(): boolean {
+    return this.status === 429;
+  }
+}
+
 const MAX_RETRIES = 3;
 
 function sleep(ms: number): Promise<void> {
@@ -56,7 +71,12 @@ async function postSigned(
   });
 
   if (!response.ok) {
-    throw new Error(`Discogs OAuth error ${response.status}: ${await response.text()}`);
+    const ra = response.headers.get("Retry-After");
+    throw new DiscogsOAuthError(
+      response.status,
+      await response.text(),
+      ra !== null ? Number.parseInt(ra, 10) || null : null
+    );
   }
   return new URLSearchParams(await response.text());
 }

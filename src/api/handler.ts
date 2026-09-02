@@ -1,6 +1,7 @@
 import type { DiscogsProps, Env } from "../types/env.js";
 import { getIdentityWithToken } from "../auth/discogs-oauth.js";
 import { isAllowedUser } from "../auth/allowlist.js";
+import { getLoginThrottle } from "../auth/login-throttle.js";
 import { CachedDiscogsClient } from "../clients/cached-discogs.js";
 import { RateLimitError, type DiscogsAuth } from "../clients/discogs.js";
 import {
@@ -124,7 +125,13 @@ export async function handleApi(
 
   // Health check is unauthenticated so clients can probe connectivity.
   if (url.pathname === "/api/health") {
-    return json(request, { ok: true, service: "discogs-mcp", api: "v1" });
+    // `login` lets clients distinguish "Discogs is throttling new sign-ins"
+    // from a broken server — the extension reads it when the auth popup fails.
+    const throttle = await getLoginThrottle(env);
+    const login = throttle
+      ? { ok: false, reason: "discogs_throttled", retryAfter: throttle.retryAfter, since: throttle.since }
+      : { ok: true };
+    return json(request, { ok: true, service: "discogs-mcp", api: "v1", login });
   }
 
   const authHeader = request.headers.get("Authorization") ?? "";

@@ -183,6 +183,21 @@ async function handleSignIn() {
       // Drop the cached registration, register fresh, and retry once.
       // Genuine user cancellations throw a different message and rethrow here.
       if (!/could not be loaded/i.test(e?.message ?? "")) throw e;
+      // Same Chrome error, different cause: Discogs rate-limits its OAuth
+      // endpoints per source IP, and the server answers 503 when it hits that
+      // wall. Its health endpoint says so — explain that instead of churning
+      // through a pointless re-registration.
+      const health = await fetch(`${baseUrl}/api/health`).then((r) => r.json()).catch(() => null);
+      if (health?.login?.ok === false) {
+        const wait = health.login.retryAfter ?? 60;
+        return {
+          error:
+            `Discogs is throttling new sign-ins right now (a limit on the server's login endpoint, ` +
+            `shared with other apps). Try again in ~${wait >= 120 ? Math.ceil(wait / 60) + " min" : wait + "s"}. ` +
+            `Existing sessions aren't affected.`,
+          retryAfter: wait,
+        };
+      }
       await chrome.storage.local.remove("oauthClient");
       clientId = await ensureClient(baseUrl);
       resultUrl = await chrome.identity.launchWebAuthFlow({ url: await buildAuthUrl(clientId), interactive: true });

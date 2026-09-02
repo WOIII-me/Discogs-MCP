@@ -57,7 +57,23 @@ describe("REST API handler", () => {
   it("serves an unauthenticated health check", async () => {
     const res = await handleApi(new Request("https://x/api/health"), env);
     expect(res.status).toBe(200);
-    expect(await res.json()).toMatchObject({ ok: true, service: "discogs-mcp" });
+    expect(await res.json()).toMatchObject({ ok: true, service: "discogs-mcp", login: { ok: true } });
+  });
+
+  it("health reports a Discogs login throttle when one is flagged", async () => {
+    const e = {
+      CACHE_KV: {
+        get: vi.fn().mockResolvedValue({ retryAfter: 60, since: "2026-08-10T10:00:00.000Z" }),
+        put: vi.fn(),
+      },
+    } as unknown as Env;
+    const res = await handleApi(new Request("https://x/api/health"), e);
+    expect(res.status).toBe(200); // the server itself is fine
+    expect(await res.json()).toMatchObject({
+      ok: true,
+      login: { ok: false, reason: "discogs_throttled", retryAfter: 60 },
+    });
+    expect(e.CACHE_KV.get).toHaveBeenCalledWith("login-throttle:discogs", "json");
   });
 
   it("rejects requests without a Bearer token", async () => {
