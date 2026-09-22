@@ -1,4 +1,5 @@
 import type { CachedDiscogsClient } from "../clients/cached-discogs.js";
+import type { ClaimsAnnotator, ClaimsByRelease } from "./claims.js";
 import { RateLimitError } from "../clients/discogs.js";
 import type { DiscogsMasterVersion, DiscogsRelease } from "../clients/types.js";
 import { fetchFullCollection } from "../utils/collection.js";
@@ -19,6 +20,26 @@ import {
 export interface CoreContext {
   client: CachedDiscogsClient;
   username: string;
+  /** Optional Jev-backed notes reader. Undefined = feature off (dead code path). */
+  claims?: ClaimsAnnotator;
+}
+
+/**
+ * Catalog claims for a set of releases. `infer` may run bounded uncached
+ * inference and is only ever true on deliberate actions (MCP pressing tools,
+ * REST /api/compare); automatic paths get cache-only `peek`. Never throws.
+ */
+async function claimsFor(
+  ctx: CoreContext,
+  releases: DiscogsRelease[],
+  infer: boolean
+): Promise<ClaimsByRelease> {
+  if (!ctx.claims) return new Map();
+  try {
+    return infer ? await ctx.claims.annotate(releases) : await ctx.claims.peek(releases);
+  } catch {
+    return new Map();
+  }
 }
 
 export type CoreResult<T> =
@@ -292,6 +313,8 @@ export interface FindBestPressingParams {
   /** Cap on candidate detail fetches (default DETAIL_BUDGET). Progressive
    * analysis shrinks this when the remaining rate budget is constrained. */
   detailBudget?: number;
+  /** Run bounded Jev inference for cache misses (deliberate actions only). Default: cache-only. */
+  inferClaims?: boolean;
 }
 
 export async function findBestPressing(
@@ -341,6 +364,7 @@ export async function findBestPressing(
 
   const ownedIds = new Set(collection.items.map((i) => i.id));
   const topN = params.topN ?? 3;
+  const claims = await claimsFor(ctx, scored.slice(0, topN).map((p) => p.release), params.inferClaims === true);
 
   return {
     ok: true,
@@ -362,7 +386,7 @@ export async function findBestPressing(
       dataCaveats: buildCaveats({ rateLimited, truncated, versionListing: true }),
       topPressings: scored.slice(0, topN).map((p, i) => ({
         rank: i + 1,
-        ...buildDossier(p.release, p.score, baseline),
+        ...buildDossier(p.release, p.score, baseline, claims.get(p.release.id)),
         inYourCollection: ownedIds.has(p.release.id),
       })),
     },
@@ -372,6 +396,8 @@ export async function findBestPressing(
 export interface ComparePressingsParams {
   releaseIds: number[];
   axis?: string;
+  /** Run bounded Jev inference for cache misses (deliberate actions only). Default: cache-only. */
+  inferClaims?: boolean;
 }
 
 export async function comparePressings(
@@ -398,6 +424,7 @@ export async function comparePressings(
   const compared = releases
     .map((release) => ({ release, score: scorePressing(release, axis, { baselineRating: baseline }) }))
     .sort((a, b) => b.score.overallScore - a.score.overallScore);
+  const claims = await claimsFor(ctx, releases, params.inferClaims === true);
 
   return {
     ok: true,
@@ -408,7 +435,7 @@ export async function comparePressings(
       dataCaveats: buildCaveats({ rateLimited }),
       topPick: `Highest scoring (${axis}): release ${compared[0].release.id} (${compared[0].release.title}, ${compared[0].release.country ?? "?"} ${compared[0].release.year || "?"})`,
       pressings: compared.map((p) => ({
-        ...buildDossier(p.release, p.score, baseline),
+        ...buildDossier(p.release, p.score, baseline, claims.get(p.release.id)),
         inYourCollection: ownedIds.has(p.release.id),
       })),
     },

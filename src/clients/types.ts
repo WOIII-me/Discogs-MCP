@@ -19,6 +19,7 @@ export interface DiscogsFormat {
   name: string; // "Vinyl", "CD", "Cassette", etc.
   qty: string;
   descriptions?: string[]; // ["LP", "Album", "Stereo", "180 Gram"]
+  text?: string; // free text, e.g. "Gatefold, 180g"
 }
 
 export interface DiscogsLabel {

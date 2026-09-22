@@ -1,5 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/server";
 import { CachedDiscogsClient } from "../clients/cached-discogs.js";
+import { makeClaimsAnnotator } from "../core/claims.js";
 import { getIdentityWithToken } from "../auth/discogs-oauth.js";
 import { registerAllTools } from "./tools/index.js";
 import { registerPrompts } from "./prompts/index.js";
@@ -38,6 +39,8 @@ export async function makeGetContext(
   // with it and skip OAuth. Never set in production — see types/env.ts.
   const devToken = env.DISCOGS_PERSONAL_TOKEN;
   const devIdentity = devToken ? await resolveDevIdentity(devToken) : null;
+  // One annotator per server build; undefined unless JEV_ENABLED=true and keyed.
+  const claims = makeClaimsAnnotator(env);
 
   return () => {
     if (devToken && devIdentity) {
@@ -45,6 +48,7 @@ export async function makeGetContext(
         client: new CachedDiscogsClient({ kind: "token", token: devToken }, env.CACHE_KV),
         username: devIdentity.username,
         userId: devIdentity.userId,
+        claims,
       };
     }
 
@@ -65,6 +69,7 @@ export async function makeGetContext(
       ),
       username: props.username,
       userId: props.userId,
+      claims,
     };
   };
 }

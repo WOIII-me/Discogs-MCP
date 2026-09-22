@@ -63,7 +63,8 @@ export function registerPressingTools(server: McpServer, getContext: GetContext)
         topN: z.number().int().min(1).max(10).optional().describe("How many top pressings to return (default 3)"),
       },
     },
-    safeTool(async (params) => toToolResult(await findBestPressing(getContext(), params)))
+    // MCP tool calls are deliberate actions: bounded claim inference is allowed.
+    safeTool(async (params) => toToolResult(await findBestPressing(getContext(), { ...params, inferClaims: true })))
   );
 
   server.registerTool(
@@ -82,6 +83,6 @@ export function registerPressingTools(server: McpServer, getContext: GetContext)
         axis: z.enum(["sonic", "collector", "value"]).optional().describe(AXIS_DESCRIPTION),
       },
     },
-    safeTool(async (params) => toToolResult(await comparePressings(getContext(), params)))
+    safeTool(async (params) => toToolResult(await comparePressings(getContext(), { ...params, inferClaims: true })))
   );
 }

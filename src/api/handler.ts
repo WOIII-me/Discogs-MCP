@@ -12,6 +12,7 @@ import {
   type CoreResult,
 } from "../core/pressings.js";
 import { analyzeRelease, analyzeAlbum } from "../core/lookup.js";
+import { makeClaimsAnnotator } from "../core/claims.js";
 import { tasteFit } from "../core/taste.js";
 import { shelfProfile, spinPicks } from "../core/shelf.js";
 
@@ -165,6 +166,7 @@ export async function handleApi(
   const ctx: CoreContext = {
     client: new CachedDiscogsClient(auth.discogsAuth, env.CACHE_KV),
     username: auth.username,
+    claims: makeClaimsAnnotator(env),
   };
   const q = url.searchParams;
   const axis = q.get("axis") ?? undefined;
@@ -203,7 +205,8 @@ export async function handleApi(
     if (url.pathname === "/api/compare") {
       const ids = (q.get("releases") ?? "").split(",").map((s) => Number(s.trim())).filter((n) => Number.isInteger(n));
       if (ids.length < 2) return json(request, { error: "Provide ?releases=<id,id[,id]> (2–5)." }, 400);
-      return mapResult(request, await comparePressings(ctx, { releaseIds: ids.slice(0, 5), axis }));
+      // Explicit "compare" is a deliberate action; /api/analyze and /api/best-pressing stay cache-only.
+      return mapResult(request, await comparePressings(ctx, { releaseIds: ids.slice(0, 5), axis, inferClaims: true }));
     }
 
     if (url.pathname === "/api/versions") {
