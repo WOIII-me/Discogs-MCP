@@ -33,7 +33,7 @@ export function registerSearchTools(server: McpServer, getContext: GetContext): 
         styles: z.array(z.string()).optional().describe("Filter by Discogs styles, e.g. ['Hard Bop']"),
         decades: z.array(z.string()).optional().describe("Filter by decades, e.g. ['1960s', '1970s']"),
         minRating: z.number().min(0).max(5).optional().describe("Minimum personal rating (0–5)"),
-        limit: z.number().int().min(1).max(500).optional().describe("Items per page (default 50)"),
+        limit: z.number().int().min(1).optional().describe("Items per page (default 50, maximum 500; larger values are clamped)"),
         offset: z.number().int().min(0).optional().describe("Index of the first result to return (default 0)"),
       },
     },
@@ -71,7 +71,7 @@ export function registerSearchTools(server: McpServer, getContext: GetContext): 
         matches = matches.filter((item) => textMatches(item, params.query!));
       }
 
-      const page = paginate(matches, params.offset ?? 0, params.limit ?? 50);
+      const page = paginate(matches, params.offset ?? 0, Math.min(params.limit ?? 50, 500));
       return jsonResult({
         query: params.query ?? null,
         detectedMood: mood,
@@ -101,7 +101,7 @@ export function registerSearchTools(server: McpServer, getContext: GetContext): 
         year: z.string().optional().describe("Exact year, e.g. '1959'"),
         country: z.string().optional(),
         format: z.string().optional().describe("e.g. 'Vinyl', 'CD'"),
-        limit: z.number().int().min(1).max(50).optional().describe("Max results (default 15)"),
+        limit: z.number().int().min(1).optional().describe("Max results (default 15, maximum 50; larger values are clamped)"),
       },
     },
     safeTool(async (params) => {
@@ -114,7 +114,7 @@ export function registerSearchTools(server: McpServer, getContext: GetContext): 
           year: params.year,
           country: params.country,
           format: params.format,
-          per_page: params.limit ?? 15,
+          per_page: Math.min(params.limit ?? 15, 50),
         }),
         fetchFullCollection(ctx.client, ctx.username),
       ]);

@@ -895,5 +895,604 @@
     "labelStatus": "provisional",
     "split": "dev",
     "labelNotes": "Test Pressing / White Label descriptors; 'corrected speed' is not a defect report."
+  },
+  {
+    "id": "r6717429",
+    "releaseId": 6717429,
+    "title": "Brothers In Arms",
+    "label": "Mobile Fidelity Sound Lab",
+    "country": "US",
+    "year": 2015,
+    "notes": "From the back cover\n℗ 1985 & 2014 Warner Bros. Records Inc.\n© 2014 Mobile Fidelity Sound Lab, Inc\nMade in the U.S.A.\nSpecial Limited Edition\nProduction and Mastering by Mobile Fidelity Sound Lab • Specially Plated and Pressed on\n180 grams of High Definition Vinyl • Special Static Free - Dust Free Inner Sleeve\nHeavy Duty Protective Packaging • Mastered from the Original Master Tapes\nDigital clone of Sony 1630 U-Matic digital master ▷ Analog console ▷ Lathe\n\n[a13961] appears courtesy of [l904].\n\nPressed By information is not listed. Information derived from runouts. \nNo track durations are given on this release.\n\n*******************\nManufacturing Error Replacement Program\n*******************\nSome copies of this record, notably in the serial number range 11,000 and the serial range number 14,500 (there may be others), have a manufacturing aberration in track B1 \"Walk Of Life\". On this particular lacquer and resultant stampers at one point the extreme bass proved difficult to track on some, but not most, turntables. New stampers were subsequently made. Mobile Fidelity acknowledged the problem and by August 2019 was providing replacement discs only via the original vendors or directly to the original purchaser who bought from Mobile Fidelity or Music Direct. The faulty platters were to be returned to MoFi and destroyed. The limited time for exchanges/returns has a yet-to-be-determined expiration date.\n\nThe replacement discs BaOI information for serial number range 11,000 and the serial range number 14,500 (there may be others) is as follows:\nA Side Runout: MFSL2-441 A1 22624.1 (3) KW@MoFi\nB Side Runout: MFSL2-441 B3 24168.2 (3) KW@MoFi\n\nThe catalog entry for the 'corrected' release package is here: [r14582697]\n*******************",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "821797244114",
+        "description": "String"
+      },
+      {
+        "type": "Barcode",
+        "value": "8 21797 24411 4",
+        "description": "Text"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MFSL 2-441 A1 22677.1(3)... KW@MoFi",
+        "description": "Side A, etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MFSL 2-441 B2 22754.2(3)... KW@MoFi",
+        "description": "Side B, etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MFSL 2-441 C1 22677.3(3)... KW@MoFi",
+        "description": "Side C, etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MFSL 2-441 D1 22677.4(3)... KW@MoFi",
+        "description": "Side D, etched"
+      }
+    ],
+    "formats": [
+      "Vinyl 12\" 45 RPM Album Limited Edition Numbered Reissue Remastered Gatefold, 180g"
+    ],
+    "companies": [
+      {
+        "role": "Record Company",
+        "name": "Warner Bros. Records"
+      },
+      {
+        "role": "Licensed From",
+        "name": "Warner Bros. Records Inc."
+      },
+      {
+        "role": "Distributed By",
+        "name": "Mobile Fidelity Sound Lab, Inc."
+      },
+      {
+        "role": "Manufactured By",
+        "name": "Rhino Entertainment Company"
+      },
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "Warner Bros. Records Inc."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Mobile Fidelity Sound Lab, Inc."
+      },
+      {
+        "role": "Pressed By",
+        "name": "Record Technology Incorporated"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Record Technology Incorporated"
+      },
+      {
+        "role": "Published By",
+        "name": "Chariscourt Ltd."
+      },
+      {
+        "role": "Published By",
+        "name": "Rondor Music (London) Ltd."
+      },
+      {
+        "role": "Published By",
+        "name": "Virgin Music (Publishers) Ltd."
+      },
+      {
+        "role": "Recorded At",
+        "name": "AIR Studios, Montserrat"
+      },
+      {
+        "role": "Produced At",
+        "name": "Mobile Fidelity Sound Lab"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Power Station"
+      },
+      {
+        "role": "Mastered At",
+        "name": "Mobile Fidelity Sound Lab"
+      },
+      {
+        "role": "Lacquer Cut At",
+        "name": "Mobile Fidelity Sound Lab"
+      }
+    ],
+    "labels": {
+      "analogSource": "contradictory",
+      "digitalSource": "stated",
+      "pressingPlant": "contradictory",
+      "qcComplaints": "stated",
+      "firstPressing": "denied",
+      "dmm": "not_stated",
+      "nonConsumer": "not_stated"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Text asserts 'Mastered from the Original Master Tapes' AND 'Digital clone of Sony 1630 U-Matic digital master' → analog contradictory, digital stated. Notes say 'Pressed By information is not listed' while credits list Pressed By=Record Technology → contradictory (structured-credit reconciliation rule). Serial-range manufacturing aberration → qcComplaints stated."
+  },
+  {
+    "id": "r8645549",
+    "releaseId": 8645549,
+    "title": "Led Zeppelin II",
+    "label": "Atlantic",
+    "country": "US",
+    "year": 1969,
+    "notes": "First pressing featuring Robert Ludwig's \"hot\" mastering on both sides. These were withdrawn early because the high bass levels caused low-grade cartridges to mistrack, leading people to return the album on the belief that it was defective. Another engineer was then hired to recut a much less \"hot\" version of the album, and that is the far more common version. \n\n\"CP\" suffix and \"P\" stamped in runouts denote [l=Columbia Records Pressing Plant, Pitman], pressing. Remainder of runouts mostly etched.\n\nLabel rimtext: Mfg. By Atlantic Recording Corp., 1841 Broadway, New York, N.Y.\n\nIssued in gatefold jacket.\n\nArtist/title on spine: Led Zeppelin",
+    "identifiers": [
+      {
+        "type": "Rights Society",
+        "value": "ASCAP"
+      },
+      {
+        "type": "Pressing Plant ID",
+        "value": "CP",
+        "description": "On labels"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691671 CP",
+        "description": "Side A label"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691672 CP",
+        "description": "Side B label"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691671 RL SS",
+        "description": "Side A runout, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691672 RL SS",
+        "description": "Side B runout, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "P o ST-A-691671 RL SS B 3",
+        "description": "Side A runout, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "P o ST-A-691672 RL SS A 3",
+        "description": "Side B runout, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691671 RL SS B c",
+        "description": "Side A runout, variant 3"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691672 RL SS A̶ B c",
+        "description": "Side B runout, variant 3"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "P o ST-A-691671 RL SS C 3",
+        "description": "Side A runout, variant 4"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "P o ST-A-691672 RL SS A̶ B1",
+        "description": "Side B runout, variant 4"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "P o ST-A-691671 RL SS C 3",
+        "description": "Side A runout, variant 5"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "P o ST-A-691672 RL SS A 3",
+        "description": "Side B runout, variant 5"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Stereo \"RL\" Cut, CP - Pitman Pressing"
+    ],
+    "companies": [
+      {
+        "role": "Record Company",
+        "name": "Atlantic Recording Corporation"
+      },
+      {
+        "role": "Manufactured By",
+        "name": "Atlantic Recording Corporation"
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Atlantic Recording Corporation"
+      },
+      {
+        "role": "Lacquer Cut At",
+        "name": "Sterling Sound"
+      },
+      {
+        "role": "Plated At",
+        "name": "Customatrix"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Columbia Records Pressing Plant, Pitman"
+      },
+      {
+        "role": "Published By",
+        "name": "Superhype Music, Inc."
+      }
+    ],
+    "labels": {
+      "firstPressing": "stated",
+      "pressingPlant": "stated",
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "nonConsumer": "not_stated"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "'First pressing featuring Robert Ludwig's hot mastering' explicit. Pitman named via CP suffix. qcComplaints deliberately UNLABELLED: mistracking on low-grade cartridges is a mastering characteristic, not a manufacturing defect — borderline."
+  },
+  {
+    "id": "r6310336",
+    "releaseId": 6310336,
+    "title": "Led Zeppelin II",
+    "label": "Atlantic",
+    "country": "US",
+    "year": 1969,
+    "notes": "Taken directly from a widely circulated letter online from Bob Ludwig himself:\n\n\"When there were big orders of certain titles and there wasn't physically enough time for one person to crank out the lacquers as fast as the record company wanted, sometimes we would help each other out.\nFor instance, my initials might appear on a Beatles record that Lee mastered. \nIn every case, compared to now, those titles were relatively easy to master. Once one of us mastered an album and it was approved, we made careful notes, either one of us could cut it and it should come out the same. Back then, Lee and I shared the one room and worked different hours so it is possible one of the plants blew a part and needed a replacement right then with no delay.\nSo after I mastered the album (which Eddie Kramer & Atlantic approved) it was shipped to all the radio stations and the initial pressing was all from me and Sterling Sound.\nAmhet Ertegun at Atlantic heard the album (which Eddie demanded be as hot as possible) and apparently it skipped on his daughters little turntable. Instead of calling us at Sterling and asking us to lower the level a little and telling us where it skipped, they had the disk cutters at Atlantic use my EQ'd cassette file copy and they cut it WAY lower than my original cut plus, in my opinion, it sounded dull and generally not very good sounding in comparison.\nSo all the disks that were played at the radio stations and all the initial pressings world wide came from me (and apparently Lee cut a part or two) and that was what \"sold\" the record and made it a hit. A year later, whenever I visited someone I would look at their Zeppelin II album to see if it was my cut or Atlantic's cut. It was easy to see by eye, the Atlantic cut ended much farther from the label and the grooves to the naked eye looked very conservative.\"\n\nLabels include \"CTH\" suffix (indicating Terre Haute pressing) and \"Mfg By Atlantic Recording Corp., 1841 Broadway, New York, N.Y.\".\nThe dead wax side two is slightly narrower than that on side one.\n\nLater press information:\nIf this doesn't have \"SS RL\" and \"SS LH\" etched in the run-outs then it is a repress - remastered at Atlantic, rather than Sterling Sound.\nAround 200,000ish pressings were done of Robert Ludwig's 'high mix' which, like Hendrix's 'Ladyland' 1st masters, caused some poor-quality phonograph needles to 'skip'. Thus, a repress ordered by Ertegün at Atlantic. \n\n\nClarification:  Disc may have \"RL\" on Side A and \"SS LH\" on Side B\n\nFor the version with \"CTH\" suffix and \"SS RL\" etchings on both sides [url=http://www.discogs.com/release/3092359]Click here[/url]",
+    "identifiers": [
+      {
+        "type": "Rights Society",
+        "value": "ASCAP"
+      },
+      {
+        "type": "Pressing Plant ID",
+        "value": "CTH",
+        "description": "Columbia Terre Haute, on labels"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691671CTH",
+        "description": "A side bottom label"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691672CTH",
+        "description": "B side bottom label"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691671-1A C12 RL SS T",
+        "description": "A-side runout etched [skinny \"RL\" etched next to a very small \"ss\"], variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691672-D A15 LH SS T |",
+        "description": "B-side runout etched [very small \"LH\" etched next to a larger \"ss\"], variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691671-1A RL SS C2 T I",
+        "description": "A-side runout, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691672-D SS LH A5 o T I",
+        "description": "B-side runout, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691671-1A RL SS C1 T I",
+        "description": "A-side runout, variant 3"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691672-D SS LH B14 o T I",
+        "description": "B-side runout, variant 3"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691671-1B RL SS T",
+        "description": "A-side runout, variant 4"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691672-D SS LH T",
+        "description": "B-side runout, variant 4"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691671-1A RL SS B 13 o T ",
+        "description": "A-side runout, variant 5"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691672-D LH SS B 12 o T I",
+        "description": "B-side runout, variant 5"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691671-1A RL SS C4 T I",
+        "description": "A-side runout, variant 6"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691672-D SS LH o T I",
+        "description": "B-side runout, variant 6"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691671-1A RL SS C 7 T I",
+        "description": "A-side runout, variant 7"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ST-A-691672-D SS LH A 1 T I",
+        "description": "B-side runout, variant 7"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Stereo RL/LH Cuts, Gatefold"
+    ],
+    "companies": [
+      {
+        "role": "Lacquer Cut At",
+        "name": "Sterling Sound"
+      },
+      {
+        "role": "Mastered At",
+        "name": "Customatrix"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Columbia Records Pressing Plant, Terre Haute"
+      },
+      {
+        "role": "Manufactured By",
+        "name": "Atlantic Recording Corporation"
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Atlantic Recording Corporation"
+      },
+      {
+        "role": "Published By",
+        "name": "Superhype Music, Inc."
+      }
+    ],
+    "labels": {
+      "pressingPlant": "stated",
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Terre Haute named via CTH. firstPressing deliberately UNLABELLED: the Ludwig letter says initial pressings were his cut, but the notes do not assert THIS release is a first pressing — borderline."
+  },
+  {
+    "id": "r2832092",
+    "releaseId": 2832092,
+    "title": "Rumours",
+    "label": "Reprise Records",
+    "country": "US",
+    "year": 2011,
+    "notes": "Record Store Day 2011 Release\n\n[Initial release of 3,000 pressings on standard weight vinyl but remained in print with ongoing identical pressings thereafter.]\n\nPressed At Pallas [Sticker]\n\nIncludes a fold out insert with album credits, lyrics and photos.\n\nRecorded At:\nRecord Plant, Sausalito and Los Angeles, CA\nWally Heider Recording Studios, Hollywood, CA\nCriteria Studios, Miami, FL\nDavlen Recording Studio, North Hollywood, CA\n\nMixed At:\nSound City, Van Nuys, CA\nand Record Plant, Los Angeles, CA\n\n\"Songbird\" Recorded at Zellerback Auditorium,\nU.C. Berkeley, Berkeley, CA, March 3, 1976.\n\n©2009 Reprise Records for the U.S. and WEA International Inc. for the world outside the U.S. ℗ 1977 Warner Bros. Records Inc. Made in U.S.A.\n\nPublishing & Rights Society Credits:\nTracks A1, A3, A5: © 1978 Now Sounds Music (ASCAP)\nTracks A2, B3: © 1977 Welsh Witch Music (BMI). All rights administered by Sony/ATV Music Publishing\nTracks A4, A6, B2, B4: © 1976 Careers-BMG Music Publishing, Inc. (BMI)\nTrack B1: © 1977 Careers-BMG Music Publishing Inc. (BMI), Now Sounds Music (ASCAP), Molly Mac Music (BMI), Rattleman Music (BMI), Welsh Witch Music (BMI). All rights on behalf of Welsh Witch Music administered by Sony/ATV Music Publishing\nTrack B5: © 1976, 1977 Welsh Witch Music (BMI). All rights administered by Sony/ATV Music Publishing",
+    "identifiers": [
+      {
+        "type": "Rights Society",
+        "value": "BMI"
+      },
+      {
+        "type": "Rights Society",
+        "value": "ASCAP"
+      },
+      {
+        "type": "Barcode",
+        "value": "0 9362-49793-5 7",
+        "description": "Text"
+      },
+      {
+        "type": "Barcode",
+        "value": "093624979357",
+        "description": "String & Scanned"
+      },
+      {
+        "type": "Other",
+        "value": "1-517786(K1)",
+        "description": "Sticker on outer plasic bag"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-3010-A KPG&SH@ATM -18665- -18665- 1-517786 -A 14780.1(3)",
+        "description": "Side A, runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-3010-B KPG&SH@ATM -18665- 1-517786 -B 14780.2(3)",
+        "description": "Side B, runout"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Record Store Day Reissue"
+    ],
+    "companies": [
+      {
+        "role": "Recorded At",
+        "name": "Record Plant, Sausalito"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Record Plant, Los Angeles"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Wally Heider Recording Studio, Los Angeles"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Criteria Recording Studios"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Davlen Sound Studios"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Zellerbach Auditorium"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Sound City Studios"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Record Plant, Los Angeles"
+      },
+      {
+        "role": "Mastered At",
+        "name": "AcousTech Mastering"
+      },
+      {
+        "role": "Lacquer Cut At",
+        "name": "AcousTech Mastering"
+      },
+      {
+        "role": "Plated At",
+        "name": "Record Technology Incorporated"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Pallas"
+      },
+      {
+        "role": "Published By",
+        "name": "Now Sounds Music"
+      },
+      {
+        "role": "Published By",
+        "name": "Welsh Witch Music"
+      },
+      {
+        "role": "Published By",
+        "name": "Sony / ATV Music Publishing"
+      },
+      {
+        "role": "Published By",
+        "name": "Careers-BMG Music Publishing, Inc."
+      },
+      {
+        "role": "Published By",
+        "name": "Molly Mac Music"
+      },
+      {
+        "role": "Published By",
+        "name": "Rattleman Music"
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Reprise Records"
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "WEA International Inc."
+      }
+    ],
+    "labels": {
+      "pressingPlant": "stated",
+      "firstPressing": "denied",
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "'Pressed At Pallas [Sticker]' explicit. Reissue → denied. Long publishing boilerplate = distractor test."
+  },
+  {
+    "id": "r33067011",
+    "releaseId": 33067011,
+    "title": "Blue Train",
+    "label": "Analogue Productions",
+    "country": "US",
+    "year": 2008,
+    "notes": "Originally Released in 1957 by Blue Note Records. Blue Note ® is a registered trademark of Capitol Records, Inc.\nBlue Train originally released in 1957 on Blue Note as BST-81577. Blue Train original album art © 1957 Blue Note Records.\n℗ & © 2008 EMI Music Special Markets, Manufactured for Analogue Productions by EMI Music Special Markets, 1750 N. Vine Street, Hollywood, California 90028\n\nPrinted in U.S.A. \n\nAll tracks: Groove Music - BMI\n\nNumbered copies have a black and silver sticker on the back  cover\n\nAcousTech mastering Mastered at AcousTech by Kevin Gray and Steve Hoffman black and white sticker on front.",
+    "identifiers": [
+      {
+        "type": "Rights Society",
+        "value": "BMI"
+      }
+    ],
+    "formats": [
+      "Vinyl 12\" 45 RPM Album Limited Edition Numbered Reissue Remastered Stereo 180g"
+    ],
+    "companies": [
+      {
+        "role": "Record Company",
+        "name": "EMI"
+      },
+      {
+        "role": "Record Company",
+        "name": "Blue Note Records Inc."
+      },
+      {
+        "role": "Manufactured By",
+        "name": "EMI Music Special Markets"
+      },
+      {
+        "role": "Manufactured For",
+        "name": "Analogue Productions"
+      },
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "EMI Music Special Markets"
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "EMI Music Special Markets"
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Blue Note Records"
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Analogue Productions"
+      },
+      {
+        "role": "Mastered At",
+        "name": "AcousTech Mastering"
+      },
+      {
+        "role": "Trademark Owner",
+        "name": "Capitol Records, Inc."
+      }
+    ],
+    "labels": {
+      "firstPressing": "denied",
+      "pressingPlant": "not_stated",
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Reissue of the 1957 original → denied. 'Manufactured for Analogue Productions by EMI Music Special Markets' is a company, not a plant. AcousTech mastering credit states no source."
   }
 ]

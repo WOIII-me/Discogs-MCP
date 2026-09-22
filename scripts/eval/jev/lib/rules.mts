@@ -31,6 +31,7 @@ export function fixtureToRelease(f: NotesFixture): DiscogsRelease {
     country: f.country,
     notes: f.notes,
     identifiers: f.identifiers,
+    companies: (f.companies ?? []).map((c) => ({ name: c.name, entity_type_name: c.role })),
     tracklist: [],
     resource_url: "",
   };

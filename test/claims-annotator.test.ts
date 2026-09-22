@@ -79,7 +79,7 @@ describe("ClaimsAnnotator", () => {
     expect(client.calls).toBe(1);
     const claimKeys = [...kv.store.keys()].filter((k) => k.startsWith("claims:"));
     expect(claimKeys.length).toBe(1);
-    expect(claimKeys[0]).toMatch(/^claims:[0-9a-f]{64}:cc-v2:jev-1\.13\.0$/);
+    expect(claimKeys[0]).toMatch(/^claims:[0-9a-f]{64}:cc-v3:jev-1\.13\.0$/);
   });
 
   it("changed notes text produces a different cache key", async () => {

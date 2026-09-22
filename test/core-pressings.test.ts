@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
   comparePressings,
+  countryMatches,
   findBestPressing,
+  getReleaseVersions,
+  MAX_VERSIONS_LIMIT,
   type CoreContext,
 } from "../src/core/pressings.js";
 import type { CachedDiscogsClient } from "../src/clients/cached-discogs.js";
@@ -108,7 +111,7 @@ describe("core/pressings — catalog claims wiring", () => {
     sourceSentence: "Cut from the original analog tapes.",
     observedAt: "2026-09-22T00:00:00.000Z",
     model: "jev-1.13.0",
-    questionSetVersion: "cc-v2",
+    questionSetVersion: "cc-v3",
   };
   function fakeAnnotator() {
     const calls = { annotate: 0, peek: 0 };
@@ -164,5 +167,53 @@ describe("core/pressings — catalog claims wiring", () => {
     const ctx = { ...fakeCtx({ 1: mfslPressing, 2: makeRelease({ id: 2 }) }), claims: boom as unknown as CoreContext["claims"] };
     const r = await comparePressings(ctx, { releaseIds: [1, 2], inferClaims: true });
     expect(r.ok).toBe(true);
+  });
+});
+
+
+describe("getReleaseVersions — filters and limits (v1.6.2)", () => {
+  it("countryMatches is exact with aliases, never a substring", () => {
+    expect(countryMatches("Australia", "US")).toBe(false);
+    expect(countryMatches("US", "us")).toBe(true);
+    expect(countryMatches("US", "United States")).toBe(true);
+    expect(countryMatches("UK", "United Kingdom")).toBe(true);
+    expect(countryMatches("UK & Europe", "UK")).toBe(true);
+    expect(countryMatches("US, Canada & Europe", "Canada")).toBe(true);
+    expect(countryMatches("Germany", "West Germany")).toBe(false);
+    expect(countryMatches(undefined, "US")).toBe(false);
+  });
+
+  it("filters versions by exact country and clamps oversized limits", async () => {
+    const versions = [
+      makeVersion({ id: 1, country: "US" }),
+      makeVersion({ id: 2, country: "Australia" }),
+      makeVersion({ id: 3, country: "US, Canada & Europe" }),
+      ...Array.from({ length: 150 }, (_, i) => makeVersion({ id: 100 + i, country: "US" })),
+    ];
+    const ctx = fakeCtx({});
+    (ctx.client as unknown as { getMasterVersions: unknown }).getMasterVersions = async () => ({
+      pagination: { pages: 1, items: versions.length, page: 1, per_page: 100 },
+      versions,
+    });
+    const r = await getReleaseVersions(ctx, { masterId: 4170, filterCountry: "US", limit: 5000 });
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.data.matchingVersions).toBe(152);
+    expect(r.data.versions.every((v) => v.country !== "Australia")).toBe(true);
+    expect(r.data.versions.length).toBe(MAX_VERSIONS_LIMIT);
+  });
+});
+
+describe("dataCaveats — catalogClaims (v1.6.2)", () => {
+  it("adds the claims caveat only when claims are present", async () => {
+    const base = fakeCtx({ 1: mfslPressing, 2: makeRelease({ id: 2 }) });
+    const without = await comparePressings(base, { releaseIds: [1, 2] });
+    const claim = { claim: "dmm" as const, status: "stated" as const, certainty: 0.9, observedAt: "", model: "jev-1.13.0", questionSetVersion: "cc-v3" };
+    const annotator = { annotate: async (rs: { id: number }[]) => new Map(rs.map((r) => [r.id, [claim]])), peek: async () => new Map() };
+    const withClaims = await comparePressings({ ...base, claims: annotator as unknown as CoreContext["claims"] }, { releaseIds: [1, 2], inferClaims: true });
+    expect(without.ok && withClaims.ok).toBe(true);
+    if (!without.ok || !withClaims.ok) return;
+    expect(without.data.dataCaveats.join(" ")).not.toMatch(/catalogClaims/);
+    expect(withClaims.data.dataCaveats.join(" ")).toMatch(/catalogClaims are a model's reading/);
   });
 });
