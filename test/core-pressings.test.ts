@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
+  applyVersionFilters,
   comparePressings,
   countryMatches,
   findBestPressing,
+  formatMatches,
   getReleaseVersions,
   MAX_VERSIONS_LIMIT,
+  versionYear,
   type CoreContext,
 } from "../src/core/pressings.js";
 import type { CachedDiscogsClient } from "../src/clients/cached-discogs.js";
@@ -215,5 +218,97 @@ describe("dataCaveats — catalogClaims (v1.6.2)", () => {
     if (!without.ok || !withClaims.ok) return;
     expect(without.data.dataCaveats.join(" ")).not.toMatch(/catalogClaims/);
     expect(withClaims.data.dataCaveats.join(" ")).toMatch(/catalogClaims are a model's reading/);
+  });
+});
+
+
+describe("version filters — format, year, paging (v1.7.0)", () => {
+  it("formatMatches consults major_formats so 'Vinyl' catches rows listed as 'LP, Album'", () => {
+    const lp = makeVersion({ format: "LP, Album, Reissue", major_formats: ["Vinyl"] });
+    expect(formatMatches(lp, "Vinyl")).toBe(true);
+    expect(formatMatches(lp, "vinyl")).toBe(true);
+    expect(formatMatches(makeVersion({ format: "CD, Album", major_formats: ["CD"] }), "Vinyl")).toBe(false);
+  });
+
+  it("versionYear parses '1972', '1972-05-01' and rejects blanks", () => {
+    expect(versionYear(makeVersion({ released: "1972" }))).toBe(1972);
+    expect(versionYear(makeVersion({ released: "1972-05-01" }))).toBe(1972);
+    expect(versionYear(makeVersion({ released: "" }))).toBeUndefined();
+  });
+
+  it("applyVersionFilters combines country, inclusive year range and format; unknown years drop when bounded", () => {
+    const rows = [
+      makeVersion({ id: 1, country: "US", released: "1969", format: "LP, Album", major_formats: ["Vinyl"] }),
+      makeVersion({ id: 2, country: "US", released: "1970", format: "LP, Album, Reissue", major_formats: ["Vinyl"] }),
+      makeVersion({ id: 3, country: "US", released: "1979-06", format: "LP", major_formats: ["Vinyl"] }),
+      makeVersion({ id: 4, country: "US", released: "1980", format: "LP", major_formats: ["Vinyl"] }),
+      makeVersion({ id: 5, country: "Australia", released: "1972", format: "LP", major_formats: ["Vinyl"] }),
+      makeVersion({ id: 6, country: "US", released: "", format: "LP", major_formats: ["Vinyl"] }),
+      makeVersion({ id: 7, country: "US", released: "1975", format: "Cassette", major_formats: ["Cassette"] }),
+    ];
+    const ids = (f: Parameters<typeof applyVersionFilters>[1]) => applyVersionFilters(rows, f).map((v) => v.id);
+    expect(ids({ filterCountry: "US", yearFrom: 1970, yearTo: 1979, filterFormat: "Vinyl" })).toEqual([2, 3]);
+    expect(ids({ yearFrom: 1975 })).toEqual([3, 4, 7]);
+    expect(ids({})).toHaveLength(7);
+  });
+
+  it("fetches up to 5 version pages when filtered, 3 when not", async () => {
+    const calls: number[] = [];
+    const ctx = fakeCtx({});
+    (ctx.client as unknown as { getMasterVersions: unknown }).getMasterVersions = async (_id: number, opts: { page: number }) => {
+      calls.push(opts.page);
+      return { pagination: { pages: 8, items: 800, page: opts.page, per_page: 100 }, versions: [makeVersion({ id: opts.page, country: "US", released: "1972" })] };
+    };
+    await getReleaseVersions(ctx, { masterId: 4170 });
+    expect(calls).toEqual([1, 2, 3]);
+    calls.length = 0;
+    const r = await getReleaseVersions(ctx, { masterId: 4170, filterCountry: "US", yearFrom: 1970, yearTo: 1979 });
+    expect(calls).toEqual([1, 2, 3, 4, 5]);
+    expect(r.ok && r.data.truncated).toBe(true);
+    expect(r.ok && r.data.versions[0].majorFormats).toEqual([]);
+  });
+});
+
+describe("findBestPressing — filtered survey (v1.7.0)", () => {
+  function filteredCtx() {
+    const releases = {
+      1: makeRelease({ id: 1, country: "US", year: 1969 }),
+      2: makeRelease({ id: 2, country: "US", year: 1972 }),
+      3: makeRelease({ id: 3, country: "Japan", year: 1972 }),
+      4: makeRelease({ id: 4, country: "US", year: 1977 }),
+    };
+    const ctx = fakeCtx(releases);
+    (ctx.client as unknown as { getMasterVersions: unknown }).getMasterVersions = async () => ({
+      pagination: { pages: 1, items: 4, page: 1, per_page: 100 },
+      versions: [
+        makeVersion({ id: 1, country: "US", released: "1969", format: "LP, Album", major_formats: ["Vinyl"] }),
+        makeVersion({ id: 2, country: "US", released: "1972", format: "LP, Album, Reissue", major_formats: ["Vinyl"] }),
+        makeVersion({ id: 3, country: "Japan", released: "1972", format: "LP, Album", major_formats: ["Vinyl"] }),
+        makeVersion({ id: 4, country: "US", released: "1977", format: "LP, Album, Reissue", major_formats: ["Vinyl"] }),
+      ],
+    });
+    return ctx;
+  }
+
+  it("hard filters restrict the candidate pool and topN can return every scored candidate", async () => {
+    const r = await findBestPressing(filteredCtx(), { masterId: 5460, filterCountry: "US", yearFrom: 1970, yearTo: 1979, topN: 16 });
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.data.topPressings.map((p) => p.releaseId).sort()).toEqual([2, 4]);
+    expect(r.data.album.candidatesScored).toBe(2);
+  });
+
+  it("returns an honest error instead of widening when nothing matches the hard filters", async () => {
+    const r = await findBestPressing(filteredCtx(), { masterId: 5460, filterCountry: "Germany" });
+    expect(r.ok).toBe(false);
+    if (r.ok) return;
+    expect(r.error).toMatch(/No versions .* match the filters/);
+  });
+
+  it("preferredFormats stays a soft preference and matches major_formats", async () => {
+    const r = await findBestPressing(filteredCtx(), { masterId: 5460, preferredFormats: ["Vinyl"], topN: 16 });
+    expect(r.ok && r.data.topPressings.length).toBe(4);
+    const none = await findBestPressing(filteredCtx(), { masterId: 5460, preferredFormats: ["8-Track"], topN: 16 });
+    expect(none.ok && none.data.topPressings.length).toBe(4);
   });
 });

@@ -206,7 +206,7 @@ export async function handleApi(
       const ids = (q.get("releases") ?? "").split(",").map((s) => Number(s.trim())).filter((n) => Number.isInteger(n));
       if (ids.length < 2) return json(request, { error: "Provide ?releases=<id,id[,id]> (2–5)." }, 400);
       // Explicit "compare" is a deliberate action; /api/analyze and /api/best-pressing stay cache-only.
-      return mapResult(request, await comparePressings(ctx, { releaseIds: ids.slice(0, 5), axis, inferClaims: true }));
+      return mapResult(request, await comparePressings(ctx, { releaseIds: ids.slice(0, 8), axis, inferClaims: true }));
     }
 
     if (url.pathname === "/api/versions") {
@@ -218,6 +218,8 @@ export async function handleApi(
           masterId,
           filterCountry: q.get("country") ?? undefined,
           filterFormat: q.get("format") ?? undefined,
+          yearFrom: num(q.get("yearFrom")),
+          yearTo: num(q.get("yearTo")),
           limit: num(q.get("limit")),
         })
       );

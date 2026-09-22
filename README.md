@@ -157,7 +157,7 @@ so Chrome reports a missing manifest — the extension lives in `extension/`.)
 | `get_release` / `get_master_release` | Release / master details with community data |
 | `get_release_versions` | All pressings of a master, filterable by country/format |
 | `find_best_pressing` | Rank pressings of an album along an `axis` (`sonic`/`collector`/`value`) using multi-signal evidence-weighted scoring |
-| `compare_pressings` | Side-by-side comparison of 2–5 release IDs along a chosen `axis` |
+| `compare_pressings` | Side-by-side comparison of 2–8 release IDs along a chosen `axis` |
 | `get_collection_stats` | Genre/style/decade/format/label analytics + taste profile |
 | `explore_user_collection` | Browse another user's public collection |
 | `get_wantlist` | Your wantlist, or another user's |

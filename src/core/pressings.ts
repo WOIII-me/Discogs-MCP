@@ -91,12 +91,60 @@ export interface GetReleaseVersionsResult {
     country: string;
     released: string;
     format: string;
+    majorFormats: string[];
     inCollection: number;
     inWantlist: number;
   }[];
 }
 
 const MAX_VERSION_PAGES = 3; // 3 × 100 = 300 versions
+/**
+ * When the caller filters (country / year / format) they are asking a precise
+ * question, and two more pages cost two calls — far cheaper than the fetch loop
+ * a model runs when the list is truncated (36 get_release calls, 2026-09-22).
+ */
+const FILTERED_MAX_VERSION_PAGES = 5;
+
+/** Shared version filters for get_release_versions and find_best_pressing. */
+export interface VersionFilters {
+  filterCountry?: string;
+  /** Substring match against the format string AND major_formats, so "Vinyl" catches rows listed as "LP, Album". */
+  filterFormat?: string;
+  /** Inclusive release-year range; rows without a parseable year are excluded when a bound is set. */
+  yearFrom?: number;
+  yearTo?: number;
+}
+
+export function hasVersionFilters(f: VersionFilters): boolean {
+  return Boolean(f.filterCountry || f.filterFormat || f.yearFrom !== undefined || f.yearTo !== undefined);
+}
+
+/** Year of a Discogs version row: `released` is "1972", "1972-05-01" or "". */
+export function versionYear(v: DiscogsMasterVersion): number | undefined {
+  const m = /^(\d{4})/.exec(v.released ?? "");
+  return m ? Number(m[1]) : undefined;
+}
+
+export function formatMatches(v: DiscogsMasterVersion, filter: string): boolean {
+  const blob = `${v.format ?? ""} ${(v.major_formats ?? []).join(" ")}`.toLowerCase();
+  return blob.includes(filter.trim().toLowerCase());
+}
+
+export function applyVersionFilters(versions: DiscogsMasterVersion[], f: VersionFilters): DiscogsMasterVersion[] {
+  let out = versions;
+  if (f.filterCountry) out = out.filter((v) => countryMatches(v.country, f.filterCountry!));
+  if (f.filterFormat) out = out.filter((v) => formatMatches(v, f.filterFormat!));
+  if (f.yearFrom !== undefined || f.yearTo !== undefined) {
+    out = out.filter((v) => {
+      const y = versionYear(v);
+      if (y === undefined) return false;
+      if (f.yearFrom !== undefined && y < f.yearFrom) return false;
+      if (f.yearTo !== undefined && y > f.yearTo) return false;
+      return true;
+    });
+  }
+  return out;
+}
 /** Hard cap on versions returned by getReleaseVersions; larger requests are clamped, not rejected. */
 export const MAX_VERSIONS_LIMIT = 100;
 
@@ -210,7 +258,8 @@ function selectCandidates(
 
 async function fetchAllVersions(
   ctx: CoreContext,
-  masterId: number
+  masterId: number,
+  maxPages: number = MAX_VERSION_PAGES
 ): Promise<{ versions: DiscogsMasterVersion[]; truncated: boolean }> {
   const versions: DiscogsMasterVersion[] = [];
   let page = 1;
@@ -219,7 +268,7 @@ async function fetchAllVersions(
     const resp = await ctx.client.getMasterVersions(masterId, { page, per_page: 100 });
     versions.push(...resp.versions);
     if (page >= resp.pagination.pages) break;
-    if (page >= MAX_VERSION_PAGES) {
+    if (page >= maxPages) {
       truncated = true;
       break;
     }
@@ -298,10 +347,8 @@ function buildCaveats(opts: {
 
 // === Public params & functions ===
 
-export interface GetReleaseVersionsParams {
+export interface GetReleaseVersionsParams extends VersionFilters {
   masterId: number;
-  filterCountry?: string;
-  filterFormat?: string;
   limit?: number;
 }
 
@@ -309,17 +356,12 @@ export async function getReleaseVersions(
   ctx: CoreContext,
   params: GetReleaseVersionsParams
 ): Promise<CoreResult<GetReleaseVersionsResult>> {
-  const { versions, truncated } = await fetchAllVersions(ctx, params.masterId);
-
-  let filtered = versions;
-  if (params.filterCountry) {
-    const c = params.filterCountry;
-    filtered = filtered.filter((v) => countryMatches(v.country, c));
-  }
-  if (params.filterFormat) {
-    const f = params.filterFormat.toLowerCase();
-    filtered = filtered.filter((v) => v.format?.toLowerCase().includes(f));
-  }
+  const { versions, truncated } = await fetchAllVersions(
+    ctx,
+    params.masterId,
+    hasVersionFilters(params) ? FILTERED_MAX_VERSION_PAGES : MAX_VERSION_PAGES
+  );
+  const filtered = applyVersionFilters(versions, params);
 
   const ranked = rankVersionsByQuickSignals(filtered);
   return {
@@ -337,6 +379,7 @@ export async function getReleaseVersions(
         country: v.country,
         released: v.released,
         format: v.format,
+        majorFormats: v.major_formats ?? [],
         inCollection: v.stats?.community?.in_collection ?? 0,
         inWantlist: v.stats?.community?.in_wantlist ?? 0,
       })),
@@ -344,13 +387,14 @@ export async function getReleaseVersions(
   };
 }
 
-export interface FindBestPressingParams {
+export interface FindBestPressingParams extends VersionFilters {
   masterId?: number;
   releaseId?: number;
   albumTitle?: string;
   artistName?: string;
   axis?: string;
   preferredFormats?: string[];
+  /** How many scored pressings to return; up to DETAIL_BUDGET so one call can survey a filtered set. */
   topN?: number;
   /** Cap on candidate detail fetches (default DETAIL_BUDGET). Progressive
    * analysis shrinks this when the remaining rate budget is constrained. */
@@ -368,16 +412,28 @@ export async function findBestPressing(
   const { masterId } = resolved;
 
   const [{ versions, truncated }, master, collection] = await Promise.all([
-    fetchAllVersions(ctx, masterId),
+    fetchAllVersions(ctx, masterId, hasVersionFilters(params) ? FILTERED_MAX_VERSION_PAGES : MAX_VERSION_PAGES),
     ctx.client.getMaster(masterId),
     fetchFullCollection(ctx.client, ctx.username),
   ]);
 
   let pool = versions;
   if (params.preferredFormats?.length) {
-    const wanted = params.preferredFormats.map((f) => f.toLowerCase());
-    pool = pool.filter((v) => wanted.some((f) => v.format?.toLowerCase().includes(f)));
-    if (pool.length === 0) pool = versions;
+    // Soft preference: fall back to everything if nothing matches.
+    const preferred = pool.filter((v) => params.preferredFormats!.some((f) => formatMatches(v, f)));
+    if (preferred.length > 0) pool = preferred;
+  }
+  if (hasVersionFilters(params)) {
+    // Hard filters: an explicit country/year/format question must not silently widen.
+    pool = applyVersionFilters(pool, params);
+    if (pool.length === 0) {
+      return {
+        ok: false,
+        error:
+          `No versions of "${master.title}" match the filters` +
+          (truncated ? " within the first 500 versions surveyed (the list was truncated)." : "."),
+      };
+    }
   }
 
   const axis: Axis = normalizeAxis(params.axis);
@@ -405,7 +461,7 @@ export async function findBestPressing(
     .sort((a, b) => b.score.overallScore - a.score.overallScore);
 
   const ownedIds = new Set(collection.items.map((i) => i.id));
-  const topN = params.topN ?? 3;
+  const topN = Math.max(1, Math.min(params.topN ?? 3, DETAIL_BUDGET));
   const claims = await claimsFor(ctx, scored.slice(0, topN).map((p) => p.release), params.inferClaims === true);
 
   return {
