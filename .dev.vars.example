@@ -4,3 +4,11 @@ DISCOGS_CONSUMER_KEY=your_consumer_key
 DISCOGS_CONSUMER_SECRET=your_consumer_secret
 # Optional: restrict who may log in (comma-separated Discogs usernames and/or numeric IDs)
 ALLOWED_DISCOGS_USERS=
+
+# Optional: TypeSafe AI (Jev) catalog-claim annotations. Off unless JEV_ENABLED=true AND a key is set.
+# Production: `wrangler secret put JEV_API_KEY`; set JEV_ENABLED / JEV_MODEL as [vars]. See plans/jev-and-mcp-apps-plan.md.
+JEV_ENABLED=
+JEV_API_KEY=
+JEV_MODEL=jev-1.13.0
+# JEV_DAILY_TOKEN_CEILING=2000000
+# JEV_CERTAINTY_GATE=0.7

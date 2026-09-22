@@ -17,6 +17,19 @@ export interface Env {
    * skips OAuth. Never set this as a production secret.
    */
   DISCOGS_PERSONAL_TOKEN?: string;
+  /**
+   * TypeSafe AI (Jev) catalog-claim annotations — optional, off by default.
+   * Set JEV_ENABLED=true and provide JEV_API_KEY (wrangler secret) to turn on.
+   * See plans/jev-and-mcp-apps-plan.md §3 for the posture these enforce.
+   */
+  JEV_ENABLED?: string;
+  JEV_API_KEY?: string;
+  /** Pinned model id (default jev-1.13.0). Never an alias in production. */
+  JEV_MODEL?: string;
+  /** Per-UTC-day input-token ceiling across the deployment (default 2,000,000). */
+  JEV_DAILY_TOKEN_CEILING?: string;
+  /** Top-option probability below which a claim is dropped (default 0.7). */
+  JEV_CERTAINTY_GATE?: string;
   /** Injected by OAuthProvider into the default handler's env. */
   OAUTH_PROVIDER: OAuthHelpers;
 }

@@ -1,6 +1,7 @@
 import type { DiscogsRelease } from "../clients/types.js";
 import type { Factor, PressingScore } from "./pressing-scoring.js";
 import type { ReputationDetail } from "./pressing-reputation.js";
+import type { CatalogClaim } from "./catalog-claims.js";
 
 /**
  * A per-pressing evidence dossier: the existing summary fields (kept for
@@ -36,6 +37,13 @@ export interface PressingDossier {
   pressingCompanies: { name: string; entityTypeName?: string }[];
   ratingDelta: { value: number | null; albumBaselineRating: number };
   whyItScores: string;
+  /**
+   * Semantic reading of the release notes (optional, Jev-backed, annotations
+   * only — never feeds the score). Absent when the feature is off, the text
+   * was empty, or inference was skipped/timed out. `certainty` is model
+   * certainty, not evidence strength.
+   */
+  catalogClaims?: CatalogClaim[];
 }
 
 function formatString(release: DiscogsRelease): string {
@@ -55,7 +63,8 @@ function whyItScores(signals: string[]): string {
 export function buildDossier(
   release: DiscogsRelease,
   score: PressingScore,
-  albumBaselineRating: number
+  albumBaselineRating: number,
+  catalogClaims?: CatalogClaim[]
 ): PressingDossier {
   const ratingAvg = release.community?.rating?.average ?? 0;
   const ratingCount = release.community?.rating?.count ?? 0;
@@ -96,5 +105,6 @@ export function buildDossier(
       albumBaselineRating: Math.round(albumBaselineRating * 100) / 100,
     },
     whyItScores: whyItScores(score.signals),
+    ...(catalogClaims && catalogClaims.length > 0 ? { catalogClaims } : {}),
   };
 }

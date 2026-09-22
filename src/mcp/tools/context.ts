@@ -1,10 +1,13 @@
 import type { CachedDiscogsClient } from "../../clients/cached-discogs.js";
 import { DiscogsApiError, RateLimitError } from "../../clients/discogs.js";
+import type { ClaimsAnnotator } from "../../core/claims.js";
 
 export interface ToolContext {
   client: CachedDiscogsClient;
   username: string;
   userId: number;
+  /** Optional Jev-backed notes reader; undefined when JEV_ENABLED is not "true". */
+  claims?: ClaimsAnnotator;
 }
 
 export type GetContext = () => ToolContext;

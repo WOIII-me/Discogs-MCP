@@ -148,9 +148,11 @@ export async function analyzeRelease(
     bestPressing && bestPressing.releaseId === releaseId
       ? bestPressing
       : null;
+  // Automatic path: claims come from cache only — never uncached inference here.
+  const peeked = fromSurvey || !ctx.claims ? undefined : await ctx.claims.peek([rel]).catch(() => undefined);
   const thisPressing: DossierEntry =
     fromSurvey ?? {
-      ...buildDossier(rel, scorePressing(rel, axis, { baselineRating: baseline }), baseline),
+      ...buildDossier(rel, scorePressing(rel, axis, { baselineRating: baseline }), baseline, peeked?.get(rel.id)),
       inYourCollection: owned ?? false,
     };
 

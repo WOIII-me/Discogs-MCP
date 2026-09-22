@@ -1,0 +1,899 @@
+[
+  {
+    "id": "r26677274",
+    "releaseId": 26677274,
+    "title": "Kind Of Blue",
+    "label": "Coronet (2)",
+    "country": "Australia",
+    "year": 1959,
+    "notes": "Early Australian mono release. Differs from the other early Australian mono versions in that it has a different pressing ring/labels combination. It has the misspelling of \"Freddie Feedloader\" on the Side A label and has the incorrect track order on the Side B label. The incorrect track order on Side B is repeated on the back cover. Cover has glossy front and flipback panels on back.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "MX127179"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MX127180"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Mono"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "not_stated"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "'Early' mono release is not an assertion of first pressing; label misprints are not QC defects."
+  },
+  {
+    "id": "r23225960",
+    "releaseId": 23225960,
+    "title": "Kind Of Blue",
+    "label": "Columbia",
+    "country": "US",
+    "year": 1959,
+    "notes": "Columbia 6-Eye, nonbreakable labels with “Stereo Fidelity” at the top, and bold typeface for album title (both sides).\n\nTerre Haute pressing variant. Side 2 on the jacket back incorrectly lists “Flamenco Sketches” as the first track and “All Blues” as the second track. Side 2 labels list the songs correctly and audio plays in the correct order, indicating a November 1959 pressing.\n\n“T” etched in runouts denotes Columbia Records Pressing Plant, Terre Haute, pressing.\n“6” printing on jacket back bottom rights denotes fabrication by Imperial Packing Co., Inc., Indianapolis IN.\n\nJulian “Cannonball” Adderley’s last name is misspelled as “Adderly” on the front and back cover. Wynton Kelly appears as “Wyn Kelly” on the back cover.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "XSM47326-1AG TAIII T",
+        "description": "Side 1 runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XSM47327-1AJ TCI",
+        "description": "Side 2 runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XSM 47326",
+        "description": "Side 1 label"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XSM 47327",
+        "description": "Side 2 label"
+      },
+      {
+        "type": "Other",
+        "value": "6",
+        "description": "Fabricator code, jacket back bottom right"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Misprint Repress Stereo"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "denied"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Terre Haute plant named via 'T' etch. Format descriptor 'Repress' denies first pressing (borderline: descriptor, not prose)."
+  },
+  {
+    "id": "r24450083",
+    "releaseId": 24450083,
+    "title": "Kind Of Blue",
+    "label": "CBS",
+    "country": "UK",
+    "year": 1962,
+    "notes": "Recorded 02/03/1959 and 22/04/1959.\nOriginal album release May 1959 (cat# CL 1355).\n\nRough-texture orange labels.\nFlipback sleeve, laminated on front.\nPhilips pressing (Walthamstow) as indicated by the '420' code in the runout string\nCS8163 on back cover",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "BPG 62066 1L 3//420 1 1 7",
+        "description": "Side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BPG 62066 2L 2//420T 1 1 2",
+        "description": "Side B"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Mono Reissue"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "denied"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Philips Walthamstow pressing named. 'Reissue' + 'Original album release May 1959' → denied."
+  },
+  {
+    "id": "r20835466",
+    "releaseId": 20835466,
+    "title": "Kind Of Blue",
+    "label": "CBS/Sony",
+    "country": "Japan",
+    "year": 1968,
+    "notes": "Label variation - Run Out Matrix and cover same as Commercial release",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "50027A1 1A3",
+        "description": "Side A runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "50027B11A3",
+        "description": "Side B runout"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Promo Reissue Stereo"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "stated",
+      "firstPressing": "denied"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Promo descriptor + 'same as Commercial release'."
+  },
+  {
+    "id": "r3641771",
+    "releaseId": 3641771,
+    "title": "Kind Of Blue",
+    "label": "Russian Disc",
+    "country": "Russia",
+    "year": 1993,
+    "notes": "Archive records, 1959 = Архивные записи, 1959 год\nRecords from V. Tihonov (Moscow) collection\nRecord made with the assistance of the Association of Moscow Philophonists Clubs \nDMM (Direct Metal Mastering)",
+    "identifiers": [],
+    "formats": [
+      "Vinyl LP Album Reissue Unofficial Release"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "denied"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "'DMM (Direct Metal Mastering)' verbatim. Unofficial release is not a promo/test pressing."
+  },
+  {
+    "id": "r13941336",
+    "releaseId": 13941336,
+    "title": "Kind Of Blue",
+    "label": "Classic Records",
+    "country": "US",
+    "year": 1995,
+    "notes": "Original RTI 2xLP test pressing. \n\n180 gram 1995 Classic Records Release\nSide A/B: Original Speed\nSide C: Corrected Speed\nSide D: Alternative take, previously unreleased (45 RPM)",
+    "identifiers": [],
+    "formats": [
+      "Vinyl LP Album Reissue Remastered Test Pressing"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "stated",
+      "firstPressing": "denied"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "'Original RTI 2xLP test pressing'. Speed-correction notes are not a QC complaint about this copy (borderline)."
+  },
+  {
+    "id": "r1158865",
+    "releaseId": 1158865,
+    "title": "Kind Of Blue",
+    "label": "Sony BMG Music Entertainment",
+    "country": "Germany",
+    "year": 2007,
+    "notes": "Back sleeve lists B1 & B2 in reverse order.\n\n\"360 Sound - Guaranteed High Fidelity\"\n\nRecorded 02/03/1959 and 22/04/1959.\n\nOriginal album release Aug. 17. 1959 (cat# CS 8163).",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "8 86971 60461 0"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "8897160461  B797470-01 A2",
+        "description": "Side A runout etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "8897160461  B797470-01 B2",
+        "description": "Side B runout etched"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue Stereo 180g"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "denied"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Reissue; original 1959 release cited."
+  },
+  {
+    "id": "r2521830",
+    "releaseId": 2521830,
+    "title": "Kind Of Blue",
+    "label": "Jazz Wax Records",
+    "country": "Spain",
+    "year": 2009,
+    "notes": "Direct Metal Mastering",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "8 436028696857"
+      },
+      {
+        "type": "Other",
+        "value": "JWR4534 ",
+        "description": "Side A Label"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "JWR4534LP 85208E1/B ",
+        "description": "Side A dead wax runout, stamped not scribed"
+      },
+      {
+        "type": "Other",
+        "value": "JWR4534",
+        "description": "Side B Label"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "JWR4534LP 85208E2/A",
+        "description": "Side B dead wax runout, stamped not scribed"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue Limited Edition 180 gram"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "denied"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "'Direct Metal Mastering' verbatim."
+  },
+  {
+    "id": "r2370135",
+    "releaseId": 2370135,
+    "title": "Kind Of Blue",
+    "label": "Not Now Music",
+    "country": "Europe",
+    "year": 2010,
+    "notes": "Recorded March 2nd and April 22nd, 1959 at Columbia 30th Street Studio, NY.\n\nHere is the black vinyl version that has the same catalog #:\n[r8198087]",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "5 060143 491207"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Limited Edition Reissue Remastered Unofficial Release 180 Gram, Clear"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "denied"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Reissue."
+  },
+  {
+    "id": "r4169354",
+    "releaseId": 4169354,
+    "title": "Kind Of Blue",
+    "label": "Coronet (2)",
+    "country": "Australia",
+    "year": 1959,
+    "notes": "1959 first pressing Australian mono LP in front laminated sleeve with flipback flaps on the back. Original red octagonal Coronet label. \nCatalogue number is rendered as KLP893 on sleeve, KLP-893 on Side A label and KLP - 893 on Side B label. \nThis pressing lists All Blues and Flamenco Sketches in reverse order on both sleeve and label. \n\nFor second pressing (circular Coronet labels) which shares same cover and same cut side 1, see [r=13560284].",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "MX127179",
+        "description": "Side A Label"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MX127180",
+        "description": "Side B Label"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MX127179B",
+        "description": "Side A Runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MX127180B",
+        "description": "Side B Runout"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Mono"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "stated"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "'1959 first pressing Australian mono LP' — explicit."
+  },
+  {
+    "id": "r5795305",
+    "releaseId": 5795305,
+    "title": "Kind Of Blue",
+    "label": "Columbia",
+    "country": "US",
+    "year": 1959,
+    "notes": "Recorded 02/03/1959 and 22/04/1959. \r\n\r\nPromo stereo 6-eye labels.\r\n\r\nBoth cover and side two of album are mislabeled.\r\n\r\nSongs are in correct running order.",
+    "identifiers": [
+      {
+        "type": "Rights Society",
+        "value": "BMI"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XSM 47326",
+        "description": "Side A label"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XSM 47327",
+        "description": "Side B label"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Stereo Promo '2' Cover"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "stated",
+      "firstPressing": "not_stated"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "'Promo stereo 6-eye labels'."
+  },
+  {
+    "id": "r3259738",
+    "releaseId": 3259738,
+    "title": "Kind Of Blue",
+    "label": "Fontana",
+    "country": "Netherlands",
+    "year": 1960,
+    "notes": "\"Printed in Holland\" on cover and on label.\r\nLabel is textured black & silver.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "AA 682 059.1 L",
+        "description": "Label Side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AA 682 059.2 L",
+        "description": "Label Side B"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AA 682059 ▿ 1L = 2 // 670 111 4C",
+        "description": "Runout Side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AA 682059 ▿ 2L = 1 // 670 1B1 6C",
+        "description": "Runout Side B"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Mono"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "not_stated"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Nothing claimed."
+  },
+  {
+    "id": "r11487636",
+    "releaseId": 11487636,
+    "title": "Kind Of Blue",
+    "label": "CBS/Sony",
+    "country": "Japan",
+    "year": 1968,
+    "notes": "Earlier variant of SONP 50027 with solid orange labels.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "50027A1 1A3",
+        "description": "Side A runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "50027B11A3",
+        "description": "Side B runout"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue Stereo"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "denied"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Reissue."
+  },
+  {
+    "id": "r2506823",
+    "releaseId": 2506823,
+    "title": "Kind Of Blue",
+    "label": "Music On Vinyl",
+    "country": "Europe",
+    "year": 2010,
+    "notes": "Gatefold sleeve with sleeve notes.\nCatalog numbers: \"MOVLP 019 / 88697638941\" on spine, \"MOVLP019\" / \"88697638941\" on labels.\nTrack durations from back cover. On labels: A1: 9:03, A3: 5:37, B2: 9:24, C1: 9:32.\n\nBack cover:\nOriginally released ℗ & © 1959 Sony Music Entertainment.\nThis release: ℗ & © 2010, Sony Music Entertainment: manufactured & distributed by Music On Vinyl B.V. for Sony Music Entertainment.\nMade in the EU.\n\nInside gatefold:\nJulian Adderly [and] Wyn Kelly (Courtesy of [l=Riverside Records])\n\nLabels:\nOriginally released ℗ & © 1959, Sony Music Entertainment. This release ℗ & © 2010, Sony Music Entertainment: manufactured & distributed by Music On Vinyl B.V. for Sony Music Entertainment. Made in the EU.\n\nSticker version 1:\nExpanded Vinyl Edition\n180 gram audiophile vinyl\n\nSticker version 2:\nClassic Album\n180 gram audiophile vinyl pressing\n\nSticker version 3:\nexclusively remastered\n180 gram audiophile vinyl pressing\n\nSticker version 4:\nExpanded 2LP edition of the legendary 1959 album\n180 gram audiophile vinyl",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "0 886976 389413",
+        "description": "Text"
+      },
+      {
+        "type": "Barcode",
+        "value": "886976389413",
+        "description": "Scanned"
+      },
+      {
+        "type": "Rights Society",
+        "value": "BIEM/GEMA",
+        "description": "Back cover"
+      },
+      {
+        "type": "Rights Society",
+        "value": "BIEM/STEMRA",
+        "description": "Labels"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 3A MOVLP 019",
+        "description": "Side 1, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 3B MOVLP 019",
+        "description": "Side 2, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 2C MOVLP 019",
+        "description": "Side 3, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 2D MOVLP 019",
+        "description": "Side 4, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 4A MOVLP 019",
+        "description": "Side 1, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 3B MOVLP 019",
+        "description": "Side 2, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 3C MOVLP 019",
+        "description": "Side 3, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 3D MOVLP 019",
+        "description": "Side 4, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 5A MOVLP 019",
+        "description": "Side 1, variant 3"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 4B MOVLP 019",
+        "description": "Side 2, variant 3"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 3C MOVLP 019",
+        "description": "Side 3, variant 3"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 3D MOVLP 019",
+        "description": "Side 4, variant 3"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 4A MOVLP 019",
+        "description": "Side 1, variant 4"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 3B MOVLP 019",
+        "description": "Side 2, variant 4"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 2C MOVLP 019",
+        "description": "Side 3, variant 4"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "85692 2D MOVLP 019",
+        "description": "Side 4, variant 4"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue Remastered Stereo 180 Gram, Gatefold"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "denied"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "'manufactured & distributed by Music On Vinyl B.V.' is a company, not a plant (borderline). 'audiophile vinyl' is not a source claim."
+  },
+  {
+    "id": "r32793888",
+    "releaseId": 32793888,
+    "title": "Kind Of Blue",
+    "label": "Coronet (2)",
+    "country": "New Zealand",
+    "year": 1959,
+    "notes": "Different labels to this similar New Zealand release:\nhttps://www.discogs.com/release/8293330-Miles-Davis-Kind-Of-Blue\n\nMisprint: cover lists track A2 correctly as \"Freddie Freeloader\" but Side A label lists the track incorrectly as \"Freddie Freedloader\".\n\nLaminated flip-back sleeve.\n\n“LITHOED IN NEW ZEALAND” printed bottom left corner of rear cover.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "MX 127179B",
+        "description": "A side"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MX 127180B",
+        "description": "B side"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Misprint Mono"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "not_stated"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Misprint on label, not a pressing defect."
+  },
+  {
+    "id": "r7943832",
+    "releaseId": 7943832,
+    "title": "Kind Of Blue",
+    "label": "Columbia",
+    "country": "US",
+    "year": 1959,
+    "notes": "Recorded on March 2 & April 22, 1959. \nLabels are both side US Mono 6-Eye, 'Made in U. S. A.' printed below. \n\nThis cover is misprinted: \n• On front cover, we read 'Adderly' instead of 'Adderley' \n• Same mistake on back cover \n• B side tracks are reversed on back cover. 'Flamenco Sketches' comes first, but 'All Blues' should be first.",
+    "identifiers": [
+      {
+        "type": "Other",
+        "value": "2",
+        "description": "Printed lower right back cover"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XLP47324-1BH",
+        "description": "Side A runout, stamped"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XLP47325-1BC",
+        "description": "Side B runout, stamped"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Mono"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "not_stated"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Cover misprints only."
+  },
+  {
+    "id": "r4840036",
+    "releaseId": 4840036,
+    "title": "Kind Of Blue",
+    "label": "Fontana",
+    "country": "UK",
+    "year": 1960,
+    "notes": "Recorded 2/3/59 (Side A) and 22/4/59 (Side B)\n\nUK stereo issue with laminated front cover.\nPrinted and made in Great Britain. Vinyl states \"Made in Holland\"\n\nLabels switch B1 and B2",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "6C AA885113▽1Y=2//670 1",
+        "description": "Runout Side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "6C AA885113▽2Y=2//670 1",
+        "description": "Runout Side B"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AA 885113.1 Y",
+        "description": "Matrix Label A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AA 885113.2 Y",
+        "description": "Matrix Label B"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Stereo"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "not_stated"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Label switch is a misprint."
+  },
+  {
+    "id": "r28900150",
+    "releaseId": 28900150,
+    "title": "Kind Of Blue ",
+    "label": "CBS",
+    "country": "UK",
+    "year": 1962,
+    "notes": "Track 1 on side B is listed as 'All Blue' rather than 'All Blues' \n\nVery similar to other UK Mono versions but with a different runout and slightly different label on side A",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "No stampers, blank",
+        "description": "Side A runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "62066-1B-1",
+        "description": "Side B runout stamped"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Misprint Reissue Mono"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "denied"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Reissue. 'No stampers, blank' runout is not a QC complaint."
+  },
+  {
+    "id": "r5189885",
+    "releaseId": 5189885,
+    "title": "Kind Of Blue",
+    "label": "Columbia",
+    "country": "US",
+    "year": 1999,
+    "notes": "Classic Records 45 Series\n\nTwo discs in gatefold sleeve which is from this release [url=http://www.discogs.com/Miles-Davis-Kind-Of-Blue/release/3841623] 3841623[/url], second two are in white card sleeves.\n\nRecorded 02/03/1959 and 22/04/1959.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "CS-8163-C1-45 Bernie Grundman"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "CS-8163-C2-45 Bernie Grundman"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "CS-8163-B1-45 Bernie Grundman"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "CS-8163-B2-45 Bernie Grundman"
+      }
+    ],
+    "formats": [
+      "Vinyl LP 45 RPM Single Sided Album Reissue Remastered"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "denied"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Reissue, Remastered."
+  },
+  {
+    "id": "r18124840",
+    "releaseId": 18124840,
+    "title": "Kind Of Blue",
+    "label": "Classic Records",
+    "country": "US",
+    "year": 1997,
+    "notes": "Pressed on 180g vinyl.",
+    "identifiers": [],
+    "formats": [
+      "Vinyl LP Album Reissue Remastered Test Pressing 180g"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "stated",
+      "firstPressing": "denied"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Test Pressing descriptor."
+  },
+  {
+    "id": "r21351379",
+    "releaseId": 21351379,
+    "title": "Flamenco Sketches (Alt Take) 45 RPM (Kind Of Blue)",
+    "label": "Classic Records",
+    "country": "North America (inc Mexico)",
+    "year": 2002,
+    "notes": "A single LP special limited packaging for the 2nd LP from the original 2-LP edition.  Side 1 is the original program at corrected speed.  Side 2 is an alternate version of Flamenco Sketches at 45 RPM.  200G QUIEX SV-P vinyl.",
+    "identifiers": [],
+    "formats": [
+      "Vinyl LP 45 RPM Limited Edition Stereo"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "not_stated",
+      "firstPressing": "not_stated"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "'from the original 2-LP edition' does not assert first pressing of the album."
+  },
+  {
+    "id": "r27845454",
+    "releaseId": 27845454,
+    "title": "Kind Of Blue",
+    "label": "Classic Records",
+    "country": "US",
+    "year": 2009,
+    "notes": "Side A plays at the corrected speed.\nWhite labels with handwritten text.",
+    "identifiers": [],
+    "formats": [
+      "Vinyl LP Album Reissue Test Pressing White Label Stereo 200g, Clear Vinyl"
+    ],
+    "labels": {
+      "analogSource": "not_stated",
+      "digitalSource": "not_stated",
+      "dmm": "not_stated",
+      "pressingPlant": "not_stated",
+      "qcComplaints": "not_stated",
+      "nonConsumer": "stated",
+      "firstPressing": "denied"
+    },
+    "labelStatus": "provisional",
+    "split": "dev",
+    "labelNotes": "Test Pressing / White Label descriptors; 'corrected speed' is not a defect report."
+  }
+]

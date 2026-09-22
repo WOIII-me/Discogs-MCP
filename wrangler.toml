@@ -5,6 +5,10 @@
 #   2. wrangler secret put DISCOGS_CONSUMER_KEY
 #      wrangler secret put DISCOGS_CONSUMER_SECRET
 #   3. Optionally: wrangler secret put COOKIE_ENCRYPTION_KEY (openssl rand -hex 32)
+#   4. Optionally (Jev catalog-claim annotations, off by default):
+#        wrangler secret put JEV_API_KEY
+#      and add JEV_ENABLED = "true" (plus JEV_MODEL = "jev-1.13.0") under [vars].
+#      Never use the jev-latest alias in production — thresholds are tuned per version.
 
 name = "discogs-mcp"
 main = "src/index.ts"

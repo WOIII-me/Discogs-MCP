@@ -99,3 +99,70 @@ describe("core/pressings", () => {
     expect(data.pressings[0]).toHaveProperty("evidenceCoverage");
   });
 });
+
+describe("core/pressings — catalog claims wiring", () => {
+  const claim = {
+    claim: "analogSource" as const,
+    status: "stated" as const,
+    certainty: 0.93,
+    sourceSentence: "Cut from the original analog tapes.",
+    observedAt: "2026-09-22T00:00:00.000Z",
+    model: "jev-1.13.0",
+    questionSetVersion: "cc-v2",
+  };
+  function fakeAnnotator() {
+    const calls = { annotate: 0, peek: 0 };
+    const annotator = {
+      async annotate(releases: { id: number }[]) {
+        calls.annotate++;
+        return new Map(releases.map((r) => [r.id, [claim]]));
+      },
+      async peek() {
+        calls.peek++;
+        return new Map();
+      },
+    };
+    return { annotator: annotator as unknown as NonNullable<CoreContext["claims"]>, calls };
+  }
+
+  it("emits no catalogClaims and never touches the annotator when the feature is off", async () => {
+    const ctx = fakeCtx({ 1: mfslPressing, 2: makeRelease({ id: 2, notes: "AAA cut." }) });
+    const r = await comparePressings(ctx, { releaseIds: [1, 2], inferClaims: true });
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    for (const p of r.data.pressings) expect(p.catalogClaims).toBeUndefined();
+  });
+
+  it("uses cache-only peek unless inferClaims is explicitly true", async () => {
+    const { annotator, calls } = fakeAnnotator();
+    const ctx = { ...fakeCtx({ 1: mfslPressing, 2: makeRelease({ id: 2 }) }), claims: annotator };
+    await comparePressings(ctx, { releaseIds: [1, 2] });
+    expect(calls).toEqual({ annotate: 0, peek: 1 });
+    await findBestPressing(ctx, { releaseId: 1, topN: 2 });
+    expect(calls).toEqual({ annotate: 0, peek: 2 });
+  });
+
+  it("attaches claims to dossiers on deliberate actions without changing scores", async () => {
+    const { annotator, calls } = fakeAnnotator();
+    const base = fakeCtx({ 1: mfslPressing, 2: makeRelease({ id: 2 }) });
+    const plain = await comparePressings(base, { releaseIds: [1, 2] });
+    const withClaims = await comparePressings({ ...base, claims: annotator }, { releaseIds: [1, 2], inferClaims: true });
+    expect(calls.annotate).toBe(1);
+    expect(plain.ok && withClaims.ok).toBe(true);
+    if (!plain.ok || !withClaims.ok) return;
+    withClaims.data.pressings.forEach((p, i) => {
+      expect(p.catalogClaims).toEqual([claim]);
+      expect(p.overallScore).toBe(plain.data.pressings[i].overallScore);
+      expect(p.evidenceCoverage).toBe(plain.data.pressings[i].evidenceCoverage);
+      expect(p.verdict).toBe(plain.data.pressings[i].verdict);
+      expect(p.factors).toEqual(plain.data.pressings[i].factors);
+    });
+  });
+
+  it("swallows annotator failures", async () => {
+    const boom = { annotate: async () => { throw new Error("jev down"); }, peek: async () => { throw new Error("kv down"); } };
+    const ctx = { ...fakeCtx({ 1: mfslPressing, 2: makeRelease({ id: 2 }) }), claims: boom as unknown as CoreContext["claims"] };
+    const r = await comparePressings(ctx, { releaseIds: [1, 2], inferClaims: true });
+    expect(r.ok).toBe(true);
+  });
+});
