@@ -91,7 +91,7 @@ describe("core/pressings", () => {
     const r = await findBestPressing(ctx, {});
     expect(r.ok).toBe(false);
     if (r.ok) return;
-    expect(r.error).toMatch(/Provide either releaseId/);
+    expect(r.error).toMatch(/Provide masterId, releaseId, or albumTitle/);
   });
 
   it("comparePressings ranks the given releases and returns dossiers", async () => {
