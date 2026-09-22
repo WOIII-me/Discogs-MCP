@@ -24,13 +24,18 @@ export function registerPressingTools(server: McpServer, getContext: GetContext)
     "get_release_versions",
     {
       description:
-        "List all pressings/versions of a master release, with optional country/format filters. " +
-        "Note: this listing has no community ratings (Discogs API limitation) — " +
-        "use find_best_pressing or compare_pressings for rated comparisons.",
+        "List pressings/versions of a master release with optional country, year-range and format " +
+        "filters (filters are exact/inclusive and fetch deeper into long version lists). Rows carry " +
+        "label, catno, country, released, format and majorFormats but NO ratings, runouts or credits " +
+        "(Discogs API limitation). To inspect many filtered versions in detail — runouts, mastering " +
+        "credits, scores — call find_best_pressing with the same filters and topN up to 16 instead of " +
+        "fetching releases one by one.",
       inputSchema: {
         masterId: z.number().int().describe("Discogs master release ID"),
         filterCountry: z.string().optional().describe("Only versions from this country — exact match with aliases, e.g. 'US', 'UK', 'Japan'"),
-        filterFormat: z.string().optional().describe("Only versions whose format contains this, e.g. 'Vinyl'"),
+        filterFormat: z.string().optional().describe("Only versions whose format or majorFormats contain this, e.g. 'Vinyl' (also matches rows listed as 'LP')"),
+        yearFrom: z.number().int().optional().describe("Earliest release year, inclusive, e.g. 1970"),
+        yearTo: z.number().int().optional().describe("Latest release year, inclusive, e.g. 1979"),
         limit: z.number().int().min(1).optional().describe("Max results (default 50, maximum 100; larger values are clamped)"),
       },
     },
@@ -49,8 +54,11 @@ export function registerPressingTools(server: McpServer, getContext: GetContext)
         "marks, pressing studio), format/medium quality, used-market price & scarcity, collector demand, " +
         "and how its community rating compares to the album baseline — using evidence-weighting so " +
         "missing data doesn't penalise a pressing. Returns an evidence dossier per pressing (signals, " +
-        "mastering credits, matrix/runout, price, a provisional verdict, and evidenceCoverage). " +
-        "Costs ~15 API calls.",
+        "mastering credits, matrix/runout, price, a provisional verdict, evidenceCoverage and, when " +
+        "enabled, catalogClaims read from the notes). Optional filterCountry / yearFrom / yearTo / " +
+        "filterFormat narrow the survey (e.g. US pressings 1970–1979) and topN up to 16 returns every " +
+        "scored candidate — use this ONE call to compare a filtered set instead of many get_release " +
+        "calls. Costs ~15 API calls; results are cached.",
       inputSchema: {
         releaseId: z.number().int().optional().describe("Discogs release ID, if known"),
         albumTitle: z.string().optional().describe("Album title to search for"),
@@ -59,8 +67,11 @@ export function registerPressingTools(server: McpServer, getContext: GetContext)
         preferredFormats: z
           .array(z.string())
           .optional()
-          .describe("Restrict to formats, e.g. ['Vinyl'] — matched against the version format string"),
-        topN: z.number().int().min(1).max(10).optional().describe("How many top pressings to return (default 3)"),
+          .describe("Soft preference for formats, e.g. ['Vinyl'] — falls back to all if nothing matches"),
+        filterCountry: z.string().optional().describe("Hard filter: only versions from this country (exact, with aliases), e.g. 'US'"),
+        yearFrom: z.number().int().optional().describe("Hard filter: earliest release year, inclusive"),
+        yearTo: z.number().int().optional().describe("Hard filter: latest release year, inclusive"),
+        topN: z.number().int().min(1).optional().describe("How many scored pressings to return (default 3, maximum 16; larger values are clamped)"),
       },
     },
     // MCP tool calls are deliberate actions: bounded claim inference is allowed.
@@ -71,14 +82,14 @@ export function registerPressingTools(server: McpServer, getContext: GetContext)
     "compare_pressings",
     {
       description:
-        "Side-by-side comparison of 2–5 specific pressings by release ID along a chosen axis: " +
+        "Side-by-side comparison of 2–8 specific pressings by release ID along a chosen axis: " +
         "mastering pedigree & signals, format, used price, ratings (incl. delta vs. the set average), " +
         "collector demand, and overall evidence-weighted scores — each as a full evidence dossier.",
       inputSchema: {
         releaseIds: z
           .array(z.number().int())
           .min(2)
-          .max(5)
+          .max(8)
           .describe("Discogs release IDs to compare"),
         axis: z.enum(["sonic", "collector", "value"]).optional().describe(AXIS_DESCRIPTION),
       },
