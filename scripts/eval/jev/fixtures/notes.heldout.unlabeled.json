@@ -1,0 +1,3896 @@
+[
+  {
+    "id": "r5193282",
+    "releaseId": 5193282,
+    "title": "Blue Train",
+    "label": "Blue Note",
+    "country": "US",
+    "year": 1958,
+    "notes": "Recorded on September 15, 1957.\n\nNote: This version is essentially the same as the first pressing (even the same matrix) apart from both labels have 47 West 63rd, NYC on both sides (instead of NY23 on one side as per the first pressing).\n\n---Sleeve---\n\nJohn Coltrane performs by courtesy of Prestige Records, Kenny Drew performs by courtesy of Riverside Records.\nHigh Fidelity\nFor Complete Catalog Write to BLUE NOTE RECORDS., 47 West 63st St., New York 23\nThe track duration does not appear on the release.\n\n- On this sleeve, there is NO print defect on side of Curtis Fuller's forehead (later versions have an error where various degrees of printed blotches can be seen on Chris Fuller's forehead).\n\n- The sleeve has a dull greenish-blue tint to the photo of Coltrane, and grey \"Blue Train\" lettering on front. (Later versions have a blue photo and white \"Blue Train\" lettering.)\n\n- No ® in the address on back cover\n\n- Laminated sleeve\n\n- 47 West 63rd St., New York 23 address on back cover with no 'Inc.'\n\n\n---Labels---\n\n- Deep Groove on both sides \n- 47 West 63rd, NYC on both sides\n- No 'INC' after 'Blue Note Records'\n- No ® underneath 'Note'\n- RVG stamped in the dead wax, both sides\n- \"P\" (otherwise wrongly called \"ear\") for Plastylite etched in the dead wax, both sides",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "BN 1577-A",
+        "description": "Label side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BN 1577-B",
+        "description": "Label side B"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "RVG BN-LP-1577-A... 9 M",
+        "description": "Runout side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "RVG BN-LP-1577-B... 9 M",
+        "description": "Runout side B"
+      },
+      {
+        "type": "Rights Society",
+        "value": "BMI"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Mono No®"
+    ],
+    "companies": [
+      {
+        "role": "Record Company",
+        "name": "Blue Note Records"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Van Gelder Studio, Hackensack, New Jersey"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Plastylite"
+      },
+      {
+        "role": "Published By",
+        "name": "Groove Music (3)"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r6188268",
+    "releaseId": 6188268,
+    "title": "Blue Train",
+    "label": "中聲",
+    "country": "Taiwan",
+    "year": 1968,
+    "notes": "On back below credits:\r\nJohn Coltrane performs by courtesy of Prestige Records, Kenny Drew performs by courtesy of Riverside Records.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "BN-ST-81577 A",
+        "description": "Run Out Groove Side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BN-ST-81577 B",
+        "description": "Run Out Groove Side B"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Unofficial Release Stereo Red"
+    ],
+    "companies": [],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r3945109",
+    "releaseId": 3945109,
+    "title": "Blue Train",
+    "label": "World Record Club",
+    "country": "New Zealand",
+    "year": 1982,
+    "notes": "Originally Released in 1957.\r\n\r\nReleased by World Record Club New Zealand, 1 Wakefield St, Lower Hutt",
+    "identifiers": [
+      {
+        "type": "Rights Society",
+        "value": "BMI",
+        "description": "A1 to B1, B3"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BST 81577A",
+        "description": "Label, side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BST 81577B",
+        "description": "Label, side B"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue"
+    ],
+    "companies": [
+      {
+        "role": "Published By",
+        "name": "Groove Music (3)"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r3122285",
+    "releaseId": 3122285,
+    "title": "Blue Train",
+    "label": "WaxTime",
+    "country": "Europe",
+    "year": 2010,
+    "notes": "Audiophile Grade Pure Virgin Vinyl 180 Gram\r\nCollector's Edition. Newly Remastered. Deluxe Inner Sleeves.\r\nOne Pressing Limited Edition.\r\n\r\nRecorded Hackensack, New Jersey, September 15, 1957.\r\n\r\nEast Bound - Bonus Track: Recorded Los Angeles, March 2, 1956.\r\n\r\nCover photo: Michael Ochs Archives/Getty Images.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "8 436028 697069",
+        "description": "Text"
+      },
+      {
+        "type": "Barcode",
+        "value": "8436028697069",
+        "description": "Scanned"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "87313-1A LP77673",
+        "description": "Side A, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "87313-1B LP77673",
+        "description": "Side B, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "87313 1A LP 771673",
+        "description": "Side A, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "87313 1B LP 771673",
+        "description": "Side B, variant 2"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Limited Edition Reissue Remastered 180g Pure Virgin"
+    ],
+    "companies": [
+      {
+        "role": "Copyright (c)",
+        "name": "WaxTimeRecords"
+      },
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "WaxTimeRecords"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Van Gelder Studio, Hackensack, New Jersey"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Record Industry"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r6842910",
+    "releaseId": 6842910,
+    "title": "Blue Train",
+    "label": "Not Now Music",
+    "country": "Europe",
+    "year": 2010,
+    "notes": "-Non-removable sticker on the cover in the bottom right corner-\nSpecial Collector's Edition\nOfThe Legendary Jazz Master's\nIconic 'Blue Train' Album\nOn 180g Vinyl\n\n-On the back cover, bottom right corner-\nThis Compilation (P)&(C)2010 Not Now Music Limited.\nDistributed By Not Now Music Limited\n19 Liddell Road Estate, Maygrove Road\nWest Hampstead, London NW6 2EW, England.\nMade In The E.U.\nwww.notnowmusic.co.uk",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "5060143491238"
+      },
+      {
+        "type": "Rights Society",
+        "value": "MCPS "
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "86356E1/A",
+        "description": "Side A (stamped)"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "86356E2/A",
+        "description": "Side B (stamped)"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue Special Edition Stereo 180g"
+    ],
+    "companies": [
+      {
+        "role": "Recorded At",
+        "name": "Van Gelder Studio, Hackensack, New Jersey"
+      },
+      {
+        "role": "Pressed By",
+        "name": "GZ Digital Media"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r3776614",
+    "releaseId": 3776614,
+    "title": "Blue Train",
+    "label": "Studio Media (3)",
+    "country": "Italy",
+    "year": 2011,
+    "notes": "John Coltrane performs courtesy of Prestige Records, Kenny Drew  by courtesy of Riverside Records.\r\n\r\n℗ 1957 - © 2011 Studio Media.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "VNL 12210 LP A GENGY @ ELETTROFORMATI",
+        "description": "Side 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "VNL 12210 LP B",
+        "description": "Side 2"
+      },
+      {
+        "type": "Rights Society",
+        "value": "SIAE"
+      },
+      {
+        "type": "Barcode",
+        "value": "8032979642105"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue 180 gram"
+    ],
+    "companies": [
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "Studio Media (3)"
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Studio Media (3)"
+      },
+      {
+        "role": "Mastered At",
+        "name": "Elettroformati"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r4028279",
+    "releaseId": 4028279,
+    "title": "Blue Train",
+    "label": "DOL",
+    "country": "Europe",
+    "year": 2012,
+    "notes": "Manufactured in Europe.\r\nHQ Virgin Vinyl 140 Gram.\r\nPrinted in 2012 by DOL, a trademark of VINYLOGY.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "889397 27091 9"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue 140 Gram"
+    ],
+    "companies": [
+      {
+        "role": "Printed By",
+        "name": "DOL"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r14481022",
+    "releaseId": 14481022,
+    "title": "Blue Train",
+    "label": "DOL",
+    "country": "Europe",
+    "year": 2012,
+    "notes": "HQ Virgin Vinyl 180g\nManufactured in the EU\nMechanical Rights Licensed by MCPS\n\nPressed on coloured vinyl\nSimilar to 2017 gatefold release, this version is a single tip-on sleeve:\nhttps://www.discogs.com/release/25359718-John-Coltrane-Blue-Train",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "889397006051",
+        "description": "Scanned"
+      },
+      {
+        "type": "Barcode",
+        "value": "8 8939700605 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "0954848-A-2",
+        "description": "Side A runout, etched, Variation 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "0954848-B-2",
+        "description": "Side B runout, etched, Variation 1"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Stereo Blue, 180g"
+    ],
+    "companies": [
+      {
+        "role": "Record Company",
+        "name": "Blue Note Records"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Van Gelder Studio, Hackensack, New Jersey"
+      },
+      {
+        "role": "Published By",
+        "name": "Groove Music (3)"
+      },
+      {
+        "role": "Printed By",
+        "name": "DOL"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r20225167",
+    "releaseId": 20225167,
+    "title": "Blue Train",
+    "label": "Ermitage",
+    "country": "Italy",
+    "year": 2012,
+    "notes": "John Coltrane performs courtesy of Prestige Records, Kenny Drew by courtesy of Riverside Records.\n\n℗ 1957 - © 2012 Ermitage (on back cover)\n\nMade in the EU.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "BK00761-01 A1 HL C",
+        "description": "Side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BK00761-01 B1 HL C",
+        "description": "Side B"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue"
+    ],
+    "companies": [],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r20730355",
+    "releaseId": 20730355,
+    "title": "Blue Train",
+    "label": "Music Matters Ltd.",
+    "country": "US",
+    "year": 2014,
+    "notes": "Catalog # MM33 BNP-1577 A/B\nCommemorative Plastylite Corporation Labels\nGeneric cover",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "MM33 BNLP-1577-A P KG&RR@CA 22284.1(3)...",
+        "description": "Side A runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MM33 BNLP-1577-B P KG@CA 22284.2(3)...",
+        "description": "Side B runout"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue Remastered Test Pressing Mono 180 gram"
+    ],
+    "companies": [
+      {
+        "role": "Pressed By",
+        "name": "Record Technology Incorporated"
+      },
+      {
+        "role": "Mastered At",
+        "name": "Cohearent Audio"
+      },
+      {
+        "role": "Lacquer Cut At",
+        "name": "Cohearent Audio"
+      },
+      {
+        "role": "Record Company",
+        "name": "UMG Recordings, Inc."
+      },
+      {
+        "role": "Record Company",
+        "name": "Blue Note Records"
+      },
+      {
+        "role": "Distributed By",
+        "name": "Music Matters Ltd."
+      },
+      {
+        "role": "Manufactured By",
+        "name": "Universal Music Enterprises"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Van Gelder Studio, Hackensack, New Jersey"
+      },
+      {
+        "role": "Published By",
+        "name": "Groove Music (3)"
+      },
+      {
+        "role": "Record Company",
+        "name": "Capitol Records, LLC"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r8176973",
+    "releaseId": 8176973,
+    "title": "Blue Train",
+    "label": "Motivator Company Classics Catalog",
+    "country": "France",
+    "year": 2016,
+    "notes": "",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "MCDR-018 A",
+        "description": "Runout side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MCDR-018 B",
+        "description": "Runout side B"
+      },
+      {
+        "type": "Barcode",
+        "value": "3701037700020",
+        "description": "Barcode on a sticker"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Limited Edition Reissue Mono Blue translucent, 180g"
+    ],
+    "companies": [
+      {
+        "role": "Record Company",
+        "name": "Blue Note"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Van Gelder Studio, Hackensack, New Jersey"
+      },
+      {
+        "role": "Published By",
+        "name": "Motivator Company Classics Catalog"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r8136235",
+    "releaseId": 8136235,
+    "title": "The Dark Side Of The Moon",
+    "label": "Harvest",
+    "country": "US",
+    "year": 1973,
+    "notes": "Based on the Capitol Mastering stamp and \"Capitol Industries, Inc\" on the label, this release is not original but was issued somewhere between October 1973 and the first half of 1974.\n\n\"–––◁\" in runouts denotes a [l313656] pressing.\n\"KP\" in runouts denotes that it was mastered by Ken Perry.\n[r=367104] is another Winchester pressing, but has \"Wly\" in runouts, denoting it was mastered by Wally Traugott.\nRunouts are etched, except for 'MASTERED BY CAPITOL', which is stamped.\n\nRecorded at Abbey Road Studios, London between June 1972 and January 1973.\nManufactured by Capitol Records Inc., a subsidiary of Capitol Industries, Inc., U.S.A.\n\nIncludes two posters, each with their own catalog number (11163-1 and 11163-2), and two stickers.\nGatefold cover\n\n℗ 1973 The Gramophone Company Ltd.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "SMAS-1-11163-F31#2 -------◄ KP MASTERED BY CAPITOL",
+        "description": "Side A, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SMAS-2-11163-F20 #4 •-------◄ KP MASTERED BY CAPITOL",
+        "description": "Side B, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SMAS-1-11163-F31#2 -------◄ KP MASTERED BY CAPITOL",
+        "description": "Side A, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SMAS-2-11163-F20 #5 •-------◄ KP MASTERED BY CAPITOL",
+        "description": "Side B, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SMAS-1-11163-F31#3 -------◄ KP MASTERED BY CAPITOL",
+        "description": "Side A, variant 4"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SMAS-2-11163-F20 #5 •-------◄ MASTERED BY CAPITOL  KP",
+        "description": "Side B, variant 4"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SMAS-1-11163-F31#2 -------◄ KP MASTERED BY CAPITOL",
+        "description": "Side A, variant 7"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SMAS-2-11163-F20 #5 •-------◄ MASTERED BY CAPITOL  KP",
+        "description": "Side B, variant 7"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Winchester Pressing, KP Mastering, Gatefold"
+    ],
+    "companies": [
+      {
+        "role": "Manufactured By",
+        "name": "Capitol Records, Inc."
+      },
+      {
+        "role": "Corporate Owner",
+        "name": "Capitol Industries, Inc."
+      },
+      {
+        "role": "Marketed By",
+        "name": "Capitol Records, Inc."
+      },
+      {
+        "role": "Distributed By",
+        "name": "Capitol Records, Inc."
+      },
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "The Gramophone Co. Ltd."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "TRO-Hampshire House Publishing Corp."
+      },
+      {
+        "role": "Recorded At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Mastered At",
+        "name": "Capitol Mastering"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Capitol Records Pressing Plant, Winchester"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r13655729",
+    "releaseId": 13655729,
+    "title": "El Lado Oscuro De La Luna",
+    "label": "EMI",
+    "country": "Peru",
+    "year": 1973,
+    "notes": "(P)1973 EMI Records Ltd.\r\n\r\nInd. Peruana\r\nGrabado en [Recorded at] Abbey Road Studios, London entre Junio 1972 y Enero 1973 [between June 1972 and January 1973].\r\n\r\nAll material printed in Spanish, except lyrics and songtitles in English given between parentheses brackets.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "SHVL-804-A",
+        "description": "Side A Label"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SHVL-804-B",
+        "description": "Side B Label"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SHVL-804-A cop",
+        "description": "Side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SHVL-804-B cop",
+        "description": "Side B"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Stereo Gatefold"
+    ],
+    "companies": [
+      {
+        "role": "Record Company",
+        "name": "Industrias Electricas Y Musicales Peruanas S.A."
+      },
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "EMI Records Ltd."
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r11915966",
+    "releaseId": 11915966,
+    "title": "The Dark Side Of The Moon",
+    "label": "Jugoton",
+    "country": "Yugoslavia",
+    "year": 1973,
+    "notes": "This issue has a different labels in comparison with all others variants. Labels are very similar to [r5083571] and [r7775912] but \"LQEMI 73009 (Q4SHVL 804)\" is shifted to the left with respect to the square with \"SQ\".\n\nComes in a gatefold sleeve. Sticker with the band's name and title is positioned at the upper left corner of the front of the sleeve.\n\nNote on Credits:\nThough not detailed in the liner notes, Barry St. John, Doris Troy, Lesley Duncan, and Liza Strike perform backing vocals only on tracks A4, B2, B4, and B5.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "QHVL 804 A-2",
+        "description": "side A runout area data"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "QHVL 804 B-1",
+        "description": "side B runout area data"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Quadraphonic"
+    ],
+    "companies": [
+      {
+        "role": "Printed By",
+        "name": "Interprogres, Zagreb"
+      },
+      {
+        "role": "Record Company",
+        "name": "EMI"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r12205693",
+    "releaseId": 12205693,
+    "title": "Dark Side Of The Moon",
+    "label": "XD Stereo",
+    "country": "South Korea",
+    "year": 1973,
+    "notes": "Appears to be a pirated pressing of variation 2 of [r=3775445] , with additional markings specific to XD Stereo in the runout.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "SMAS-1-11163 F67 Wally",
+        "description": "Side A (Etched)"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "Mastered by Capitol",
+        "description": "Side A (Stamped)"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "6019 A",
+        "description": "Side A (Etched)"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SMAS-2-11163-G64 Gene (x)",
+        "description": "Side B (Etched)"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "Mastered by Capitol ",
+        "description": "Side B (Stamped)"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "6019 B",
+        "description": "Side B (Etched)"
+      },
+      {
+        "type": "Label Code",
+        "value": "6019",
+        "description": "Side A/B label code"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Unofficial Release"
+    ],
+    "companies": [],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r13161664",
+    "releaseId": 13161664,
+    "title": "The Dark Side Of The Moon",
+    "label": "Not On Label",
+    "country": "Italy",
+    "year": 1973,
+    "notes": "Pre-release, distributed as a promo copy\n\nWhite label with \"DISCO CAMPIONE\" and \"PINK FLOYD\" print.\n\"Busta di presentazione-provvisoria\" printed on front cover, blank back cover.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "05249-A - 23-2-73  I ",
+        "description": "Side A runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "05249-B- 23-2-73  I",
+        "description": "Side B runout"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Promo"
+    ],
+    "companies": [],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r12495142",
+    "releaseId": 12495142,
+    "title": "The Dark Side Of The Moon",
+    "label": "Stateside",
+    "country": "Turkey",
+    "year": 1973,
+    "notes": "Blue pressing cover",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "SHVL. 804 A",
+        "description": "Side A, label"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SHVL. 804 B",
+        "description": "Side B, label"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SHVL 804 B-3",
+        "description": "Side B, runout, stamped"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album"
+    ],
+    "companies": [
+      {
+        "role": "Record Company",
+        "name": "EMI"
+      },
+      {
+        "role": "Record Company",
+        "name": "Gramofon Limitet Şirketi"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r14087788",
+    "releaseId": 14087788,
+    "title": "The Dark Side Of The Moon",
+    "label": "Harvest",
+    "country": "UK",
+    "year": 1973,
+    "notes": "This is a contract cut/pressing variant with A/B on matrix (without stampers, mothers' letters, and without lacquer signs!\n\nFor history and other archive information visit: Pink Floyd Archives and The Mr. PInky Discography websites respectfully.\n\nRelease Information: Original stereo issue with a very dark blue cover, and a solid light blue triangle (prism) on the label with \"The Gramophone Co., Ltd.\" text on the edge of the label.\n\nDescription: Gate-fold cover.\n\nFront Cover: Very dark blue with prism. The front cover has been found with three different types of front openings:\n1) The right front opening of the gate-fold cover is sealed with the two sides glued together.\n2) The right front opening of the gate-fold cover is sealed with a fold over flap that is glued inside the opening.\n3) The right front opening of the gate-fold cover is not sealed.\n\nBack Cover: Inverted prism. In the upper right corner, it says: \"SHVL 804, (IE 064-05249), stereo.\"\n\nSpine: Blank except white prism line connecting front and rear covers.\n\nInner Sleeve: Die-cut black poly-lined inner sleeve with patent numbers 1125555 1072844 (left bottom) and \"Made in Great Britain\" (right bottom) both printed in silver.\n\nInserts:\n1) Pyramid Poster: Blue pyramid. There is no catalog number on the poster. Matte or glossy.\n2) Group Poster: A six-pane group shot poster in landscape style with \"SHVL 804\" in the bottom right corner. Matte or glossy.\n3) Stickers: Issued with two stickers, one yellow and one brown. Several different reverse peel off configurations were made with diagonal lines across them, and the words 'Fasson' 'FasPrint' and 'Crack-Back', or plain white backs with the word \"Permanent\".\n\nLabels: Black Harvest label with solid light blue triangle (prism). Text around the top edge of the label starts at 10 o'clock and says: The Gramophone Co. Ltd. All rights of the manufacturer and of the owner of the recorded work reserved. Text around the bottom edge of the label starts at 8 o'clock and says: Made in Gt. Britain Unauthorized public performance, broadcasting, and copying of this record prohibited.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "SHVL 804 A",
+        "description": "No other run-out markings"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SHVL 804 B",
+        "description": "No other run-out markings"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Stereo Cut/Pressing Variant Of 1st, Gatefold"
+    ],
+    "companies": [
+      {
+        "role": "Recorded At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Manufactured By",
+        "name": "The Gramophone Co. Ltd."
+      },
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "The Gramophone Co. Ltd."
+      },
+      {
+        "role": "Published By",
+        "name": "World Copyrights Ltd."
+      },
+      {
+        "role": "Printed By",
+        "name": "Garrod & Lofthouse Ltd."
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r10892875",
+    "releaseId": 10892875,
+    "title": "The Dark Side Of The Moon",
+    "label": "His Master's Voice",
+    "country": "India",
+    "year": 1973,
+    "notes": "Recorded at Abbey Road Studios, London between June 1972 and January 1973.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "20706 SHVL 804A·3·T2 11 3 7 C",
+        "description": "Side A stamped"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": " ̶2̶8̶1̶8̶3̶  20692 SHVL 804B·1C 95",
+        "description": "Side B stamped"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album"
+    ],
+    "companies": [
+      {
+        "role": "Printed By",
+        "name": "The Eagle Lithographing Co. (P) Ltd."
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r10888888",
+    "releaseId": 10888888,
+    "title": "El Lado Oscuro De La Luna",
+    "label": "Odeon",
+    "country": "Chile",
+    "year": 1973,
+    "notes": "Red Odeon labels like [r5508898] but with \"SERIE POPULAR\" and \"STEREO\" at the left side of label. \n\nNote on Credits:\nThough not stated in the liner notes, Barry St. John, Doris Troy, Lesley Duncan, and Liza Strike perform backing vocals only on tracks A4, B2, B4, and B5.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "SHVL 804 A-3 5",
+        "description": "Side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SHVL 804 B-3 3",
+        "description": "Side B"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue Red Labels"
+    ],
+    "companies": [
+      {
+        "role": "Recorded At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Manufactured By",
+        "name": "Industrias Eléctricas y Musicales Odeon, S.A."
+      },
+      {
+        "role": "Distributed By",
+        "name": "Industrias Eléctricas y Musicales Odeon, S.A."
+      },
+      {
+        "role": "Printed By",
+        "name": "H. Castro"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r16865547",
+    "releaseId": 16865547,
+    "title": "The Dark Side Of The Moon",
+    "label": "Capitol Records",
+    "country": "Mexico",
+    "year": 1973,
+    "notes": "First Mexican press\nGreen labels\nPoster and Convivencia Sagrada Series insert\n\nNo dates on the wax, only the matrix.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "SLEM-451-1",
+        "description": "Side A, Etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SLEM-451-2",
+        "description": "Side B, Etched"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Green Labels, Gatefold"
+    ],
+    "companies": [
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Recorded By",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Made By",
+        "name": "Discos Capitol De Mexico, S.A. De C.V."
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r15866946",
+    "releaseId": 15866946,
+    "title": "El Lado Oscuro De La Luna",
+    "label": "Purple Records",
+    "country": "Argentina",
+    "year": 1973,
+    "notes": "Gatefold sleeve.\nMisslabel on both sides.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "SHVL 804AIII",
+        "description": "Label A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SHVL 804BI",
+        "description": "Label B"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Misprint Stereo Gatefold Sleeve"
+    ],
+    "companies": [
+      {
+        "role": "Manufactured By",
+        "name": "EMI-Odeon S.A.I.C."
+      },
+      {
+        "role": "Distributed By",
+        "name": "EMI-Odeon S.A.I.C."
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r13580115",
+    "releaseId": 13580115,
+    "title": "Dark Side Of The Moon",
+    "label": "LP (6)",
+    "country": "Malaysia",
+    "year": 1973,
+    "notes": "Unofficial Malaysian issue, housed in a non-gatefold laminated sleeve based on the inner gatefold. There is no catalogue number printed on labels or sleeve; the runouts include the catalogue number of the original [l=Harvest] release.\n\nThis unofficial version appeared about the same time as the [url=/release/9094284]first official Malaysian release[/url] from EMI.This appears to be the only unofficial Malaysian release of DSOTM seen so far.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "SHVL 804 ADL-4 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "SHVL 804 ADL-5 1"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Unofficial Release"
+    ],
+    "companies": [],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r5600075",
+    "releaseId": 5600075,
+    "title": "Rumours",
+    "label": "Warner Bros. Records",
+    "country": "US",
+    "year": 1977,
+    "notes": "℗ © 1977 Warner Bros. Records Inc.\nLyrics © 1976, 1977 Gentoo Music, Inc.\n\n[url=https://www.discogs.com/label/314985-MCA-Pressing-Plant-Gloversville]MCA Pressing[/url] with variant center labels (typeset) including, but not limited to, small (⅜\") MCA concentric ring\n\nIncludes (11½ x 23\") cardstock insert containing photos/credits/lyrics (poster quality).\n\nTrack A3 duration listed on label as 2:02; actual play time is 2:13\n\nTrack A6 recorded at Zellerback Auditorium, U.C. Berkeley, March 3, 1976\n\nAll compositions administered by Screen Gems-EMI Music Inc.-BMI for US & Canada\n\nSome copies sold with Album Of The Year hype stickers\n\nRunouts are etched except for \"MASTERED BY CAPITOL\" and Gloversville \"⧈-G-⧈\" logo that are stamped.",
+    "identifiers": [
+      {
+        "type": "Rights Society",
+        "value": "BMI"
+      },
+      {
+        "type": "Price Code",
+        "value": "0798",
+        "description": "Printed on spine"
+      },
+      {
+        "type": "Pressing Plant ID",
+        "value": "⧈-G-⧈"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-1-3010 MCA-2 F63 MASTERED BY CAPITOL KP ⧈-G-⧈",
+        "description": "Side A runout, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-2-3010 MCA-2 F61 MASTERED BY CAPITOL KP ⧈-G-⧈",
+        "description": "Side B runout, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-1-3010 MCA-2 F63 MASTERED BY CAPITOL KP ⧈-G-⧈",
+        "description": "Side A runout, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-2-3010 MCA-2 F61 MASTERED BY CAPITOL ⧈-G-⧈ 3 KP",
+        "description": "Side B runout, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-1-3010 MCA-3 F64 MASTERED BY CAPITOL ⧈-G-⧈ KP",
+        "description": "Side A runout, variant 3"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-2-3010 MCA-1 NY F45 MASTERED BY CAPITOL ⧈-G-⧈ KP",
+        "description": "Side B runout, variant 3"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-1-3010 M̶C̶A̶-̶1̶ NY F45 MASTERED BY CAPITOL ⧈-G-⧈ 3 KP",
+        "description": "Side A runout, variant 4"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-2-3010 M̶C̶A̶-̶1̶ NY F45 MASTERED BY CAPITOL ⧈-G-⧈ KP",
+        "description": "Side B runout, variant 4"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-1-3010 M̶C̶A̶-̶1̶ NY F45 MASTERED BY CAPITOL ⧈-G-⧈ 3 KP",
+        "description": "Side A runout, variant 5"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-2-3010 MCA-4 F63 MASTERED BY CAPITOL ⧈-G-⧈ KP",
+        "description": "Side B runout, variant 5"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-1-3010 MCA-3 F64 MASTERED BY CAPITOL 2 ⧈-G-⧈ KP",
+        "description": "Side A runout, variant 6"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-2-3010 M̶C̶A̶-̶1̶  NY F45 MASTERED BY CAPITOL ⧈-G-⧈ KP",
+        "description": "Side B runout, variant 6"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-1-3010 MCA-3 F64 MASTERED BY CAPITOL 1 ⧈-G-⧈ KP",
+        "description": "Side A runout, variant 7"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-2-3010 MCA-3 F62 MASTERED BY CAPITOL ⧈-G-⧈ 3 KP",
+        "description": "Side B runout, variant 7"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-1-3010 M̶C̶A̶-̶1̶  NY F45 MASTERED BY CAPITOL ⧈-G-⧈ 4 KP",
+        "description": "Side A runout, variant 8"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-2-3010 MCA-2 F61 MASTERED BY CAPITOL ⧈-G-⧈ 1 KP",
+        "description": "Side B runout, variant 8"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Gloversville Pressing"
+    ],
+    "companies": [
+      {
+        "role": "Recorded At",
+        "name": "Record Plant, Sausalito"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Record Plant, Los Angeles"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Wally Heider Recording Studio, Los Angeles"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Criteria Recording Studios"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Davlen Sound Studios"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Zellerbach Auditorium"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Sound City Studios"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Record Plant, Los Angeles"
+      },
+      {
+        "role": "Mastered At",
+        "name": "Capitol Mastering"
+      },
+      {
+        "role": "Pressed By",
+        "name": "MCA Pressing Plant, Gloversville"
+      },
+      {
+        "role": "Manufactured By",
+        "name": "Warner Bros. Records Inc."
+      },
+      {
+        "role": "Published By",
+        "name": "Gentoo Music, Inc."
+      },
+      {
+        "role": "Published By",
+        "name": "Now Sounds Music"
+      },
+      {
+        "role": "Published By",
+        "name": "Welsh Witch Music"
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Gentoo Music, Inc."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Now Sounds Music"
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Welsh Witch Music"
+      },
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "Warner Bros. Records Inc."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Warner Bros. Records Inc."
+      },
+      {
+        "role": "Corporate Owner",
+        "name": "Warner Communications"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r34501729",
+    "releaseId": 34501729,
+    "title": "Rumours",
+    "label": "Warner Bros. Records",
+    "country": "Venezuela",
+    "year": 1977,
+    "notes": "Rare edition from Venezuela",
+    "identifiers": [],
+    "formats": [
+      "Vinyl LP Album Stereo"
+    ],
+    "companies": [
+      {
+        "role": "Distributed By",
+        "name": "Polydor"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r27928803",
+    "releaseId": 27928803,
+    "title": "Rumours",
+    "label": "Warner Bros. Records Inc.",
+    "country": "US",
+    "year": 1977,
+    "notes": "",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-1-3010 JW61 F38 # [stamped] MASTERED BY CAPITOL 0",
+        "description": "Run-out side A / etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "BSK-2-3010 JW8 F42 #2 [stamped] MASTERED BY CAPITOL 0",
+        "description": "Run-out side B / etched"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Jacksonville Pressing"
+    ],
+    "companies": [
+      {
+        "role": "Pressed By",
+        "name": "Capitol Records Pressing Plant, Jacksonville"
+      },
+      {
+        "role": "Mastered At",
+        "name": "Capitol Mastering"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r14230924",
+    "releaseId": 14230924,
+    "title": "Rumours",
+    "label": "Liming Record",
+    "country": "Taiwan",
+    "year": 1977,
+    "notes": "Paper Sleeve",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "LM2794-A J* BSK-1-3010 SM1 F1 △ 21970 MASTERED BY CAPITOL K5",
+        "description": "Side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "LM2794-B J* BSK-2-3010 TH2 F9 SM1 [Signature]  MASTERED BY CAPITOL F3",
+        "description": "Side B"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Unofficial Release"
+    ],
+    "companies": [],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r28188325",
+    "releaseId": 28188325,
+    "title": "Rumours",
+    "label": "Holy Hawk Record Co. Ltd.",
+    "country": "Taiwan",
+    "year": 1977,
+    "notes": "Paper Sleeve",
+    "identifiers": [],
+    "formats": [
+      "Vinyl LP Album Unofficial Release"
+    ],
+    "companies": [],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r16119615",
+    "releaseId": 16119615,
+    "title": "Rumours",
+    "label": "Nautilus Recordings",
+    "country": "US",
+    "year": 1979,
+    "notes": "1979 test pressing of \"Rumours\" on a single disc; black vinyl. \n\nLikely the test pressing for this release: https://www.discogs.com/Fleetwood-Mac-Rumours/release/1165981.",
+    "identifiers": [],
+    "formats": [
+      "Vinyl LP Album Test Pressing"
+    ],
+    "companies": [
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "Warner Bros. Records Inc."
+      },
+      {
+        "role": "Manufactured By",
+        "name": "Nautilus Recordings"
+      },
+      {
+        "role": "Distributed By",
+        "name": "Nautilus Recordings"
+      },
+      {
+        "role": "Licensed To",
+        "name": "Nautilus Recordings"
+      },
+      {
+        "role": "Licensed From",
+        "name": "Warner Bros. Records"
+      },
+      {
+        "role": "Mastered At",
+        "name": "Capitol Mastering"
+      },
+      {
+        "role": "Published By",
+        "name": "Screen Gems-EMI Music Inc."
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r8446393",
+    "releaseId": 8446393,
+    "title": "Rumours",
+    "label": "AMIGA",
+    "country": "German Democratic Republic (GDR)",
+    "year": 1979,
+    "notes": "Übernahme von WEA Musik GmbH, Hamburg/BRD.\r\n\r\nVEB Deutsche Schallplatten Berlin DDR\r\nMade in German Democratic Republic\r\nLithografie und Druck: VEB Gotha-Druck\r\nAg 511/1/79 Verpackung nach TGL 10609",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "8 55 677 1A C79 W N",
+        "description": "A-side etchings"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "8 55 677 2A C79 W N",
+        "description": "B-side etchings"
+      },
+      {
+        "type": "Rights Society",
+        "value": "AWA"
+      },
+      {
+        "type": "Other",
+        "value": "16,10 M",
+        "description": "Price Code"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Red Label"
+    ],
+    "companies": [
+      {
+        "role": "Record Company",
+        "name": "VEB Deutsche Schallplatten Berlin"
+      },
+      {
+        "role": "Licensed From",
+        "name": "WEA Musik GmbH"
+      },
+      {
+        "role": "Printed By",
+        "name": "VEB Gotha-Druck"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r3649825",
+    "releaseId": 3649825,
+    "title": "Fleetwood Mac",
+    "label": "Supraphon",
+    "country": "Czechoslovakia",
+    "year": 1979,
+    "notes": "℗ 1979\r\n(V licenci WEA International, vydal n. p. Supraphon)\r\n\r\n/Nahrávky Warner Bros. Records Inc. v licenci WEA International/\r\nPozn. – Orig. LP deska Rumours\r\n\r\n[Liner notes] © 1979 \r\nCover © 1979 \r\nTisk Severografia Červený Kostelec",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "E 4681",
+        "description": "Label A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "E 4682",
+        "description": "Label B"
+      },
+      {
+        "type": "Other",
+        "value": "79 2",
+        "description": "Manufacturing date code"
+      },
+      {
+        "type": "Other",
+        "value": "Kčs 120,-",
+        "description": "Retail price, labels"
+      },
+      {
+        "type": "Other",
+        "value": "ZN",
+        "description": "Retail price code, cover"
+      },
+      {
+        "type": "Rights Society",
+        "value": "OSA"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album"
+    ],
+    "companies": [
+      {
+        "role": "Licensed Through",
+        "name": "WEA International Inc."
+      },
+      {
+        "role": "Licensed From",
+        "name": "Warner Bros. Records Inc."
+      },
+      {
+        "role": "Printed By",
+        "name": "Severografia Červený Kostelec"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Gramofonové Závody"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Gramofonové Závody"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r25663864",
+    "releaseId": 25663864,
+    "title": "Selected Ambient Works 85-92",
+    "label": "Apollo",
+    "country": "Belgium",
+    "year": 1992,
+    "notes": "matrix info is written by hand. black labels. promo or test press LP.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP A2",
+        "description": "Side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP 3922 B2 ",
+        "description": "Side B"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP C2",
+        "description": "Side C"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP 3902 D2",
+        "description": "Side D"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Promo Black"
+    ],
+    "companies": [],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r3200552",
+    "releaseId": 3200552,
+    "title": "Selected Ambient Works 85-92",
+    "label": "R & S Records",
+    "country": "Netherlands",
+    "year": 2006,
+    "notes": "Remastered and repressed as part of the R&S series of represses in 2006.\r\n\r\nGeneric R & S Records sleeve.\r\n\r\n\"Made in: HOLLAND\" sticker.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "9 991208 031907"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "RS 2006/01 - A₁",
+        "description": "Etching A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "RS 2006/01 - B₁",
+        "description": "Etching B"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "RS 2006/01 - C₁",
+        "description": "Etching C"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "RS 2006/01 - D₁",
+        "description": "Etching D"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Remastered Reissue"
+    ],
+    "companies": [],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r11314540",
+    "releaseId": 11314540,
+    "title": "Selected Ambient Works 85-92",
+    "label": "Not On Label (Aphex Twin)",
+    "country": "Czech Republic & Slovakia",
+    "year": 0,
+    "notes": "no barcode on the sleeve, no catalog number on sleeve or labels, and containing 3 tracks each on sides C & D.\nMade in CZ (on spine of sleeve)",
+    "identifiers": [],
+    "formats": [
+      "Vinyl LP Album Unofficial Release Translucent"
+    ],
+    "companies": [],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r3694732",
+    "releaseId": 3694732,
+    "title": "Selected Ambient Works 85-92",
+    "label": "Apollo",
+    "country": "Belgium",
+    "year": 1992,
+    "notes": "Made in Belgium.\n\nFirst pressing, no barcode or catalog number on the sleeve. \nWhite label version. Some copies may have handwritten information (see images).",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP A2",
+        "description": "Runout etchings, side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP 3922 B2",
+        "description": "Runout etchings, side B"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP C2",
+        "description": "Runout etchings, side C"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP 3902- D2",
+        "description": "Runout etchings, side D"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album White Label"
+    ],
+    "companies": [
+      {
+        "role": "Published By",
+        "name": "R & S Records"
+      },
+      {
+        "role": "Marketed By",
+        "name": "R & S Records"
+      },
+      {
+        "role": "Manufactured By",
+        "name": "R & S Records"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r795898",
+    "releaseId": 795898,
+    "title": "Selected Ambient Works 85-92",
+    "label": "R & S Records",
+    "country": "Belgium",
+    "year": 2006,
+    "notes": "Remastered and repressed as part of the R&S series of represses in 2006.\nAlso released in die-cut company sleeve - [r=3200552].\n\nPublished by Chrysalis.\nMarketed & Manufactured by R&S Records/Belgium.\nAstral Music.NL / Pinnacle Distribution.UK\n\nBPM are not present on the record.\nBPM:\nA1: 115 | A2: 135 | A3: 119\nB4: 102 | B5: - | B6: 117 | B7: 131\nC8: 103 | C9: 135 | C10: 117\nD11: 123 | D12: 119 | D13: 126",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "5 411659 159226"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "RS 2006/01-A₁",
+        "description": "Etching A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "RS 2006/01-B₁",
+        "description": "Etching B"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "RS 2006/01 - C₁",
+        "description": "Etching C"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "RS 2006/01 - D₁",
+        "description": "Etching D"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Remastered Reissue"
+    ],
+    "companies": [
+      {
+        "role": "Published By",
+        "name": "Chrysalis"
+      },
+      {
+        "role": "Marketed By",
+        "name": "R & S Records"
+      },
+      {
+        "role": "Manufactured By",
+        "name": "R & S Records"
+      },
+      {
+        "role": "Distributed By",
+        "name": "Astral Music"
+      },
+      {
+        "role": "Distributed By",
+        "name": "Pinnacle (3)"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r32662",
+    "releaseId": 32662,
+    "title": "Selected Ambient Works 85-92",
+    "label": "Apollo",
+    "country": "Belgium",
+    "year": 1992,
+    "notes": "First pressing, with no barcode on the sleeve, no catalog number on sleeve or labels, and containing 3 tracks each on sides C & D.\nSome were also pressed with unprinted labels: [r=3694732].\n\nOn this release the R&S logo is far to the bottom right of the rear sleeve, it is not under \"manufactured\" like some other releases.\n\nLater pressings:\nSame sleeve & labels but different matrix codes: [r=6379671].\nSame sleeve & labels but different matrix codes; plays 4 tracks on side C and 2 on side D: [r=1790544].\nWith barcode on lower right of back cover: [r=4852926].\nWith barcode on upper right of back cover: [r=1138729].\n\nMade in Belgium",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "none"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP A2",
+        "description": "Side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP 3922 B2",
+        "description": "Side B"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP C2",
+        "description": "Side C"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP 3902- D2",
+        "description": "Side D"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album"
+    ],
+    "companies": [
+      {
+        "role": "Published By",
+        "name": "R & S Records"
+      },
+      {
+        "role": "Marketed By",
+        "name": "R & S Records"
+      },
+      {
+        "role": "Manufactured By",
+        "name": "R & S Records"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r3370762",
+    "releaseId": 3370762,
+    "title": "Selected Ambient Works 85-92",
+    "label": "Apollo (17)",
+    "country": null,
+    "year": 0,
+    "notes": "Black Vinyl\nMade in CZ",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB3922XI-A",
+        "description": "Side A runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB3922XI-B",
+        "description": "Side B runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB3922XI-C",
+        "description": "Side C runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB3922XI-D",
+        "description": "Side D runout"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Limited Edition Reissue Repress Unofficial Release"
+    ],
+    "companies": [],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r27169794",
+    "releaseId": 27169794,
+    "title": "Selected Ambient Works 85-92",
+    "label": "Apollo",
+    "country": "Belgium",
+    "year": 1992,
+    "notes": "Test pressing / white label copy with hand written artist & title as 'Aphex - Ambient Collection 85-92' instead of 'Aphex Twin - Selected Ambient Works 85-92' \nTracklisting from the release copy",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP A2",
+        "description": "Side A runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP 3922 B2",
+        "description": "Side B runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP C2",
+        "description": "Side C runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP 3902- D2",
+        "description": "Side D runout"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Test Pressing White Label"
+    ],
+    "companies": [],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r13314830",
+    "releaseId": 13314830,
+    "title": "Selected Ambient Works 85-92",
+    "label": "Apollo",
+    "country": "Belgium",
+    "year": 1992,
+    "notes": "Early pressing, possibly part of the first batch, with no barcode on the sleeve, no catalog number on sleeve or labels, same matrix codes as [r=32662] and containing 3 tracks each on sides C & D. The only difference noticeable is slightly different sleeve art, namely that the R&S logo on the rear, instead of being in the far right bottom corner, is placed 2cm to the left, below the word 'Manufactured' and to the right of 'Belgium'.\n\nLater pressings:\nSame sleeve & labels but different matrix codes: [r=6379671].\nSame sleeve & labels but different matrix codes; plays 4 tracks on side C and 2 on side D: [r=1790544].\nWith barcode on lower right of back cover: [r=4852926].\nWith barcode on upper right of back cover: [r=1138729].",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP A2",
+        "description": "Side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP 3922 B2",
+        "description": "Side B"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP C2",
+        "description": "Side C"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMB LP 3902 - D2",
+        "description": "Side D"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album"
+    ],
+    "companies": [
+      {
+        "role": "Published By",
+        "name": "R & S Records"
+      },
+      {
+        "role": "Marketed By",
+        "name": "R & S Records"
+      },
+      {
+        "role": "Manufactured By",
+        "name": "R & S Records"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r4887177",
+    "releaseId": 4887177,
+    "title": "Selected Ambient Works 85-92",
+    "label": "Apollo",
+    "country": "UK",
+    "year": 2013,
+    "notes": "Matt Colton and Alchemy Mastering were identified from the run-out groove etchings.\n\nPublished by BMG Chrysalis. \nApollo Records is a division of R&S Records.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "5055274703046"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMBLP3922 A1 MATT @ ALCHEMY MPO",
+        "description": "Etched side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMBLP3922 B1 MPO",
+        "description": "Etched side B"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMBLP3922 C1 MATT @ ALCHEMY MPO",
+        "description": "Etched side C"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "AMBLP3922 D1 MPO",
+        "description": "Etched side D"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue Remastered"
+    ],
+    "companies": [
+      {
+        "role": "Record Company",
+        "name": "R & S Records"
+      },
+      {
+        "role": "Published By",
+        "name": "BMG Chrysalis"
+      },
+      {
+        "role": "Lacquer Cut At",
+        "name": "Alchemy Mastering"
+      },
+      {
+        "role": "Pressed By",
+        "name": "MPO"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r4950798",
+    "releaseId": 4950798,
+    "title": "OK Computer",
+    "label": "Parlophone",
+    "country": "Worldwide",
+    "year": 1997,
+    "notes": "Released in a gatefold sleeve with printed inner sleeves, with scooped thin cutouts along the top edge of one side, each.\nCopies exported to the USA and other countries have a 'MADE IN ENGLAND' sticker on the back.\n\nDirect Metal Mastered: indicated by 'D' stamp in runouts.\n\nBack sleeve reads:\nParlophone (P)1997 The copyright in this sound recording is owned by EMI Records Ltd. ©1997 EMI Records Ltd.\nBarcode: 7243 8 55229 1 8 (Top) and 7 24385 52291 8 (bottom)\nUK: NODATA 02\nPrinted in UK\nPlace of manufacture as stated on label\nManufactured and Distributed by EMI\n\nText on inside sleeve reads:\naudio levels balanced nigel godrich.\naudio recordings made using the canned applause? mobile.\nmusic by thom yorke, jonny greenwood, phil selway, ed O’Brien, colin greenwood.\npictures done by stanley donwood and the white chocolate farm.\npatiently managed by courtyard, chris hufford, bryce edge & brian message.\noffice run by julie calland.\nvideo realisation with dilly gent.\nArtistic freedom in the market place maintained by keith wozencroft and tony wadsworth with perry watts-russell.\nmedia handling by caffy st luce.\ninternational ambassador carol baxter.\nperforming monkey bookings taken by charlie myatt at itb.\ncommitted to tape by nigel godrich with radiohead.\nguitars by rickenbacker and plank, drums by premier, cymbals by zildjan, all other instruments at retail price.\n\nmastered by chris’king fader’blair at abbey road.\ntour manager tim greaves.\nlighting, stage design, smoke and production by andi watson.\nperformance sound enhancement for the audience balanced by jim warren.\ninstrument modifications, stage managing and equipment shifting into difficult places by plank.\nsound reference and deck chairs by duncan swift.\nadditional guitar stuff by adam cummings.\ncash dealings and other assistance by big al.\naudio fixing and dubbing done at mayfair, abbey road, air lyndhurst, courtyard and the church using the wonders of a digital and and analogue age.\nstrings arranged by radiohead, conducted by nick ingman.\ngrub by grub of cat and mouse.\nadditional complicated artwork skills supplied by matt bale @ hubdesign and mr. barry @ the whole hog.\n\nweb site maintained(?) by stanley donwood.\nstudio assistants gerard navarro, jon bailey and chris scard.\nall songs are published by warner chappell ltd. lyrics used by kind permission even though we wrote them.\nwe have received much appreciated help and support from these people:\nmelanie, chris york, jonathan glazer, bev, jane, mango, jane beese, roger trinder, paul longman, john bennett, lawrence canty, josh, michael, bill, peter, mike, drugstore, john statham, john whittaker and suzi wilson at o.j.kilkennys, hilton sound.\nthose at parlophone including mandy plumb, kevin mccabe, steve hayes, malcolm hill, roger smith. those at capitol including phil costello, clark staub, gary gersh, daralyn adams, brian macdonald, rob gordon.\nsample from flight of the condor used with permission. all rights reserved.\nplease write to us at w.a.s.t.e. correspondence p.o.box 322, oxford, ox4 1ey uk.\nansaphone +44 01235 848261.\nhttp://www.radiohead.co.uk or http://www.radiohead.com this is our web site which we maintain as and when we feel like it.\nwe hope you are ok. thank you for listening.\n\nTracks are listed sequentially.\n\nRunouts are stamped from \"NODATA\" up to the singular \"D\", the subsequent text portions are etched.\nVariant 1: \"1̶2\" is a X'ed out \"1\" followed by a \"2\"\nVariant 2: \"1/2\" is a \"1\" superimposed with a \"2\"\nThere are pressings of this same release where plates of both variants have been used. \n\nRelease dates - \nJapan: May 21, 1997\nUK: June 16, 1997\nUS: July 1, 1997",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "7 24385 52291 8",
+        "description": "Text"
+      },
+      {
+        "type": "Barcode",
+        "value": "724385522918",
+        "description": "Scanned"
+      },
+      {
+        "type": "Label Code",
+        "value": "lc 0299"
+      },
+      {
+        "type": "Rights Society",
+        "value": "bel BIEM"
+      },
+      {
+        "type": "Price Code",
+        "value": "PM 262"
+      },
+      {
+        "type": "Other",
+        "value": "7243 8 57331 1 6",
+        "description": "Catalog number LP1"
+      },
+      {
+        "type": "Other",
+        "value": "7243 8 57332 1 5",
+        "description": "Catalog number LP2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 01̶2A-1-1- I LIKE YOU, YOU ARE A WONDERFUL PERSON D VINYL BLAIR D",
+        "description": "Side A runout, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 01̶2B-1-1- I'M FULL OF ENTHUSIASM I'M GOING PLACES D",
+        "description": "Side B runout, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 01̶2C-1-1- D I'LL BE HAPPY TO HELP YOU",
+        "description": "Side C runout, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 01̶2D-1-1- I'M AN IMPORTANT PERSON, WOULD YOU LIKE TO COME HOME WITH ME? D",
+        "description": "Side D runout, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 0 1/2A-1-1- I LIKE YOU, YOU ARE A WONDERFUL PERSON D VINYL BLAIR D",
+        "description": "Side A runout, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 0 1/2B-1-1- I'M FULL OF ENTHUSIASM I'M GOING PLACES D",
+        "description": "Side B runout, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 0 1/2C-1-1- I'LL BE HAPPY TO HELP YOU D",
+        "description": "Side C runout  variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": " NODATA 0 1/2D-1-1- I'M AN IMPORTANT PERSON, WOULD YOU LIKE TO COME HOME WITH ME? D",
+        "description": "Side D runout, variant 2"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Gatefold"
+    ],
+    "companies": [
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Manufactured By",
+        "name": "EMI"
+      },
+      {
+        "role": "Distributed By",
+        "name": "EMI"
+      },
+      {
+        "role": "Recorded By",
+        "name": "Canned Applause? Mobile"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Mayfair Studios"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Air Lyndhurst Hall"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Courtyard Studio"
+      },
+      {
+        "role": "Mixed At",
+        "name": "The Church, London"
+      },
+      {
+        "role": "Mastered At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Pressed By",
+        "name": "EMI Records"
+      },
+      {
+        "role": "Published By",
+        "name": "Warner Chappell Ltd."
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r1587168",
+    "releaseId": 1587168,
+    "title": "OK Computer",
+    "label": "Capitol Records",
+    "country": "US",
+    "year": 2008,
+    "notes": "Gatefold sleeve.\nTracks are numbered sequentially.\n\n℗1997 The copyright in this sound recording is owned by EMI Records Ltd. ©1997 EMI Records Ltd.\n\naudio recordings made using the canned applause? mobile.\nguitars by Rickenbacker and Plank, Drums by Premier, cymbals by Zildjan, all other instruments at retail price.\n\nmastered at Abbey Road.\naudio fixing and dubbing done at Mayfair, Abbey Road, Air Lyndhurst, Courtyard and The Church using the wonders of the digital and analogue age.\n\nall songs published by Warner Chappell Ltd. lyrics used by kind permission even though we wrote them.\nsample from Flight of the Condor used with permission.\nwe hope you are ok. thankyou for listening.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "724385522918",
+        "description": "Scanned"
+      },
+      {
+        "type": "Barcode",
+        "value": "7 24385 52291 8",
+        "description": "Text"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "(7243 8 57331 1 6)",
+        "description": "LP 1 labels"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "(7243 8 57332 1 5)",
+        "description": "LP 2 labels"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "S-66064 Re1  0724385522918-A  G2  Rm",
+        "description": "Side A [eeny] runouts, etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "S-66065  0724385522918-B  G1  Rm",
+        "description": "Side B [meeny] runouts, etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "S-66066  0724385522918-C  G1 Rm",
+        "description": "Side C [miney] runouts, etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "S-66067 Re1  0724385522918-D  G2 Rm",
+        "description": "Side D [mo] runouts, etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MASTERED BY CAPITOL",
+        "description": "All sides' runouts, stamped"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Limited Edition Reissue 180 gram"
+    ],
+    "companies": [
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Recorded By",
+        "name": "Canned Applause? Mobile"
+      },
+      {
+        "role": "Mastered At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Mayfair Studios"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Air Lyndhurst Hall"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Courtyard Studio"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Church, London"
+      },
+      {
+        "role": "Designed At",
+        "name": "Hubdesign"
+      },
+      {
+        "role": "Designed At",
+        "name": "The Whole Hog"
+      },
+      {
+        "role": "Published By",
+        "name": "Warner Chappell Ltd."
+      },
+      {
+        "role": "Manufactured By",
+        "name": "Capitol Records, LLC"
+      },
+      {
+        "role": "Mastered At",
+        "name": "Capitol Mastering"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Rainbo Records"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Rainbo Records"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Rainbo Records"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Rainbo Records"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r10596610",
+    "releaseId": 10596610,
+    "title": "OK Computer",
+    "label": "XL Recordings",
+    "country": "North America (inc Mexico)",
+    "year": 2016,
+    "notes": "Gatefold cover with lyrics and credits.\nPrinted inner sleeves with artwork.\nDigital download code included.\n\nPrinted in N.A. on back cover.\nNo reference on labels as to country of origin.\n\nSimilar to Europe pressing [r8690850] but with Printed in NA on back cover and nothing on label in reference to country of origin.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "6 34904 07811 9",
+        "description": "Text"
+      },
+      {
+        "type": "Barcode",
+        "value": "634904078119",
+        "description": "Scanned"
+      },
+      {
+        "type": "Label Code",
+        "value": "LC05667"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XLLP781 BG32239-01 A1 MPO 8552291  A",
+        "description": "Side A runout, etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XLLP781 BG32239-01 B1 MPO 8552291 B",
+        "description": "Side B runout, etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XLLP781 BG32239-02 C1 MPO 8552291 C",
+        "description": "Side C runout, etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XLLP781 BG32239-02 D1 MPO 8552291 D",
+        "description": "Side D runout, etched"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue Repress"
+    ],
+    "companies": [
+      {
+        "role": "Manufactured By",
+        "name": "XL Recordings Ltd."
+      },
+      {
+        "role": "Distributed By",
+        "name": "XL Recordings Ltd."
+      },
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "XL Recordings Ltd."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "XL Recordings Ltd."
+      },
+      {
+        "role": "Pressed By",
+        "name": "Optimal Media GmbH"
+      },
+      {
+        "role": "Published By",
+        "name": "Warner Chappell Ltd."
+      },
+      {
+        "role": "Recorded At",
+        "name": "Canned Applause? Mobile"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Mayfair Studios"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Air Lyndhurst Hall"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Courtyard Studio"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Church, London"
+      },
+      {
+        "role": "Mastered At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Lacquer Cut At",
+        "name": "MPO"
+      },
+      {
+        "role": "Designed At",
+        "name": "Hubdesign"
+      },
+      {
+        "role": "Designed At",
+        "name": "The Whole Hog"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r1656858",
+    "releaseId": 1656858,
+    "title": "OK Computer",
+    "label": "Parlophone (2)",
+    "country": "UK",
+    "year": 0,
+    "notes": "For promotional use only.",
+    "identifiers": [],
+    "formats": [
+      "Vinyl LP Album Picture Disc Promo Unofficial Release"
+    ],
+    "companies": [],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r5217098",
+    "releaseId": 5217098,
+    "title": "OK Computer",
+    "label": "Parlophone",
+    "country": "UK",
+    "year": 1997,
+    "notes": "Issued in a plain black sleeve.",
+    "identifiers": [
+      {
+        "type": "Matrix / Runout",
+        "value": "I Like You, You Are A Wonderful Person",
+        "description": "Run-out area A-side [hand-etched]"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "Vinyl Blair",
+        "description": "Run-out area A-side [hand-etched]"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "D",
+        "description": "Run-out area A-side [machine-stamped]"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 0X2A-1-1-",
+        "description": "Run-out area A-side [machine-stamped]"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "I'M Full of Enthusiasm I'm Going Places",
+        "description": "Run-out area B-side [hand-etched]"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "D",
+        "description": "Run-out area B-side [machine-stamped]"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 0X2B-1-1-",
+        "description": "Run-out area B-side [machine-stamped]"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "I'll Be Happy To Help You",
+        "description": "Run-out area C-side [hand-etched]"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "D",
+        "description": "Run-out area C-side [machine-stamped]"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 0X2C-1-1-",
+        "description": "Run-out area C-side [machine-stamped]"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "I'm An Important Person, Would You Like To Come Home With Me?",
+        "description": "Run-out area D-side [hand-etched]"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "D",
+        "description": "Run-out area D-side [machine-stamped]"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 0X2D-1-1-",
+        "description": "Run-out area D-side [machine-stamped]"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album White Label"
+    ],
+    "companies": [
+      {
+        "role": "Pressed By",
+        "name": "Damont"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r7540273",
+    "releaseId": 7540273,
+    "title": "OK Computer",
+    "label": "Capitol Records",
+    "country": "Worldwide",
+    "year": 2008,
+    "notes": "Capitol logo bottom left corner rear cover\nParlophone on record labels\nSee images\n\nOn spine: 7243 8 55229 1 8\nOn record labels eeny & meeny: 7243 8 55229 1 8 (7243 8 57331 1 6)\nOn record labels miny & mo: 7243 8 55229 1 8 (7243 8 57332 1 5)\n\nPressed by Record Industry using original DMM parts by EMI Records.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "7 24385 52291 8",
+        "description": "Text"
+      },
+      {
+        "type": "Barcode",
+        "value": "724385522918",
+        "description": "Scanned"
+      },
+      {
+        "type": "Label Code",
+        "value": "LC 0299"
+      },
+      {
+        "type": "Rights Society",
+        "value": "bel BIEM"
+      },
+      {
+        "type": "Other",
+        "value": "7243 8 57331 1 6",
+        "description": "LP1 cat.number"
+      },
+      {
+        "type": "Other",
+        "value": "7243 8 57332 1 5",
+        "description": "LP2 cat.number"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 02 A-1-1-",
+        "description": "Stamped side A eeny "
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "D 8552291 1A VINYL BLAIR I LIKE YOU, YOU ARE A WONDERFUL PERSON",
+        "description": "Etched side A eeny"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 02 B-1-1-",
+        "description": "Stamped side B meeny"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "D 8552291 1B I'M FULL OF ENTHUSIASM I'M GOING PLACES",
+        "description": "Etched side B meeny"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 02 C-1-1-",
+        "description": "Stamped side C miney"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "D 8552291 1C I'LL BE HAPPY TO HELP YOU",
+        "description": "Etched side C miney"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 02 D-1-1-",
+        "description": "Stamped side D mo"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "D 8552291 1D I'M AN IMPORTANT PERSON WOULD YOU LIKE TO COME HOME WITH ME?",
+        "description": "Etched side D mo"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue Gatefold"
+    ],
+    "companies": [
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Manufactured By",
+        "name": "Capitol Records"
+      },
+      {
+        "role": "Mastered At",
+        "name": "EMI Records"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Record Industry"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r8664384",
+    "releaseId": 8664384,
+    "title": "OK Computer",
+    "label": "XL Recordings",
+    "country": "US",
+    "year": 2016,
+    "notes": "Printed in N.A. on back cover.\nMade in the U.K. on vinyl labels.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "6 34904 07811 9"
+      },
+      {
+        "type": "Barcode",
+        "value": "634904078119"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MPO 8552291 2A ",
+        "description": "Side A Inscribed"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MPO 8552291 2B",
+        "description": "Side B Inscribed"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MPO 8552291 C",
+        "description": "Side C Inscribed"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "MPO 8552291 2D",
+        "description": "Side D Inscribed"
+      },
+      {
+        "type": "Label Code",
+        "value": "LC 05667"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue"
+    ],
+    "companies": [
+      {
+        "role": "Copyright (c)",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "XL Recordings Ltd."
+      },
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "XL Recordings Ltd."
+      },
+      {
+        "role": "Pressed By",
+        "name": "MPO"
+      },
+      {
+        "role": "Manufactured By",
+        "name": "XL Recordings Ltd."
+      },
+      {
+        "role": "Distributed By",
+        "name": "XL Recordings Ltd."
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r8229597",
+    "releaseId": 8229597,
+    "title": "OK Computer",
+    "label": "Parlophone",
+    "country": "UK",
+    "year": 1998,
+    "notes": "Completly the same as the other 1998 second pressing [r216593] but the weight is 180gram\nSame 180gram version without cut-out inner sleeves can be found here: [r26649779]\n\nAudio fixing and dubbing done at Mayfair, Abbey Road, Air Lyndhurst, Courtyard and The Church. Mastered at Abbey Road.\n\nTracklist as printed on jacket rear (1-12)\nLogical track order:  Eeny: 1-3  Meeny: 4-6  Miney: 7-10  Mo: 11-12\n\nRepressed on heavyweight vinyl with additional deadwax info (8552291 etched, which does not appear in the first pressing) and housed in a matte gatefold sleeve with printed inner sleeves.\nInners exhibit cutouts along top edge identical to those on first issue.\n\nMade in the U.K.  [labels]\nPrinted in UK       [jacket]",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "7 24385 52291 8",
+        "description": "Printed"
+      },
+      {
+        "type": "Other",
+        "value": "7243 8 57331 1 6",
+        "description": "disc cat # side A/B"
+      },
+      {
+        "type": "Other",
+        "value": "7243 8 57332 1 5",
+        "description": "disc cat # side C/D"
+      },
+      {
+        "type": "Rights Society",
+        "value": "bel BIEM"
+      },
+      {
+        "type": "Label Code",
+        "value": "lc 0299"
+      },
+      {
+        "type": "Price Code",
+        "value": "PM 262",
+        "description": "F:"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 0X2A-1-1-   D",
+        "description": "Side A - stamped"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "8552291  1A1  I LIKE YOU, YOU ARE A WONDERFUL PERSON  VINYL BLAIR",
+        "description": "Side A - etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 0X2B-1-1-   D",
+        "description": "Side B - stamped"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "8552291  1B1  I'M FULL OF ENTHUSIASM  I'M GOING PLACES",
+        "description": "Side B - etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 0X2C-1-1-   D",
+        "description": "Side C - stamped"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "8552291  1C1  I'LL BE HAPPY TO HELP YOU",
+        "description": "Side C - etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 02 D-1-1-   D",
+        "description": "Side D - stamped"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "I'M AN IMPORTANT PERSON, WOULD YOU LIKE TO COME HOME WITH ME?",
+        "description": "Side D - etched"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Repress 180g."
+    ],
+    "companies": [
+      {
+        "role": "Manufactured By",
+        "name": "EMI"
+      },
+      {
+        "role": "Distributed By",
+        "name": "EMI"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Mayfair Studios"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Air Lyndhurst Hall"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Courtyard Studio"
+      },
+      {
+        "role": "Mixed At",
+        "name": "The Church, London"
+      },
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Mastered At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Mastered At",
+        "name": "EMI Records"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Sony/CBS, Haarlem"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r32040452",
+    "releaseId": 32040452,
+    "title": "OK Computer",
+    "label": "Capitol Records",
+    "country": "Europe",
+    "year": 0,
+    "notes": "Capitol logo bottom left corner rear cover\nParlophone on record labels\nSee images\n\nOn spine: 7243 8 55229 1 8\nOn record labels eeny & meeny: 7243 8 55229 1 8 (7243 8 57331 1 6)\nOn record labels miny & mo: 7243 8 55229 1 8 (7243 8 57332 1 5)\n\nPressed by MPO.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "7 24385 52291 8",
+        "description": "Text"
+      },
+      {
+        "type": "Barcode",
+        "value": "724385522918",
+        "description": "Scanned"
+      },
+      {
+        "type": "Label Code",
+        "value": "LC 0299"
+      },
+      {
+        "type": "Rights Society",
+        "value": "bel BIEM"
+      },
+      {
+        "type": "Other",
+        "value": "7243 8 57331 1 6",
+        "description": "LP1 cat.number"
+      },
+      {
+        "type": "Other",
+        "value": "7243 8 57332 1 5",
+        "description": "LP2 cat.number"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "8552291 A MPO",
+        "description": "Side A eeny "
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "8552291 B MPO",
+        "description": "Side B meeny"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "8552291 C MPO",
+        "description": "Side C miney"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "8552291 D MPO",
+        "description": "Side D mo"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue Gatefold MPO Pressing"
+    ],
+    "companies": [
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "Parlophone Records Ltd."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Parlophone Records Ltd."
+      },
+      {
+        "role": "Manufactured By",
+        "name": "Capitol Records"
+      },
+      {
+        "role": "Published By",
+        "name": "Warner Chappell Ltd."
+      },
+      {
+        "role": "Mixed At",
+        "name": "Mayfair Studios"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Air Lyndhurst Hall"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Courtyard Studio"
+      },
+      {
+        "role": "Mixed At",
+        "name": "The Church, London"
+      },
+      {
+        "role": "Mastered At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Pressed By",
+        "name": "MPO"
+      },
+      {
+        "role": "Designed At",
+        "name": "Hubdesign"
+      },
+      {
+        "role": "Designed At",
+        "name": "The Whole Hog"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r8690850",
+    "releaseId": 8690850,
+    "title": "OK Computer",
+    "label": "XL Recordings",
+    "country": "Europe",
+    "year": 2016,
+    "notes": "Gatefold cover with lyrics and credits.\nCardboard printed inner sleeves with artwork.\nDigital download code included.\nRunouts etched.\n\nSides are labeled eeny (A), meeny (B), miney (C), mo (D).\nSome releases may have two Side C labels, missing the Side B label.  These may be fairly common.\n\nPrinted in E.U. on back cover.\nMade in the E.U. on vinyl labels.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "6 34904 07811 9"
+      },
+      {
+        "type": "Barcode",
+        "value": "634904078119"
+      },
+      {
+        "type": "Label Code",
+        "value": "LC05667"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XLLP781 BG32239-01 A1 MPO 8552291 – ↾ A",
+        "description": "Side A runout etched, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XLLP781 BG32239-01 B1 MPO I I ↾ 8552291 B",
+        "description": "Side B runout, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XLLP781 BG32239-02 C1 MPO 8552291 C",
+        "description": "Side C runout, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XLLP781 BG32239-02 D1 V I ↾  MPO 8552291 D",
+        "description": "Side D runout, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XLLP781 BG32239-01 A1 –1↾ MPO 8552291 A",
+        "description": "Side A runout, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XLLP781 BG32239-01 B1 ƒ=↾ MPO 8552291 B",
+        "description": "Side B runout (ƒ mirrored), variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XLLP781 BG32239-02 C1 MPO 8552291 C V==",
+        "description": "Side C runout, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "XLLP781 V=⌈ BG32239-02 D1 MPO 8552291 D",
+        "description": "Side D runout, variant 2"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Reissue Stereo"
+    ],
+    "companies": [
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "XL Recordings Ltd."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "XL Recordings Ltd."
+      },
+      {
+        "role": "Manufactured By",
+        "name": "XL Recordings Ltd."
+      },
+      {
+        "role": "Distributed By",
+        "name": "XL Recordings Ltd."
+      },
+      {
+        "role": "Recorded By",
+        "name": "Canned Applause? Mobile"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Mayfair Studios"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Air Lyndhurst Hall"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Courtyard Studio"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Church, London"
+      },
+      {
+        "role": "Mastered At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Lacquer Cut At",
+        "name": "MPO"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Optimal Media GmbH"
+      },
+      {
+        "role": "Designed At",
+        "name": "Hubdesign"
+      },
+      {
+        "role": "Designed At",
+        "name": "The Whole Hog"
+      },
+      {
+        "role": "Published By",
+        "name": "Warner Chappell Ltd."
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r216593",
+    "releaseId": 216593,
+    "title": "OK Computer",
+    "label": "Parlophone",
+    "country": "UK",
+    "year": 1998,
+    "notes": "Standard weight vinyl housed in a matte gatefold sleeve with printed inner sleeves.\nPrinted inner sleeves have cutouts at the mid-top in front side of each. Generally speaking, the whole artwork and packaging is identical to the 1st pressing including the thin cardboard material of the gatefold cover.\n\n180 gram version of this repress: [r8229597]\n\nAudio fixing and dubbing done at Mayfair, Abbey Road, Air Lyndhurst, Courtyard and The Church. Mastered at Abbey Road.\n\nTracklist as printed on jacket rear (1-12)\nLogical track order:  Eeny: 1-3  Meeny: 4-6  Miney: 7-10  Mo: 11-12\n\nMade in the U.K.  [labels]\nPrinted in UK       [jacket]",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "7 24385 52291 8",
+        "description": "Printed"
+      },
+      {
+        "type": "Other",
+        "value": "7243 8 57331 1 6",
+        "description": "Label caption side A/B"
+      },
+      {
+        "type": "Other",
+        "value": "7243 8 57332 1 5",
+        "description": "Label caption side C/D"
+      },
+      {
+        "type": "Rights Society",
+        "value": "bel BIEM"
+      },
+      {
+        "type": "Label Code",
+        "value": "lc 0299"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 0X2A-1-1-   D",
+        "description": "Side A - stamped"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "8552291  1A1  I LIKE YOU, YOU ARE A WONDERFUL PERSON  VINYL BLAIR",
+        "description": "Side A - etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 0X2B-1-1-   D",
+        "description": "Side B - stamped"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "8552291  1B1  I'M FULL OF ENTHUSIASM  I'M GOING PLACES",
+        "description": "Side B - etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 0X2C-1-1-   D",
+        "description": "Side C - stamped"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "8552291  1C1  I'LL BE HAPPY TO HELP YOU",
+        "description": "Side C - etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "NODATA 02 D-1-1-   D",
+        "description": "Side D - stamped"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "I'M AN IMPORTANT PERSON, WOULD YOU LIKE TO COME HOME WITH ME?",
+        "description": "Side D - etched"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Repress Gatefold"
+    ],
+    "companies": [
+      {
+        "role": "Manufactured By",
+        "name": "EMI"
+      },
+      {
+        "role": "Distributed By",
+        "name": "EMI"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Mayfair Studios"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Air Lyndhurst Hall"
+      },
+      {
+        "role": "Mixed At",
+        "name": "Courtyard Studio"
+      },
+      {
+        "role": "Mixed At",
+        "name": "The Church, London"
+      },
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "EMI Records Ltd."
+      },
+      {
+        "role": "Mastered At",
+        "name": "Abbey Road Studios"
+      },
+      {
+        "role": "Mastered At",
+        "name": "EMI Records"
+      },
+      {
+        "role": "Pressed By",
+        "name": "Sony/CBS, Haarlem"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r11951602",
+    "releaseId": 11951602,
+    "title": "Con Todo El Mundo",
+    "label": "Night Time Stories",
+    "country": "Europe",
+    "year": 2018,
+    "notes": "This version is released on White Vinyl.\nIncluded Digital Download code.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "5060391091365"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ALNLP 50 A",
+        "description": "Side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ALNLP 50 B",
+        "description": "Side B"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album White"
+    ],
+    "companies": [],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r11530439",
+    "releaseId": 11530439,
+    "title": "Con Todo El Mundo",
+    "label": "Dead Oceans",
+    "country": "US",
+    "year": 2018,
+    "notes": "Black Vinyl \nAvailable to North and South America Only\nIncludes Download Code Insert\n\nCover is indistinguishable from [r=21878599] (2022 US pressing). Hype sticker on shrink of this 2018 release has all-gold writing and logo on hype sticker whereas hype sticker on the 2022 release [r=21878599] has silver lettering and logo.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "656605145310",
+        "description": "Scanned"
+      },
+      {
+        "type": "Label Code",
+        "value": "LC 29265"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "DOC153LP-A1 F.T. 164899E1/A3",
+        "description": "Hand / laser etched side A, v1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "DOC153LP-B1 164899E2/A",
+        "description": "Hand / laser etched side B, v1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "DOC153LP-A1 F.T. 164899E1/A4",
+        "description": "Hand / laser etched side A, v2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "DOC153LP-B1 164899E2/A1",
+        "description": "Hand / laser etched side B, v2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "DOC 153 LP-A1 F.T. 123665 164899E1",
+        "description": "Side A, v4"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "DOC 153 LP-B1 164899E2/A6 1125033",
+        "description": "Side B, v4"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Stereo"
+    ],
+    "companies": [
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Licensed From",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Licensed To",
+        "name": "Dead Oceans, Inc."
+      },
+      {
+        "role": "Recorded At",
+        "name": "Sugar Hill Studios"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Farm, Burton, TX"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Treehouse, Houston, TX"
+      },
+      {
+        "role": "Mixed At",
+        "name": "The Treehouse, Houston, TX"
+      },
+      {
+        "role": "Lacquer Cut At",
+        "name": "Finyl Tweek"
+      },
+      {
+        "role": "Pressed By",
+        "name": "GZ Media"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r11459360",
+    "releaseId": 11459360,
+    "title": "Con Todo El Mundo",
+    "label": "Night Time Stories",
+    "country": "UK",
+    "year": 2018,
+    "notes": "Limited to 2000 copies.  \n\nIncludes card with download code from Night Time Stories.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "5060391091334"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": " ALNLP 50.A'",
+        "description": "Side A. etched, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ALNLP 50.B'",
+        "description": "Side B, etched, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": " ALNLP 50.A' F.T. MPO 5 [backwards]",
+        "description": "Side A, etched, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ALNLP 50.B' MPO 7 [sideways]",
+        "description": "Side B, etched, variant 2"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Limited Edition Numbered Off-White"
+    ],
+    "companies": [
+      {
+        "role": "Lacquer Cut At",
+        "name": "Finyl Tweek"
+      },
+      {
+        "role": "Pressed By",
+        "name": "MPO"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r11554841",
+    "releaseId": 11554841,
+    "title": "Con Todo El Mundo",
+    "label": "Dead Oceans",
+    "country": "US",
+    "year": 2018,
+    "notes": "Alternate cover\nLimited to 1,000 Copies\nIncludes download card",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "656605145341",
+        "description": "on shrinkwrap"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "DOC 153 LP • A1 F.T.",
+        "description": "side A, etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "164899E1/A",
+        "description": "side A, stamped"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "DOC 153 LP • B1",
+        "description": "side B, etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "164899E2/A",
+        "description": "side B, stamped"
+      },
+      {
+        "type": "Label Code",
+        "value": "LC 29265"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Club Edition Limited Edition Numbered Blue [Milky]"
+    ],
+    "companies": [
+      {
+        "role": "Exclusive Retailer",
+        "name": "Vinyl Me, Please"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Farm, Burton, TX"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Treehouse, Houston, TX"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Sugar Hill Studios"
+      },
+      {
+        "role": "Mixed At",
+        "name": "The Treehouse, Houston, TX"
+      },
+      {
+        "role": "Pressed By",
+        "name": "GZ Media"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r11465364",
+    "releaseId": 11465364,
+    "title": "Con Todo El Mundo",
+    "label": "Night Time Stories",
+    "country": "UK",
+    "year": 2018,
+    "notes": "LateNightTales webstore exclusive. Numbered edition on pink coloured vinyl, limited to 1000 copies.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "5 060391 091358",
+        "description": "Text"
+      },
+      {
+        "type": "Barcode",
+        "value": "5060391091358",
+        "description": "Scanned"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Limited Edition Numbered Pink"
+    ],
+    "companies": [],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r35694190",
+    "releaseId": 35694190,
+    "title": "Con Todo El Mundo",
+    "label": "Dead Oceans",
+    "country": "US",
+    "year": 2018,
+    "notes": "Black Vinyl \nDoes not include download card\n\nCover is indistinguishable from [r=11530439] (2018 US pressing). Hype sticker on shrink of this release has all-gold writing and logo, but does not say \"Includes Download\"",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "656605145310",
+        "description": "Scanned"
+      },
+      {
+        "type": "Label Code",
+        "value": "LC 29265"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "DOC153LP re 2-A cut 191010 cm",
+        "description": "Etched side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "DOC153LP re 2 B cm",
+        "description": "Etched side B"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Stereo"
+    ],
+    "companies": [
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Licensed From",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Licensed To",
+        "name": "Dead Oceans, Inc."
+      },
+      {
+        "role": "Recorded At",
+        "name": "Sugar Hill Studios"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Farm, Burton, TX"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Treehouse, Houston, TX"
+      },
+      {
+        "role": "Mixed At",
+        "name": "The Treehouse, Houston, TX"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r11471742",
+    "releaseId": 11471742,
+    "title": "Con Todo El Mundo",
+    "label": "Dead Oceans",
+    "country": "US",
+    "year": 2018,
+    "notes": "",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "6 5660-51453-3 4",
+        "description": "Text"
+      },
+      {
+        "type": "Barcode",
+        "value": "656605145334",
+        "description": "Scanned"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "DOC 153 LP∙A¹ F.T.",
+        "description": "Side A Etched"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "164899E1/A",
+        "description": "Side A Stamped"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "DOC 153 LP∙B¹ F.T.",
+        "description": "Side B Etched"
+      },
+      {
+        "type": "Barcode",
+        "value": "164899E2/A",
+        "description": "Side B Stamped"
+      },
+      {
+        "type": "Label Code",
+        "value": "LC 29265"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Limited Edition Off-White"
+    ],
+    "companies": [
+      {
+        "role": "Licensed To",
+        "name": "Dead Oceans"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Farm, Burton, TX"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Treehouse, Houston, TX"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Sugar Hill Studios"
+      },
+      {
+        "role": "Lacquer Cut At",
+        "name": "Finyl Tweek"
+      },
+      {
+        "role": "Pressed By",
+        "name": "GZ Media"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r13090298",
+    "releaseId": 13090298,
+    "title": "Con Todo El Mundo",
+    "label": "Night Time Stories",
+    "country": "UK",
+    "year": 2018,
+    "notes": "Recorded by [....] at The Farm Burton, Tx & The Treehouse, Houston, Tx\nAdditional recording by [....] at Sugarhill Studios Houston Tx\n\nIncludes download code.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "5 060391 091365 >",
+        "description": "Text"
+      },
+      {
+        "type": "Barcode",
+        "value": "5060391091365",
+        "description": "Scan"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ALNLP 50.A",
+        "description": "Side A runout"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ALNLP 50·B2 I 2104",
+        "description": "Side B runout"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album 180 Gram"
+    ],
+    "companies": [
+      {
+        "role": "Copyright (c)",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Farm, Burton, TX"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Treehouse, Houston, TX"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Sugar Hill Studios"
+      },
+      {
+        "role": "Mixed At",
+        "name": "The Treehouse, Houston, TX"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r13956090",
+    "releaseId": 13956090,
+    "title": "Con Todo El Mundo",
+    "label": "Dead Oceans",
+    "country": "US",
+    "year": 2019,
+    "notes": "Multicolor swirl variant (Green and Blue) limited to 600 pieces available exclusively at Turntable Lab in New York City and TurntableLab.com. Includes obi strip and download card.",
+    "identifiers": [
+      {
+        "type": "Label Code",
+        "value": "LC 29265",
+        "description": "Over Shrinkwrap"
+      },
+      {
+        "type": "Barcode",
+        "value": "6 566053812-3 7",
+        "description": "Over Shrinkwrap"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Limited Edition Reissue Green / Blue Swirl"
+    ],
+    "companies": [
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Licensed From",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Licensed To",
+        "name": "Dead Oceans, Inc."
+      },
+      {
+        "role": "Recorded At",
+        "name": "Sugar Hill Studios"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Farm, Burton, TX"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Treehouse, Houston, TX"
+      },
+      {
+        "role": "Mixed At",
+        "name": "The Treehouse, Houston, TX"
+      },
+      {
+        "role": "Lacquer Cut At",
+        "name": "Finyl Tweek"
+      },
+      {
+        "role": "Pressed By",
+        "name": "GZ Media"
+      },
+      {
+        "role": "Exclusive Retailer",
+        "name": "Turntable Lab"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r11476238",
+    "releaseId": 11476238,
+    "title": "Con Todo El Mundo",
+    "label": "Night Time Stories",
+    "country": "Europe",
+    "year": 2018,
+    "notes": "This version is release for the world excluding N & S America.\nIncludes download code for MP3, WAV, and FLAC.\n\nRecorded by [....] at The Farm Burton, Tx & The Treehouse, Houston, Tx\nAdditional recording by [....] at Sugarhill Studios Houston Tx\n\nPurchases with Bleep include an \"Albums of the Year Exclusive\" 12\" art print limited to 150 copies.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "5 060391 091365 >"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ALNLP 50.A' F.T. MPO [MPO® logo] 18 04826",
+        "description": "Side A runout, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ALNLP 50.B'  [MPO® logo] 18 05085 MPO",
+        "description": "Side B runout, variant 1"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ALNLP 50.A1 F.T. [MPO® logo] 18 46999",
+        "description": "Side A runout, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ALNLP 50.B1 [MPO® logo] 18 47001",
+        "description": "Side B runout, variant 2"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ALNLP 50.A' F.T. [MPO® logo] 18 46885 MPO",
+        "description": "Side A runout, variant 3"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "ALNLP 50.B' [MPO® logo] 18 46886 MPO",
+        "description": "Side B runout, variant 3"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album"
+    ],
+    "companies": [
+      {
+        "role": "Copyright (c)",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Farm, Burton, TX"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Treehouse, Houston, TX"
+      },
+      {
+        "role": "Recorded At",
+        "name": "Sugar Hill Studios"
+      },
+      {
+        "role": "Mixed At",
+        "name": "The Treehouse, Houston, TX"
+      },
+      {
+        "role": "Lacquer Cut At",
+        "name": "Finyl Tweek"
+      },
+      {
+        "role": "Pressed By",
+        "name": "MPO"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  },
+  {
+    "id": "r21878599",
+    "releaseId": 21878599,
+    "title": "Con Todo El Mundo",
+    "label": "Dead Oceans",
+    "country": "US",
+    "year": 2022,
+    "notes": "Black Vinyl \nAvailable to North and South America Only\nIncludes Download Code Insert\n\nCover is indistinguishable from [r11530439] (2018 US pressing). Hype sticker on shrink of 2022 pressing has silver lettering and arrow logo, whereas [r11530439] has all-gold writing and logo on hype sticker.",
+    "identifiers": [
+      {
+        "type": "Barcode",
+        "value": "656605145310",
+        "description": "Scanned"
+      },
+      {
+        "type": "Label Code",
+        "value": "LC 29265"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "164899E1/A4 1102685 DOC153LP-A1 F.T. ",
+        "description": "Laser / hand etched side A"
+      },
+      {
+        "type": "Matrix / Runout",
+        "value": "164899E2/A6 DOC153LP-B1 ",
+        "description": "Laser / hand etched side B"
+      }
+    ],
+    "formats": [
+      "Vinyl LP Album Stereo"
+    ],
+    "companies": [
+      {
+        "role": "Phonographic Copyright (p)",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Copyright (c)",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Licensed From",
+        "name": "Night Time Stories Ltd."
+      },
+      {
+        "role": "Licensed To",
+        "name": "Dead Oceans, Inc."
+      },
+      {
+        "role": "Recorded At",
+        "name": "Sugar Hill Studios"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Farm, Burton, TX"
+      },
+      {
+        "role": "Recorded At",
+        "name": "The Treehouse, Houston, TX"
+      },
+      {
+        "role": "Mixed At",
+        "name": "The Treehouse, Houston, TX"
+      },
+      {
+        "role": "Lacquer Cut At",
+        "name": "Finyl Tweek"
+      },
+      {
+        "role": "Pressed By",
+        "name": "GZ Media"
+      }
+    ],
+    "labels": {},
+    "labelStatus": "provisional",
+    "split": "dev"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "id": "lz2-survey-us-1970s",
+  "title": "Led Zeppelin II — one filtered survey scores 16 US 1970s pressings with runouts and claims",
+  "origin": "ChatGPT 2026-09-22: 36 single get_release calls; phantom 'Sterling Sound stamp' from bare ST in Atlantic ST-A matrices made the client discard the ranking.",
+  "tool": "find_best_pressing",
+  "args": { "masterId": 4170, "filterCountry": "US", "yearFrom": 1970, "yearTo": 1979, "filterFormat": "Vinyl", "axis": "sonic", "topN": 16 },
+  "weight": 17,
+  "expect": [
+    { "path": "album.candidatesScored", "op": "gte", "value": 12, "label": "scores most of the 16-candidate budget in one call" },
+    { "path": "topPressings", "op": "lengthGte", "value": 12 },
+    { "path": "topPressings[*].signals", "op": "matches", "value": "George Piros", "label": "Piros recognised (engineer credit or AT/GP mark)" },
+    { "path": "topPressings[*].signals", "op": "notMatches", "value": "Sterling Sound stamp", "label": "no phantom Sterling stamp on ST-A matrices" },
+    { "path": "topPressings[*].country", "op": "every", "each": { "path": "$", "op": "eq", "value": "US" } },
+    { "path": "topPressings[*].catalogClaims[*]", "op": "some", "each": { "path": "$", "op": "matches", "value": "\"claim\":\"firstPressing\",\"status\":\"denied\"" }, "label": "the denial scenario fires (needs Jev enabled locally)" },
+    { "path": "dataCaveats", "op": "matches", "value": "catalogClaims are a model's reading", "label": "claims caveat present when claims exist" }
+  ]
+}

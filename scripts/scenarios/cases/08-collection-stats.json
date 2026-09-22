@@ -1,0 +1,12 @@
+{
+  "id": "collection-stats",
+  "title": "get_collection_stats — taste profile for the widget mockup",
+  "tool": "get_collection_stats",
+  "args": { "topN": 6 },
+  "weight": 4,
+  "expect": [
+    { "path": "totalItems", "op": "gte", "value": 1 },
+    { "path": "styles", "op": "lengthGte", "value": 1 },
+    { "path": "decades", "op": "lengthGte", "value": 1 }
+  ]
+}

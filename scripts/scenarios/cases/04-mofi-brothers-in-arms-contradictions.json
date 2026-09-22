@@ -1,0 +1,13 @@
+{
+  "id": "mofi-bia-contradictions",
+  "title": "Brothers in Arms MoFi — QC serial-range warning surfaced; 'Pressed By not listed' vs credits is contradictory, not denied",
+  "origin": "ChatGPT scenario run 2026-09-22 skipped the defect warning; Jev read 'not listed' as a denial before credits were added to the state.",
+  "tool": "compare_pressings",
+  "args": { "releaseIds": [6717429, 33067011], "axis": "sonic" },
+  "weight": 2,
+  "expect": [
+    { "path": "pressings[*].catalogClaims[*]", "op": "some", "each": { "path": "$", "op": "matches", "value": "\"claim\":\"qcComplaints\",\"status\":\"stated\"" }, "label": "serial-range defect surfaced" },
+    { "path": "pressings[*].catalogClaims[*]", "op": "none", "each": { "path": "$", "op": "matches", "value": "\"claim\":\"pressingPlant\",\"status\":\"denied\"" }, "label": "no false plant denial" },
+    { "path": "pressings[*].signals", "op": "matches", "value": "Krieg Wunderlich|Record Technology", "label": "structured credits still drive signals" }
+  ]
+}

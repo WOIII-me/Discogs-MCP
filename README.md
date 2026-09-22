@@ -161,6 +161,7 @@ so Chrome reports a missing manifest — the extension lives in `extension/`.)
 | `get_collection_stats` | Genre/style/decade/format/label analytics + taste profile |
 | `explore_user_collection` | Browse another user's public collection |
 | `get_wantlist` | Your wantlist, or another user's |
+| `rank_wantlist` | Whole wantlist ranked by taste fit in one call: editions grouped, tiers (bullseye / good fit / off-profile), `ownedTitle` flags, method and caveats |
 | `get_recommendations` | Recommendations by mood, genre/style, or reference release |
 | `discover_similar` | Profile-based discovery; cross-user mining with `otherUsernames` |
 
@@ -201,6 +202,8 @@ npm run validate:submission # validate the unpublished plugin and submission con
 npm run check:oauth # report public OAuth submission-readiness gaps (read-only network check)
 npm run check:surfaces # report website/policy submission-readiness gaps (read-only network check)
 npm run build   # wrangler dry-run bundle
+npm run scenarios # live MCP scenario runner against the local dev server (scripts/scenarios/README.md)
+npm run eval:jev  # Jev notes-reader eval on the dev fixtures (scripts/eval/jev/README.md)
 ```
 
 Project policies and maintenance guides:
