@@ -302,7 +302,7 @@ async function resolveMasterId(
     }
     return { masterId: search.results[0].id };
   }
-  return { error: "Provide either releaseId, or albumTitle (ideally with artistName)." };
+  return { error: "Provide masterId, releaseId, or albumTitle (ideally with artistName)." };
 }
 
 /** Mean community rating across scored pressings, for the rating-delta factor. */

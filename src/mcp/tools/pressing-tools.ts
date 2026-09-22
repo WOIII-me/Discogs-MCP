@@ -60,6 +60,7 @@ export function registerPressingTools(server: McpServer, getContext: GetContext)
         "scored candidate — use this ONE call to compare a filtered set instead of many get_release " +
         "calls. Costs ~15 API calls; results are cached.",
       inputSchema: {
+        masterId: z.number().int().optional().describe("Discogs master release ID, if known (e.g. from get_release_versions) — skips resolution"),
         releaseId: z.number().int().optional().describe("Discogs release ID, if known"),
         albumTitle: z.string().optional().describe("Album title to search for"),
         artistName: z.string().optional().describe("Artist name (improves search accuracy)"),
