@@ -97,6 +97,36 @@ export interface GetReleaseVersionsResult {
 }
 
 const MAX_VERSION_PAGES = 3; // 3 × 100 = 300 versions
+/** Hard cap on versions returned by getReleaseVersions; larger requests are clamped, not rejected. */
+export const MAX_VERSIONS_LIMIT = 100;
+
+/**
+ * Country filter with exact matching (case-insensitive) plus common aliases.
+ * A substring test let "US" match "Australia" (2026-09-22). Discogs country
+ * strings are canonical names, so equality after alias normalisation is right.
+ */
+const COUNTRY_ALIASES: Record<string, string> = {
+  us: "us", usa: "us", "u.s.": "us", "u.s.a.": "us", "united states": "us", "united states of america": "us",
+  uk: "uk", "u.k.": "uk", "united kingdom": "uk", "great britain": "uk", britain: "uk", england: "uk",
+  germany: "germany", "west germany": "west germany", deutschland: "germany",
+  japan: "japan", nippon: "japan",
+  netherlands: "netherlands", holland: "netherlands", "the netherlands": "netherlands",
+};
+function normalizeCountry(value: string): string {
+  const v = value.trim().toLowerCase();
+  return COUNTRY_ALIASES[v] ?? v;
+}
+export function countryMatches(country: string | undefined, filter: string): boolean {
+  if (!country) return false;
+  const want = normalizeCountry(filter);
+  const have = normalizeCountry(country);
+  if (have === want) return true;
+  // Discogs multi-country strings: "UK & Europe", "US, Canada & Europe".
+  return country
+    .split(/\s*(?:,|&|\band\b)\s*/i)
+    .map(normalizeCountry)
+    .includes(want);
+}
 const DETAIL_BUDGET = 16; // max /releases/{id} fetches per find_best_pressing call
 
 const RATE_LIMIT_NOTE =
@@ -235,7 +265,18 @@ function baselineRating(releases: DiscogsRelease[]): number {
 }
 
 /** Response-level caveats so a model/user reads the scores with the right priors. */
-function buildCaveats(opts: { rateLimited?: boolean; truncated?: boolean; versionListing?: boolean }): string[] {
+const CLAIMS_CAVEAT =
+  "catalogClaims are a model's reading of each release's free-text notes (stated / denied / " +
+  "contradictory, with a certainty score that is model certainty, not evidence strength). They are " +
+  "annotations for you to weigh and quote with the cited sentence — not verified facts — and they do " +
+  "not affect the scores. Surface QC complaints and denials to the user.";
+
+function buildCaveats(opts: {
+  rateLimited?: boolean;
+  truncated?: boolean;
+  versionListing?: boolean;
+  hasClaims?: boolean;
+}): string[] {
   const caveats = [
     "Scoring is reputation- and community-data-based, not measured audio quality.",
     "Ratings are user-submitted and can be thin for obscure pressings.",
@@ -251,6 +292,7 @@ function buildCaveats(opts: { rateLimited?: boolean; truncated?: boolean; versio
   if (opts.rateLimited) {
     caveats.push("Discogs rate-limited some lookups, so results are partial — rerun in ~60s for the full set.");
   }
+  if (opts.hasClaims) caveats.push(CLAIMS_CAVEAT);
   return caveats;
 }
 
@@ -271,8 +313,8 @@ export async function getReleaseVersions(
 
   let filtered = versions;
   if (params.filterCountry) {
-    const c = params.filterCountry.toLowerCase();
-    filtered = filtered.filter((v) => v.country?.toLowerCase().includes(c));
+    const c = params.filterCountry;
+    filtered = filtered.filter((v) => countryMatches(v.country, c));
   }
   if (params.filterFormat) {
     const f = params.filterFormat.toLowerCase();
@@ -287,7 +329,7 @@ export async function getReleaseVersions(
       totalVersions: versions.length,
       matchingVersions: filtered.length,
       truncated,
-      versions: ranked.slice(0, params.limit ?? 50).map((v) => ({
+      versions: ranked.slice(0, Math.max(1, Math.min(params.limit ?? 50, MAX_VERSIONS_LIMIT))).map((v) => ({
         releaseId: v.id,
         title: v.title,
         label: v.label,
@@ -383,7 +425,7 @@ export async function findBestPressing(
       partial: rateLimited || scored.length < attempted,
       ...(rateLimited ? { note: RATE_LIMIT_NOTE } : {}),
       albumBaselineRating: Math.round(baseline * 100) / 100,
-      dataCaveats: buildCaveats({ rateLimited, truncated, versionListing: true }),
+      dataCaveats: buildCaveats({ rateLimited, truncated, versionListing: true, hasClaims: claims.size > 0 }),
       topPressings: scored.slice(0, topN).map((p, i) => ({
         rank: i + 1,
         ...buildDossier(p.release, p.score, baseline, claims.get(p.release.id)),
@@ -432,7 +474,7 @@ export async function comparePressings(
       axis,
       ...(rateLimited ? { partial: true, note: RATE_LIMIT_NOTE } : {}),
       albumBaselineRating: Math.round(baseline * 100) / 100,
-      dataCaveats: buildCaveats({ rateLimited }),
+      dataCaveats: buildCaveats({ rateLimited, hasClaims: claims.size > 0 }),
       topPick: `Highest scoring (${axis}): release ${compared[0].release.id} (${compared[0].release.title}, ${compared[0].release.country ?? "?"} ${compared[0].release.year || "?"})`,
       pressings: compared.map((p) => ({
         ...buildDossier(p.release, p.score, baseline, claims.get(p.release.id)),

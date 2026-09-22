@@ -41,6 +41,7 @@ interface Release {
   id: number; title: string; year?: number; country?: string; notes?: string;
   labels?: { name: string }[]; formats?: { name: string; descriptions?: string[]; text?: string }[];
   identifiers?: { type: string; value: string; description?: string }[];
+  companies?: { name: string; entity_type_name?: string }[];
 }
 
 /** Spread picks across labels so the set is not 20 Columbia reissues. */
@@ -105,6 +106,7 @@ async function main() {
       notes,
       identifiers: (r.identifiers ?? []).slice(0, 30).map((i) => ({ type: i.type, value: i.value, ...(i.description ? { description: i.description } : {}) })),
       formats: (r.formats ?? []).map((f) => [f.name, ...(f.descriptions ?? []), f.text ?? ""].join(" ").trim()),
+      companies: (r.companies ?? []).slice(0, 20).map((c) => ({ role: c.entity_type_name ?? "", name: c.name })),
       labels: {},
       labelStatus: "provisional",
       split: "dev",

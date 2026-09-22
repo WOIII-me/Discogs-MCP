@@ -20,7 +20,7 @@ import type { JevAnswer, JevQuestion } from "../clients/jev.js";
  */
 
 /** Bump whenever CLAIM_DEFINITIONS, state shape or mapping changes — it is part of the cache key. */
-export const CLAIM_QUESTION_SET_VERSION = "cc-v2";
+export const CLAIM_QUESTION_SET_VERSION = "cc-v3";
 
 export type ClaimStatus = "stated" | "denied" | "not_stated" | "contradictory";
 export const CLAIM_STATUSES: readonly ClaimStatus[] = ["stated", "denied", "not_stated", "contradictory"];
@@ -139,6 +139,8 @@ export interface ClaimState {
   sentences: ClaimSentence[];
   identifiers: { type: string; value: string; description?: string }[];
   formats: string[];
+  /** Structured company credits (e.g. "Pressed By: Record Technology Inc."), so notes and credits can be reconciled. */
+  credits: { role: string; name: string }[];
 }
 
 export const MAX_SENTENCES = 40;
@@ -170,8 +172,12 @@ export function buildClaimState(release: DiscogsRelease): ClaimState | null {
     ...(i.description ? { description: i.description } : {}),
   }));
   const formats = (release.formats ?? []).map((f) => [f.name, ...(f.descriptions ?? []), f.text ?? ""].join(" ").trim());
+  const credits = (release.companies ?? [])
+    .slice(0, 20)
+    .map((c) => ({ role: c.entity_type_name ?? "", name: c.name }))
+    .filter((c) => c.name);
   if (sentences.length === 0 && identifiers.every((i) => !i.description)) return null;
-  return { releaseId: release.id, sentences, identifiers, formats };
+  return { releaseId: release.id, sentences, identifiers, formats, credits };
 }
 
 /** Deterministic serialization — the cache key hashes this. */
@@ -181,6 +187,7 @@ export function normalizedStateKey(state: ClaimState): string {
     s: state.sentences.map((s) => s.text),
     i: state.identifiers.map((i) => [i.type, i.value, i.description ?? ""]),
     f: state.formats,
+    c: state.credits.map((c) => [c.role, c.name]),
   });
 }
 
@@ -193,7 +200,15 @@ export function stateForModel(state: ClaimState): Record<string, unknown> {
     notes_sentences: state.sentences.map((s) => ({ id: s.id, text: s.text })),
     identifiers: state.identifiers,
     format: state.formats,
+    structured_credits: state.credits,
   };
+}
+
+const PRESSED_BY = /press/i;
+
+/** Whether the structured credits name a pressing plant. */
+export function creditsNamePlant(state: ClaimState): boolean {
+  return state.credits.some((c) => PRESSED_BY.test(c.role));
 }
 
 const SOURCE_KEY = (claim: ClaimKind) => `${claim}__source`;
@@ -317,6 +332,10 @@ export function mapClaimAnswers(
       ((regexGuard && looksLikeInstruction(sourceSentence)) ||
         (noulGuard && instrProb !== undefined && instrProb > INSTRUCTION_NOUL_THRESHOLD));
     if (suppressed) status = "not_stated";
+    // Reconcile against structured credits: notes saying "Pressed By information is
+    // not listed" while the credits list a Pressed By company is a contradiction in
+    // the record, not a denial (Brothers in Arms MoFi, 2026-09-22).
+    if (claim === "pressingPlant" && status === "denied" && creditsNamePlant(state)) status = "contradictory";
     const detail =
       claim === "pressingPlant" && status === "stated" && plant && plant.choice !== "none"
         ? plant.choice

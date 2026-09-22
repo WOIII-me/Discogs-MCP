@@ -29,9 +29,9 @@ export function registerPressingTools(server: McpServer, getContext: GetContext)
         "use find_best_pressing or compare_pressings for rated comparisons.",
       inputSchema: {
         masterId: z.number().int().describe("Discogs master release ID"),
-        filterCountry: z.string().optional().describe("Only versions from this country, e.g. 'Japan'"),
+        filterCountry: z.string().optional().describe("Only versions from this country — exact match with aliases, e.g. 'US', 'UK', 'Japan'"),
         filterFormat: z.string().optional().describe("Only versions whose format contains this, e.g. 'Vinyl'"),
-        limit: z.number().int().min(1).max(100).optional().describe("Max results (default 50)"),
+        limit: z.number().int().min(1).optional().describe("Max results (default 50, maximum 100; larger values are clamped)"),
       },
     },
     safeTool(async (params) => toToolResult(await getReleaseVersions(getContext(), params)))

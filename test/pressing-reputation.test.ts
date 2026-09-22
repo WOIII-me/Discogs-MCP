@@ -119,3 +119,34 @@ describe("nonConsumerPressing", () => {
     expect(nonConsumerPressing("Vinyl, LP, Album, Reissue")).toBe(false);
   });
 });
+
+
+describe("stamper marks — precision over recall (v1.6.2)", () => {
+  const withRunout = (value: string) =>
+    makeRelease({ labels: [{ id: 1, name: "Atlantic", catno: "SD 8236" }], extraartists: [], identifiers: [{ type: "Matrix / Runout", value, description: "Side A" }] });
+
+  it("does not read Atlantic's ST-A (stereo) matrix prefix as a Sterling Sound stamp", () => {
+    const r = scoreReputation(withRunout("ST-A-691671-A CTH"));
+    expect(r.signals.join(" ")).not.toMatch(/sterling/i);
+    expect(r.detail.stampers).toEqual([]);
+  });
+
+  it("still recognises an explicit STERLING stamp", () => {
+    const r = scoreReputation(withRunout("XSM 47326-1A STERLING"));
+    expect(r.detail.stampers).toContain("Sterling Sound stamp");
+  });
+
+  it("recognises George Piros (AT/GP) and Ludwig's RL/SS marks, not bare two-letter tokens", () => {
+    expect(scoreReputation(withRunout("ST-A-691671-U AT GP")).detail.stampers).toContain("George Piros cut (AT/GP)");
+    expect(scoreReputation(withRunout("ST-A-691671-A AT.GP")).detail.stampers).toContain("George Piros cut (AT/GP)");
+    expect(scoreReputation(withRunout("ST-A-691671 RL SS")).detail.stampers).toContain("Robert Ludwig Sterling cut (RL/SS)");
+    for (const bare of ["A-1 MD", "KG", "BG 2", "ST"]) {
+      expect(scoreReputation(withRunout(bare)).detail.stampers).toEqual([]);
+    }
+  });
+
+  it("credits George Piros as a mastering engineer", () => {
+    const r = scoreReputation(makeRelease({ extraartists: [{ name: "George Piros", role: "Lacquer Cut By" }] }));
+    expect(r.detail.engineers).toContain("George Piros");
+  });
+});

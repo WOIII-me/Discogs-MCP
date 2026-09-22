@@ -17,6 +17,8 @@ export interface NotesFixture {
   notes: string;
   identifiers: { type: string; value: string; description?: string }[];
   formats: string[];
+  /** Structured company credits (role, name). Optional; older fixtures omit it. */
+  companies?: { role: string; name: string }[];
   labels: Partial<Record<ClaimKind, ClaimStatus>>;
   labelStatus: "provisional" | "reviewed";
   /** Free-text rationale for tricky labels (negations, contradictions). */

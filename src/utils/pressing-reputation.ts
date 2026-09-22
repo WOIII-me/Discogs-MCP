@@ -52,6 +52,7 @@ const RENOWNED_ENGINEERS: { pattern: RegExp; name: string }[] = [
   { pattern: /stan\s*ricker/i, name: "Stan Ricker" },
   { pattern: /krieg\s*wunderlich/i, name: "Krieg Wunderlich" },
   { pattern: /rudy\s*van\s*gelder|\brvg\b/i, name: "Rudy Van Gelder" },
+  { pattern: /george\s*piros/i, name: "George Piros" },
   { pattern: /barry\s*diament/i, name: "Barry Diament" },
   { pattern: /willem\s*makkee/i, name: "Willem Makkee" },
 ];
@@ -61,14 +62,25 @@ const MASTERING_ROLE = /master|lacquer|cut by|cut at|transfer|remaster/i;
 /** Reputable cutting/pressing studios that appear in the companies list. */
 const REPUTABLE_STUDIOS = /sterling sound|abbey road|bernie grundman|cohearent|the mastering lab|gateway|rti|quality record pressings|qrp|pallas|optimal|record technology/i;
 
-/** Matrix/runout marks that signal a desirable pressing. */
+/**
+ * Matrix/runout marks that signal a desirable pressing.
+ *
+ * Precision over recall: no bare two-letter tokens. A bare `ST` matched every
+ * Atlantic "ST-A-…" (stereo) matrix and labelled 1970s Led Zeppelin II copies
+ * "Sterling Sound stamp"; a client noticed the runouts didn't support it and
+ * discarded the whole ranking (2026-09-22). `MD`, `KG`, `BG` carry the same
+ * risk. Marks must be either full words or a distinctive multi-token form.
+ */
 const STAMPER_SIGNALS: { pattern: RegExp; label: string }[] = [
   { pattern: /van\s*gelder|\brvg\b/i, label: "RVG stamp (Van Gelder)" },
-  { pattern: /sterling|\bst\b/i, label: "Sterling Sound stamp" },
-  { pattern: /masterdisk|\bmd\b/i, label: "Masterdisk stamp" },
+  { pattern: /sterling/i, label: "Sterling Sound stamp" },
+  { pattern: /masterdisk/i, label: "Masterdisk stamp" },
   { pattern: /bell sound/i, label: "Bell Sound" },
-  { pattern: /\bkg\b|kevin gray/i, label: "Kevin Gray initials" },
-  { pattern: /\bbg\b/i, label: "Bernie Grundman initials" },
+  { pattern: /kevin gray|\bkpg\b|\bkg@/i, label: "Kevin Gray initials" },
+  { pattern: /grundman|\bbg@/i, label: "Bernie Grundman initials" },
+  // Atlantic-era cutters sign with initials after "AT" (Atlantic Studios).
+  { pattern: /\bat[\s./-]*gp\b/i, label: "George Piros cut (AT/GP)" },
+  { pattern: /\brl\s*[/-]?\s*ss\b/i, label: "Robert Ludwig Sterling cut (RL/SS)" },
 ];
 
 export interface ReputationSignal {
