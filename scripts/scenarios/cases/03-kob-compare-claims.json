@@ -1,0 +1,15 @@
+{
+  "id": "kob-compare-claims",
+  "title": "Kind of Blue — compare three pressings; DMM, plant and test-pressing claims with cited sentences",
+  "origin": "First hosted Jev test 2026-09-22.",
+  "tool": "compare_pressings",
+  "args": { "releaseIds": [13941336, 24450083, 3641771], "axis": "sonic" },
+  "weight": 3,
+  "expect": [
+    { "path": "pressings", "op": "lengthEq", "value": 3 },
+    { "path": "pressings[*].catalogClaims[*]", "op": "some", "each": { "path": "$", "op": "matches", "value": "\"claim\":\"dmm\",\"status\":\"stated\"" }, "label": "DMM stated on the Russian Disc" },
+    { "path": "pressings[*].catalogClaims[*]", "op": "some", "each": { "path": "$", "op": "matches", "value": "\"claim\":\"nonConsumer\",\"status\":\"stated\"" }, "label": "test pressing recognised" },
+    { "path": "pressings[*].catalogClaims[*].sourceSentence", "op": "lengthGte", "value": 2, "label": "claims cite sentences" },
+    { "path": "pressings[*].verdict", "op": "every", "each": { "path": "$", "op": "truthy" } }
+  ]
+}

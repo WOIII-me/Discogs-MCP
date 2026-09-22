@@ -1,7 +1,8 @@
 import type { McpServer } from "@modelcontextprotocol/server";
 import { z } from "zod";
 import type { GetContext } from "./context.js";
-import { jsonResult, safeTool } from "./context.js";
+import { errorResult, jsonResult, safeTool } from "./context.js";
+import { MAX_RANK_LIMIT, rankWantlist } from "../../core/wantlist.js";
 import { fetchFullWantlist, paginate } from "../../utils/collection.js";
 
 export function registerWantlistTools(server: McpServer, getContext: GetContext): void {
@@ -41,6 +42,27 @@ export function registerWantlistTools(server: McpServer, getContext: GetContext)
         hasMore: page.hasMore,
         items: page.items,
       });
+    })
+  );
+
+  server.registerTool(
+    "rank_wantlist",
+    {
+      description:
+        "Rank the authenticated user's ENTIRE wantlist by taste fit in ONE call — server-side, " +
+        "deterministic, identical across clients. Groups alternate editions of the same album, scores " +
+        "each group against the collection's style/genre/decade profile (the same scale as tasteFit), " +
+        "assigns tiers (bullseye / good fit / off-profile), flags titles already in the collection, and " +
+        "returns the method and caveats. Use this instead of paging get_wantlist + get_collection_stats " +
+        "and computing your own ranking.",
+      inputSchema: {
+        limit: z.number().int().min(1).optional().describe(`Groups to return (default 50, maximum ${MAX_RANK_LIMIT}; larger values are clamped)`),
+        includeOwned: z.boolean().optional().describe("Include albums whose title is already in the collection, flagged ownedTitle (default true)"),
+      },
+    },
+    safeTool(async (params) => {
+      const r = await rankWantlist(getContext(), params);
+      return r.ok ? jsonResult(r.data) : errorResult(r.error);
     })
   );
 }

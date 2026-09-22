@@ -12,6 +12,9 @@ and client (`src/clients/jev.ts`) so the eval measures the shipped path.
 | `fixtures/notes.dev.json` | Development set: real public Discogs text, labels drafted by an assistant (`labelStatus: "provisional"`). Used to tune criteria. |
 | `fixtures/notes.heldout.json` | Held-out set. **Must be labelled by a human collector** (`labelStatus: "reviewed"`) and never looked at while tuning. Go/no-go counts only this file with `--reviewed-only`. |
 | `fetch-notes.mts` | Pulls public release text (unauthenticated, paced) into an unlabeled fixture file. |
+| `fixtures/notes.heldout.unlabeled.json` | 63 real releases across 7 albums (Blue Train, Dark Side of the Moon, Rumours, Selected Ambient Works 85-92, OK Computer, Gould's Goldberg Variations, Con Todo El Mundo), unlabelled. |
+| `fixtures/heldout-worksheet.md` | The same 63 as a Markdown worksheet for a human reviewer. |
+| `make-worksheet.mts` / `import-worksheet.mts` | Render fixtures to the worksheet; parse the filled worksheet back into `notes.heldout.json` with `labelStatus: "reviewed"`. |
 | `run-notes.mts` | Runs interpreters + paired injected variants, writes `results/<set>-<stamp>.{md,json}`. |
 | `lib/rules.mts` | Baseline (a): the regex layer's effective beliefs (stated / not_stated only). |
 | `lib/jev.mts` | Baseline (b): Jev via the production question set and mapping. |
@@ -30,6 +33,16 @@ node scripts/eval/jev/run-notes.mts --set heldout --interpreters rules,jev,haiku
 `JEV_API_KEY` (and optional `JEV_MODEL`) are read from the environment or from
 `.dev.vars` (gitignored). `results/` is gitignored; copy a report into the PR
 description when it matters.
+
+## Labelling the held-out set (human step)
+
+1. Open `fixtures/heldout-worksheet.md`. Do **not** run any interpreter on the held-out file first.
+2. In each block's `labels:` YAML, write one of `stated` / `denied` / `not_stated` / `contradictory` per
+   claim, or leave a claim blank for a genuinely borderline case and say why in `notes:`.
+3. Import: `node scripts/eval/jev/import-worksheet.mts` (defaults to the paths above). Blocks left
+   entirely blank are excluded, so the set can grow over several sittings.
+4. Run: `node scripts/eval/jev/run-notes.mts --set heldout --interpreters rules,jev --reviewed-only`.
+5. Compare with the go / no-go table below. Only this run counts for widening `JEV_BETA_USERS`.
 
 ## Labelling convention
 

@@ -1,0 +1,53 @@
+{
+  "id": "rank-wantlist",
+  "title": "rank_wantlist \u2014 whole wantlist ranked server-side in one call with tiers, method and caveats",
+  "origin": "Codex 2026-09-22 paged 673 items into context and invented its own formula.",
+  "tool": "rank_wantlist",
+  "args": {
+    "limit": 500
+  },
+  "weight": 8,
+  "expect": [
+    {
+      "path": "wantlistItems",
+      "op": "gte",
+      "value": 1
+    },
+    {
+      "path": "groups",
+      "op": "lte",
+      "label": "groups never exceed items (edition grouping)",
+      "valuePath": "wantlistItems"
+    },
+    {
+      "path": "ranked[0].fit",
+      "op": "gte",
+      "label": "sorted by fit",
+      "valuePath": "ranked[1].fit"
+    },
+    {
+      "path": "ranked[*].tier",
+      "op": "every",
+      "each": {
+        "path": "$",
+        "op": "matches",
+        "value": "^(bullseye|good fit|off-profile)$"
+      }
+    },
+    {
+      "path": "method",
+      "op": "matches",
+      "value": "60 % style"
+    },
+    {
+      "path": "caveats",
+      "op": "lengthGte",
+      "value": 3
+    },
+    {
+      "path": "dominantStyles",
+      "op": "lengthGte",
+      "value": 1
+    }
+  ]
+}

@@ -153,10 +153,9 @@ Exclude anything already in my collection and explain the fit for each.`)
     },
     async () =>
       userMessage(`Rank my ENTIRE wantlist by how well each album fits my taste.
-
-1. get_collection_stats for my taste profile.
-2. get_wantlist — page through ALL items (use limit 500, or follow hasMore with offset) so nothing is missed.
-3. Rank into tiers (bullseye / good fit / off-profile) and be honest about impulse adds that don't fit. Note the total count covered.`)
+1. Call rank_wantlist ONCE (limit 500). It groups editions, scores every album against my collection profile and assigns tiers — do NOT page get_wantlist or compute your own ranking.
+2. Present the tiers (bullseye / good fit / off-profile) with the matched styles that explain each fit, flag ownedTitle duplicates, and be honest about impulse adds that don't fit.
+3. Quote the method and caveats from the result, and the total groups and wantlist items covered.`)
   );
 
   server.registerPrompt(

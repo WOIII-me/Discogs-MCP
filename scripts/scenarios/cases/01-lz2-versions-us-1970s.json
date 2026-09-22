@@ -1,0 +1,15 @@
+{
+  "id": "lz2-versions-us-1970s",
+  "title": "Led Zeppelin II — US 1970s vinyl versions via one filtered listing",
+  "origin": "ChatGPT 2026-09-22: 'US' filter returned Australia; 'Vinyl' missed rows listed as 'LP'; model ran 10 year-by-year searches.",
+  "tool": "get_release_versions",
+  "args": { "masterId": 4170, "filterCountry": "US", "yearFrom": 1970, "yearTo": 1979, "filterFormat": "Vinyl", "limit": 5000 },
+  "weight": 5,
+  "expect": [
+    { "path": "matchingVersions", "op": "gte", "value": 30, "label": "finds the ~37 US 1970s vinyl versions" },
+    { "path": "versions", "op": "lengthLte", "value": 100, "label": "limit 5000 is clamped to 100" },
+    { "path": "versions[*].country", "op": "every", "each": { "path": "$", "op": "eq", "value": "US" }, "label": "no Australia leaks through the US filter" },
+    { "path": "versions[*].released", "op": "every", "each": { "path": "$", "op": "matches", "value": "^197" }, "label": "all rows dated 1970–1979" },
+    { "path": "versions[*].majorFormats", "op": "every", "each": { "path": "$", "op": "includes", "value": "Vinyl" }, "label": "LP rows matched via majorFormats" }
+  ]
+}

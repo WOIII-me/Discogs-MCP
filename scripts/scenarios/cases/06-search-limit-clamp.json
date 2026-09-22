@@ -1,0 +1,12 @@
+{
+  "id": "search-limit-clamp",
+  "title": "search_discogs clamps an oversized limit instead of failing validation",
+  "origin": "ChatGPT 2026-09-22: 'Invalid arguments for tool search_discogs: limit: Too big'.",
+  "tool": "search_discogs",
+  "args": { "query": "Miles Davis Kind of Blue", "type": "master", "limit": 500 },
+  "weight": 1,
+  "expect": [
+    { "path": "results", "op": "lengthLte", "value": 50 },
+    { "path": "results", "op": "lengthGte", "value": 1 }
+  ]
+}

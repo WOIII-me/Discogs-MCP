@@ -13,6 +13,7 @@ import {
 } from "../core/pressings.js";
 import { analyzeRelease, analyzeAlbum } from "../core/lookup.js";
 import { claimsForUser, makeClaimsAnnotator } from "../core/claims.js";
+import { rankWantlist } from "../core/wantlist.js";
 import { tasteFit } from "../core/taste.js";
 import { shelfProfile, spinPicks } from "../core/shelf.js";
 
@@ -207,6 +208,10 @@ export async function handleApi(
       if (ids.length < 2) return json(request, { error: "Provide ?releases=<id,id[,id]> (2–5)." }, 400);
       // Explicit "compare" is a deliberate action; /api/analyze and /api/best-pressing stay cache-only.
       return mapResult(request, await comparePressings(ctx, { releaseIds: ids.slice(0, 8), axis, inferClaims: true }));
+    }
+
+    if (url.pathname === "/api/rank-wantlist") {
+      return mapResult(request, await rankWantlist(ctx, { limit: num(q.get("limit")), includeOwned: q.get("includeOwned") !== "false" }));
     }
 
     if (url.pathname === "/api/versions") {

@@ -1,0 +1,11 @@
+{
+  "id": "filters-honest-error",
+  "title": "Hard filters that match nothing return an error instead of silently widening",
+  "tool": "find_best_pressing",
+  "args": { "masterId": 5460, "filterCountry": "Antarctica" },
+  "weight": 3,
+  "expectError": true,
+  "expect": [
+    { "path": "$", "op": "matches", "value": "No versions .* match the filters" }
+  ]
+}
