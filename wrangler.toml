@@ -7,7 +7,9 @@
 #   3. Optionally: wrangler secret put COOKIE_ENCRYPTION_KEY (openssl rand -hex 32)
 #   4. Optionally (Jev catalog-claim annotations, off by default):
 #        wrangler secret put JEV_API_KEY
-#      and add JEV_ENABLED = "true" (plus JEV_MODEL = "jev-1.13.0") under [vars].
+#      then `wrangler secret put JEV_ENABLED` (value: true), JEV_MODEL (jev-1.13.0) and,
+#      to limit the beta to named accounts, JEV_BETA_USERS (comma-separated usernames/ids).
+#      All are plain env strings; secrets keep them out of this file.
 #      Never use the jev-latest alias in production — thresholds are tuned per version.
 
 name = "discogs-mcp"

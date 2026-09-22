@@ -12,3 +12,5 @@ JEV_API_KEY=
 JEV_MODEL=jev-1.13.0
 # JEV_DAILY_TOKEN_CEILING=2000000
 # JEV_CERTAINTY_GATE=0.7
+# Beta allowlist (comma-separated Discogs usernames and/or ids). Set = only these users get claims; unset = all.
+# JEV_BETA_USERS=
