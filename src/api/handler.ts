@@ -12,7 +12,7 @@ import {
   type CoreResult,
 } from "../core/pressings.js";
 import { analyzeRelease, analyzeAlbum } from "../core/lookup.js";
-import { makeClaimsAnnotator } from "../core/claims.js";
+import { claimsForUser, makeClaimsAnnotator } from "../core/claims.js";
 import { tasteFit } from "../core/taste.js";
 import { shelfProfile, spinPicks } from "../core/shelf.js";
 
@@ -166,7 +166,7 @@ export async function handleApi(
   const ctx: CoreContext = {
     client: new CachedDiscogsClient(auth.discogsAuth, env.CACHE_KV),
     username: auth.username,
-    claims: makeClaimsAnnotator(env),
+    claims: claimsForUser(makeClaimsAnnotator(env), env, auth.username, auth.userId),
   };
   const q = url.searchParams;
   const axis = q.get("axis") ?? undefined;

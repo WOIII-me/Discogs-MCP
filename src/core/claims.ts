@@ -200,6 +200,35 @@ export class ClaimsAnnotator {
 }
 
 /**
+ * Per-user gate for the beta allowlist. Mirrors the semantics of
+ * ALLOWED_DISCOGS_USERS in src/auth/allowlist.ts: comma-separated usernames
+ * (case-insensitive) and/or numeric user IDs. An unset or blank list allows
+ * everyone; a set list allows only its members.
+ */
+export function jevUserAllowed(env: Pick<Env, "JEV_BETA_USERS">, username: string, userId?: number): boolean {
+  const raw = env.JEV_BETA_USERS?.trim();
+  if (!raw) return true;
+  const entries = raw.split(",").map((e) => e.trim().toLowerCase()).filter(Boolean);
+  if (entries.length === 0) return true;
+  const uname = username.trim().toLowerCase();
+  return entries.some((e) => e === uname || (userId !== undefined && e === String(userId)));
+}
+
+/**
+ * The annotator for one authenticated user, or undefined when the feature is
+ * off, unkeyed, or the user is outside the beta allowlist.
+ */
+export function claimsForUser(
+  annotator: ClaimsAnnotator | undefined,
+  env: Pick<Env, "JEV_BETA_USERS">,
+  username: string,
+  userId?: number
+): ClaimsAnnotator | undefined {
+  if (!annotator) return undefined;
+  return jevUserAllowed(env, username, userId) ? annotator : undefined;
+}
+
+/**
  * Wire the annotator from env. Returns undefined unless explicitly enabled
  * AND keyed — every caller treats `undefined` as "feature absent".
  */

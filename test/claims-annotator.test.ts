@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { ClaimsAnnotator, makeClaimsAnnotator, type ClaimsKV } from "../src/core/claims.js";
+import { ClaimsAnnotator, claimsForUser, jevUserAllowed, makeClaimsAnnotator, type ClaimsKV } from "../src/core/claims.js";
 import { JevRateLimitError, type JevResponse, type JevSystemOne } from "../src/clients/jev.js";
 import type { Env } from "../src/types/env.js";
 import { makeRelease } from "./mocks/discogs-fixtures.js";
@@ -169,5 +169,32 @@ describe("makeClaimsAnnotator", () => {
     const a = makeClaimsAnnotator({ ...base, JEV_ENABLED: "true", JEV_API_KEY: "k", JEV_DAILY_TOKEN_CEILING: "abc", JEV_CERTAINTY_GATE: "0.75" })!;
     expect(a.options.dailyTokenCeiling).toBe(2_000_000);
     expect(a.options.certaintyGate).toBe(0.75);
+  });
+});
+
+describe("jevUserAllowed / claimsForUser (beta allowlist)", () => {
+  const annotator = new ClaimsAnnotator({ model: "jev-1.13.0", systemOne: async () => statedAnalog() }, fakeKV());
+
+  it("allows everyone when the list is unset or blank", () => {
+    expect(jevUserAllowed({}, "someone", 1)).toBe(true);
+    expect(jevUserAllowed({ JEV_BETA_USERS: "  " }, "someone", 1)).toBe(true);
+    expect(jevUserAllowed({ JEV_BETA_USERS: " , " }, "someone", 1)).toBe(true);
+  });
+
+  it("matches usernames case-insensitively and numeric ids", () => {
+    const env = { JEV_BETA_USERS: "Owner, 4242" };
+    expect(jevUserAllowed(env, "owner", 1)).toBe(true);
+    expect(jevUserAllowed(env, "OWNER", 1)).toBe(true);
+    expect(jevUserAllowed(env, "stranger", 4242)).toBe(true);
+    expect(jevUserAllowed(env, "stranger", 7)).toBe(false);
+    expect(jevUserAllowed(env, "stranger")).toBe(false);
+  });
+
+  it("claimsForUser returns the annotator only for allowed users, and never without one", () => {
+    const env = { JEV_BETA_USERS: "owner" };
+    expect(claimsForUser(annotator, env, "owner")).toBe(annotator);
+    expect(claimsForUser(annotator, env, "stranger")).toBeUndefined();
+    expect(claimsForUser(undefined, {}, "owner")).toBeUndefined();
+    expect(claimsForUser(annotator, {}, "anyone")).toBe(annotator);
   });
 });

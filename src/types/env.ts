@@ -30,6 +30,12 @@ export interface Env {
   JEV_DAILY_TOKEN_CEILING?: string;
   /** Top-option probability below which a claim is dropped (default 0.7). */
   JEV_CERTAINTY_GATE?: string;
+  /**
+   * Optional beta allowlist: comma-separated Discogs usernames and/or numeric
+   * user IDs. When set, Jev runs only for these users even with JEV_ENABLED=true;
+   * everyone else gets the pre-1.6 behaviour (no claims). Unset = all users.
+   */
+  JEV_BETA_USERS?: string;
   /** Injected by OAuthProvider into the default handler's env. */
   OAUTH_PROVIDER: OAuthHelpers;
 }
