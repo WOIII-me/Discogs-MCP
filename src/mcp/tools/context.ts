@@ -17,12 +17,19 @@ type ToolResult = {
   isError?: boolean;
 };
 
+/** Required by the Discogs API Terms next to any data taken from the API. */
+export const DISCOGS_ATTRIBUTION = "Data provided by Discogs (https://www.discogs.com).";
+
+// The attribution rides in its own content block so the first block stays
+// parseable JSON for clients that read it.
+const attribution = { type: "text" as const, text: DISCOGS_ATTRIBUTION };
+
 export function jsonResult(data: unknown): ToolResult {
-  return { content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] };
+  return { content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }, attribution] };
 }
 
 export function textResult(text: string): ToolResult {
-  return { content: [{ type: "text" as const, text }] };
+  return { content: [{ type: "text" as const, text }, attribution] };
 }
 
 export function errorResult(text: string): ToolResult {

@@ -11,14 +11,16 @@ export interface CacheTTLs {
   profile: number;
 }
 
+// Discogs API Terms: API content may not be displayed more than six hours
+// behind discogs.com, nor cached longer than needed. Nothing here exceeds 6h.
 const DEFAULT_TTLS: CacheTTLs = {
-  release: 86400, // 24h
-  master: 86400, // 24h
-  versions: 43200, // 12h
+  release: 21600, // 6h
+  master: 21600, // 6h
+  versions: 21600, // 6h
   search: 21600, // 6h
   collection: 14400, // 4h
   wantlist: 14400, // 4h
-  profile: 86400, // 24h
+  profile: 21600, // 6h
 };
 
 function paramsKey(options?: Record<string, unknown>): string {
