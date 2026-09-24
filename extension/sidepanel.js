@@ -621,11 +621,22 @@
     }
   }
 
+  // Discogs API Terms: "Data provided by Discogs" must link to the page that
+  // holds the data shown, so the footnote link follows the active page.
+  function updateAttribution(r) {
+    const a = document.getElementById("discogs-attribution");
+    if (!a) return;
+    const releaseId = r.kind === "listing" ? state.listingReleaseId : r.kind === "release" ? r.id : null;
+    a.href =
+      r.kind === "master" ? `${DISCOGS}/master/${r.id}` : releaseId ? releaseUrl(releaseId) : DISCOGS;
+  }
+
   // ------------------------------------------------------------- controller
   async function run() {
     const key = routeKey();
     const r = state.route;
     const seq = ++state.seq;
+    updateAttribution(r);
 
     $seg.hidden = !(r.kind === "release" || r.kind === "master" || r.kind === "listing");
 

@@ -234,6 +234,7 @@ a.m3-stat:hover { background: var(--md-surface-variant); }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
 
 .m3-footnote { font-size: 11px; color: var(--md-on-surface-variant); text-align: center; padding: 6px 6px 10px; }
+.m3-footnote a { color: inherit; }
 
 /* ---------- options page ---------- */
 .opt-wrap { max-width: 560px; margin: 0 auto; padding: 8px 18px 32px; width: 100%; }

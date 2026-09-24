@@ -193,6 +193,10 @@ Current priorities are additive and preserve the existing MCP/REST contracts:
 
 Ideas and feedback → [Discussions](https://github.com/WOIII-me/Discogs-MCP/discussions). Know a reissue label, engineer, or stamper mark the scorer should recognize? [Contributions welcome](https://github.com/WOIII-me/Discogs-MCP/discussions/6) — no code required.
 
+## Discogs notice
+
+This application uses Discogs’ API but is not affiliated with, sponsored or endorsed by Discogs. ‘Discogs’ is a trademark of Zink Media, LLC. Tool results and the extension panel carry the attribution "Data provided by Discogs", linked to discogs.com.
+
 ## Development
 
 ```sh
