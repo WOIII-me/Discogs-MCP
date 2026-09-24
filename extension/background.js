@@ -8,12 +8,15 @@ const DEFAULT_BASE_URL = "https://discogs-mcp.woiii.workers.dev";
 const CACHE_TTL_MS = 10 * 60 * 1000;
 const TOKEN_EXPIRY_SLACK_MS = 60 * 1000; // refresh this much before expiry
 
-// Persistent result cache (chrome.storage.local): survives browser restarts.
-// Fresh results serve directly; stale ones only as a fallback when the
-// server is rate-limited or unreachable — always labeled as such.
+// Persistent result cache (chrome.storage.local): DISABLED. The Discogs API
+// Terms forbid showing API content more than six hours behind discogs.com, and
+// stored results carry only their local storage time, not the original fetch
+// time, so their true age is unknown. Repeat views are served by the Worker's
+// ≤6h cache instead. Old entries are removed at startup. (v2 replaces this
+// with end-to-end fetchedAt tracking.)
 const PERSIST_SCHEMA = "az1";
-const PERSIST_FRESH_MS = 24 * 60 * 60 * 1000;
-const PERSIST_STALE_MS = 7 * 24 * 60 * 60 * 1000;
+// Recently-analyzed home list: only entries from the last six hours are shown.
+const RECENT_MAX_AGE_MS = 6 * 60 * 60 * 1000;
 
 // Toolbar icon toggles the side panel (Claude-in-Chrome behavior). Top-level
 // so it also re-applies whenever the worker restarts.
@@ -344,27 +347,12 @@ async function persistScope() {
   return `${PERSIST_SCHEMA}:${baseUrl}:${account}`;
 }
 
-async function persistGet(key) {
-  try {
-    const fullKey = `${await persistScope()}:${key}`;
-    const stored = await chrome.storage.local.get(fullKey);
-    const entry = stored[fullKey];
-    if (!entry) return null;
-    const age = Date.now() - entry.t;
-    if (age > PERSIST_STALE_MS) return null;
-    return { data: entry.data, fresh: age <= PERSIST_FRESH_MS };
-  } catch {
-    return null;
-  }
+async function persistGet(_key) {
+  return null; // persistence disabled, see PERSIST_SCHEMA
 }
 
-async function persistPut(key, data) {
-  try {
-    const fullKey = `${await persistScope()}:${key}`;
-    await chrome.storage.local.set({ [fullKey]: { t: Date.now(), data } });
-  } catch {
-    // persistence is a nicety
-  }
+async function persistPut(_key, _data) {
+  // persistence disabled, see PERSIST_SCHEMA
 }
 
 async function persistClearAll() {
@@ -407,7 +395,7 @@ async function handleAnalyze({ releaseId, masterId, axis, mode }) {
     const cachedSummary = await cacheGet(key);
     if (cachedSummary) return { data: cachedSummary };
   }
-  // Fresh persistent results (24h) serve without any network at all.
+  // Persistence is disabled (always null), so this never short-circuits.
   const persisted = await persistGet(fullKey);
   if (persisted?.fresh && !surveyless(persisted.data)) {
     if (releaseId) recordRecentAnalysis(persisted.data, ax);
@@ -537,8 +525,12 @@ async function handleSpin({ mood }) {
 
 async function handleRecentAnalyses() {
   const { recentAnalyses = [] } = await chrome.storage.local.get("recentAnalyses");
-  return { items: recentAnalyses };
+  const cutoff = Date.now() - RECENT_MAX_AGE_MS;
+  return { items: recentAnalyses.filter((e) => (e.ts ?? 0) >= cutoff) };
 }
+
+// Remove results persisted by earlier versions (see PERSIST_SCHEMA).
+persistClearAll();
 
 // Authenticated identity probe (options "Test connection").
 async function handleWhoami() {
