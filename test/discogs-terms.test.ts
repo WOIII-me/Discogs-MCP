@@ -12,8 +12,11 @@ describe("Discogs API Terms compliance", () => {
     expect(textResult("hi").content.at(-1)?.text).toBe(DISCOGS_ATTRIBUTION);
   });
 
-  it("caches no API content for longer than six hours", () => {
+  it("caches API content short enough that server + extension caches stay within six hours", () => {
     const client = new CachedDiscogsClient({ kind: "token", token: "t" }, {} as KVNamespace);
-    for (const ttl of Object.values(client.cacheTtls)) expect(ttl).toBeLessThanOrEqual(6 * 3600);
+    const extensionMemoryCacheS = 10 * 60; // CACHE_TTL_MS in extension/background.js
+    for (const ttl of Object.values(client.cacheTtls)) {
+      expect(ttl + extensionMemoryCacheS).toBeLessThanOrEqual(6 * 3600);
+    }
   });
 });
