@@ -22,11 +22,11 @@
     "eval:jev": "node scripts/eval/jev/run-notes.mts --set dev --interpreters rules,jev"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^5.20260902.1",
-    "@types/node": "^26.4.1",
+    "@cloudflare/workers-types": "^5.20260928.1",
+    "@types/node": "^26.6.3",
     "typescript": "^7.0.2",
-    "vitest": "^4.1.11",
-    "wrangler": "^4.128.0"
+    "vitest": "^5.0.2",
+    "wrangler": "^4.143.0"
   },
   "dependencies": {
     "@cloudflare/workers-oauth-provider": "^0.10.3",
