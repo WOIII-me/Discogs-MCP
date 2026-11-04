@@ -13,7 +13,6 @@
 
 > A [WOIII.me](https://github.com/WOIII-me) project
 
-[![CI](https://github.com/WOIII-me/Discogs-MCP/actions/workflows/ci.yml/badge.svg)](https://github.com/WOIII-me/Discogs-MCP/actions/workflows/ci.yml)
 [![Latest release](https://img.shields.io/github/v/release/WOIII-me/Discogs-MCP?label=server)](https://github.com/WOIII-me/Discogs-MCP/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
