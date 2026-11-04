@@ -3,7 +3,10 @@
 > **DIG for Discogs (v1) is no longer developed.** Its successor, [WOIII.me](https://woiii.me),
 > is a closed-source hosted service: the Chrome extension on the Chrome Web Store, the ChatGPT
 > plugin in ChatGPT's directory, and the MCP server at `https://mcp.woiii.me/mcp`. This code
-> stays available under the MIT licence for anyone who wants to run their own copy. The
+> stays available under the MIT licence for anyone who wants to run their own copy.
+> **The public v1 server at `discogs-mcp.woiii.workers.dev` is retired on 18 November 2026**:
+> from that day it answers 410 Gone and points to [woiii.me/connect](https://woiii.me/connect);
+> switch MCP clients to `https://mcp.woiii.me/mcp` before then. The
 > [Issues](https://github.com/WOIII-me/Discogs-MCP/issues) and
 > [Discussions](https://github.com/WOIII-me/Discogs-MCP/discussions) here are WOIII.me's public
 > support channel; the extension and plugins also link to [woiii.me/support](https://woiii.me/support).
